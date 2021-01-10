@@ -1,0 +1,14 @@
+{
+  "title": "error",
+  "type": "object",
+  "description": "エラー情報モデル",
+  "properties": {
+    "message": {
+      "type": "string",
+      "description": "エラーメッセージ"
+    }
+  },
+  "required": [
+    "message"
+  ]
+}

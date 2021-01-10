@@ -1,0 +1,28 @@
+# ドキュメントファイル
+
+## 画面遷移図
+使用ツール：[Draw.io Integration](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio)（VSCode 拡張）
+
+- PC：desktop.drawio.png
+- モバイル：mobile.drawio.png
+
+## ER 図
+使用ツール：[ERD Editor](https://marketplace.visualstudio.com/items?itemName=dineug.vuerd-vscode)（VSCode 拡張）
+
+- erd.vuerd.json
+
+## 機能一覧
+使用ツール：[スプレッドシート](https://docs.google.com/spreadsheets/d/1RLcfucSQqkxhwG32PikfMHsISaOIuL6H3Jlj3bK3g-4/edit#gid=137190848)
+
+## 構成図
+使用ツール：Draw.io（Google Drive）  
+※各種アイコン使用の都合上、Google Drive 版を使用
+
+- architecture.png
+
+## API 仕様書
+使用ツール：[Stoplight Studio](https://stoplight.io/studio/)  
+
+- api ディレクトリ配下の各種ファイル
+
+※他ツールで使用する場合は、Stoplight Studio において、`ooui-memo.v1.yaml`をバンドルエクスポートしたうえで使用すること。

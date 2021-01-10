@@ -3,7 +3,7 @@
     "width": 2000,
     "height": 2000,
     "scrollTop": 0,
-    "scrollLeft": 35.20000076293945,
+    "scrollLeft": 189.60000610351562,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -41,7 +41,7 @@
         "comment": "メモ",
         "columns": [
           {
-            "name": "id",
+            "name": "memo_id",
             "comment": "メモID",
             "dataType": "UUID",
             "default": "",
@@ -56,7 +56,7 @@
               "pk": true,
               "fk": false,
               "pfk": false,
-              "widthName": 60,
+              "widthName": 61,
               "widthComment": 60,
               "widthDataType": 60,
               "widthDefault": 60
@@ -72,7 +72,7 @@
               "autoIncrement": false,
               "primaryKey": false,
               "unique": false,
-              "notNull": false
+              "notNull": true
             },
             "ui": {
               "active": false,
@@ -110,7 +110,7 @@
             "id": "8ad722e5-7fd8-0049-62cd-be8765044a3a"
           },
           {
-            "name": "contents",
+            "name": "content",
             "comment": "メモ内容",
             "dataType": "VARCHAR(21844)",
             "default": "NULL",
@@ -183,7 +183,7 @@
           "active": false,
           "left": 713.5999999999999,
           "top": 246.40000000000026,
-          "zIndex": 239,
+          "zIndex": 262,
           "widthName": 60,
           "widthComment": 60
         },
@@ -194,7 +194,7 @@
         "comment": "ユーザ",
         "columns": [
           {
-            "name": "id",
+            "name": "user_id",
             "comment": "ユーザID",
             "dataType": "UUID",
             "default": "",
@@ -359,7 +359,7 @@
           "active": false,
           "left": 53.599999999999994,
           "top": 77.60000000000002,
-          "zIndex": 249,
+          "zIndex": 254,
           "widthName": 60,
           "widthComment": 60
         },
