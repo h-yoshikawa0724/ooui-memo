@@ -1,0 +1,336 @@
+openapi: 3.0.0
+info:
+  title: OOUI-memo
+  version: '1.0'
+  description: OOUIワークアウト - メモアプリケーション API仕様書
+  contact: {}
+servers:
+  - url: 'http://localhost:3101'
+    description: ''
+paths:
+  '/users/{userId}':
+    parameters:
+      - schema:
+          type: integer
+        name: userId
+        in: path
+        required: true
+        description: Id of an existing user.
+    get:
+      summary: Get User Info by User ID
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                Get User Alice Smith:
+                  value:
+                    id: 142
+                    firstName: Alice
+                    lastName: Smith
+                    email: alice.smith@gmail.com
+                    dateOfBirth: '1997-10-31'
+                    emailVerified: true
+                    signUpDate: '2019-08-24'
+        '404':
+          description: User Not Found
+      operationId: get-users-userId
+      description: Retrieve the information of the user with the matching user ID.
+      tags:
+        - Users
+    patch:
+      summary: Update User Information
+      operationId: patch-users-userId
+      responses:
+        '200':
+          description: User Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                Updated User Rebecca Baker:
+                  value:
+                    id: 13
+                    firstName: Rebecca
+                    lastName: Baker
+                    email: rebecca@gmail.com
+                    dateOfBirth: '1985-10-02'
+                    emailVerified: false
+                    createDate: '2019-08-24'
+        '404':
+          description: User Not Found
+        '409':
+          description: Email Already Taken
+      description: Update the infromation of an existing user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                  description: 'If a new email is given, the user''s email verified property will be set to false.'
+                dateOfBirth:
+                  type: string
+            examples:
+              Update First Name:
+                value:
+                  firstName: Rebecca
+              Update Email:
+                value:
+                  email: rebecca@gmail.com
+              Update Last Name & Date of Birth:
+                value:
+                  lastName: Baker
+                  dateOfBirth: '1985-10-02'
+        description: Patch user properties to update.
+      tags:
+        - Users
+  /user:
+    post:
+      summary: Create New User
+      operationId: post-user
+      responses:
+        '200':
+          description: User Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                New User Bob Fellow:
+                  value:
+                    id: 12
+                    firstName: Bob
+                    lastName: Fellow
+                    email: bob.fellow@gmail.com
+                    dateOfBirth: '1996-08-24'
+                    emailVerified: false
+                    createDate: '2020-11-18'
+        '400':
+          description: Missing Required Information
+        '409':
+          description: Email Already Taken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                dateOfBirth:
+                  type: string
+                  format: date
+              required:
+                - firstName
+                - lastName
+                - email
+                - dateOfBirth
+            examples:
+              Create User Bob Fellow:
+                value:
+                  firstName: Bob
+                  lastName: Fellow
+                  email: bob.fellow@gmail.com
+                  dateOfBirth: '1996-08-24'
+        description: Post the necessary fields for the API to create a new user.
+      description: Create a new user.
+      tags:
+        - Users
+  /memos:
+    get:
+      summary: GET Memos
+      tags:
+        - Memos
+      responses:
+        '200':
+          $ref: '#/components/responses/memos'
+        '500':
+          $ref: '#/components/responses/error'
+      operationId: get-memos
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      description: メモ一覧参照API
+    post:
+      summary: POST Memo
+      operationId: post-memos
+      responses:
+        '201':
+          description: Created
+        '500':
+          $ref: '#/components/responses/error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Memo'
+            examples: {}
+      description: メモ作成API
+      tags:
+        - Memos
+  '/memos/{memo_id}':
+    parameters:
+      - $ref: '#/components/parameters/memo_id'
+    get:
+      summary: GET Memo
+      tags:
+        - Memos
+      responses:
+        '200':
+          $ref: '#/components/responses/memo'
+        '404':
+          $ref: '#/components/responses/error'
+        '500':
+          $ref: '#/components/responses/error'
+      operationId: get-memo
+      description: メモ詳細参照API
+    put:
+      summary: PUT Memo
+      operationId: put-memo
+      responses:
+        '204':
+          description: No Content
+        '404':
+          $ref: '#/components/responses/error'
+        '500':
+          $ref: '#/components/responses/error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Memo'
+      description: メモ編集API
+      tags:
+        - Memos
+    delete:
+      summary: DELETE Memo
+      operationId: delete-memo
+      responses:
+        '204':
+          description: No Content
+        '404':
+          $ref: '#/components/responses/error'
+        '500':
+          $ref: '#/components/responses/error'
+      description: メモ削除API
+      tags:
+        - Memos
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      description: ''
+      x-examples:
+        Alice Smith:
+          id: 142
+          firstName: Alice
+          lastName: Smith
+          email: alice.smith@gmail.com
+          dateOfBirth: '1997-10-31'
+          emailVerified: true
+          signUpDate: '2019-08-24'
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+          readOnly: true
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        dateOfBirth:
+          type: string
+          format: date
+          example: '1997-10-31'
+        emailVerified:
+          type: boolean
+          description: Set to true if the user's email has been verified.
+        createDate:
+          type: string
+          format: date
+          description: The date that the user was created.
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - emailVerified
+    Memo:
+      $ref: ./models/memo.v1.json
+    Error:
+      $ref: ./models/error.v1.json
+  responses:
+    memos:
+      description: メモ一覧参照レスポンス
+      content:
+        application/json:
+          schema:
+            type: array
+            description: メモ情報の配列（※title、content は先頭30文字分のみ取得）
+            items:
+              $ref: '#/components/schemas/Memo'
+          examples: {}
+    memo:
+      description: メモ詳細参照レスポンス
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Memo'
+    error:
+      description: エラーレスポンス
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            '404':
+              value:
+                message: リクエストされたリソースが見つかりませんでした。リソース識別子をご確認ください。
+            '500':
+              value:
+                message: システムエラーが発生しました。恐れ入りますが再度やり直してください。
+  parameters:
+    limit:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+      description: レコード取得件数
+    offset:
+      name: offset
+      in: query
+      required: false
+      schema:
+        type: integer
+      description: レコード取得開始位置
+    memo_id:
+      name: memo_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: メモID
+tags:
+  - name: Memos
+  - name: Users

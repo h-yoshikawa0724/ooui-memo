@@ -1,0 +1,48 @@
+{
+  "title": "memo",
+  "type": "object",
+  "x-examples": {},
+  "properties": {
+    "memo_id": {
+      "type": "string",
+      "readOnly": true,
+      "format": "uuid",
+      "description": "メモID"
+    },
+    "user_id": {
+      "type": "string",
+      "readOnly": true,
+      "format": "uuid",
+      "description": "ユーザID"
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 100,
+      "description": "メモタイトル"
+    },
+    "content": {
+      "type": "string",
+      "maxLength": 21844,
+      "description": "メモ内容"
+    },
+    "created_at": {
+      "type": "string",
+      "readOnly": true,
+      "description": "作成日時",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "readOnly": true,
+      "description": "更新日時",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "memo_id",
+    "user_id",
+    "created_at",
+    "updated_at"
+  ],
+  "description": "メモ情報モデル"
+}
