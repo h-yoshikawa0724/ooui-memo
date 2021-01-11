@@ -14,8 +14,8 @@ create-project:
 	@make fresh
 install-recommend-packages:
 	docker-compose exec app composer require doctrine/dbal "^2"
-	docker-compose exec app composer require --dev barryvdh/laravel-ide-helper
-	docker-compose exec app composer require --dev beyondcode/laravel-dump-server
+	docker-compose exec app composer require --dev barryvdh/laravel-ide-helper=2.8.*
+	docker-compose exec app composer require --dev beyondcode/laravel-dump-server=1.3.*
 	docker-compose exec app composer require --dev barryvdh/laravel-debugbar
 	docker-compose exec app composer require --dev roave/security-advisories:dev-master
 	docker-compose exec app php artisan vendor:publish --provider="BeyondCode\DumpServer\DumpServerServiceProvider"
