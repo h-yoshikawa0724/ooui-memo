@@ -62,6 +62,7 @@
                 margin-bottom: 30px;
             }
         </style>
+        <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
@@ -95,6 +96,7 @@
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
             </div>
+            <div id="app"></div>
         </div>
     </body>
 </html>
