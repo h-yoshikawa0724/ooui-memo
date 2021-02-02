@@ -4,7 +4,7 @@
  * building robust, powerful web applications using React + Laravel.
  */
 
-// require('./bootstrap');
+require('./bootstrap');
 
 /**
  * Next, we will create a fresh React component instance and attach it to
@@ -26,6 +26,6 @@ const App: React.FC = () => {
 }
 
 
-if (document.getElementById('app')) {
-  ReactDOM.render(<App />, document.getElementById('app'));
+if (document.getElementById('memo-app')) {
+  ReactDOM.render(<App />, document.getElementById('memo-app'));
 }
