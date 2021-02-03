@@ -6,7 +6,7 @@
 
 ## 環境
 - TypeScript：4.1.3
-- React：16.2.0
+- React：16.14.0
 - PHP：7.4.14
 - Laravel：6.20.9
 - MySQL：8.0.22
