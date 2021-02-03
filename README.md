@@ -47,6 +47,8 @@ $ cd src && yarn watch
 
 localhost:80 にアクセス
 
+※コーディングは VSCode + Remote Container でコンテナ内で行う。
+
 ## その他よく使うコマンド
 各種コンテナにアクセス
 ```
