@@ -33,21 +33,32 @@ $ cd src && yarn install
 ※コンテナ内の yarn は動作が遅くなりがちのため、ローカルのものを使った方がいい。
 
 ## 開発環境立ち上げ
-コンテナ立ち上げ
-```
-$ make up
-```
+### VSCode での立ち上げ
+前提：Remote Container 拡張導入済み
 
-フロント側の差分監視
+VSCode でワークスペースを開く → ooui-memo.code-workspace を選択。
+
+ワークスペースを開くと
+```
+Folder contains a Dev Container configuration file. Reopen folder to develop in a container (learn more).
+```
+と表示されるので Reopen in Container を選択して、コンテナ立ち上げ + VSCode をコンテナに接続。
+
+localhost:80 にアクセス。
+
+**※コーディングはコンテナ内に接続して行うこと（ESLint、Prettier、PHPCS をエディタ上で動作させたうえで行うため）**
+
+### フロント側の差分監視
 ```
 $ make yarn-watch
 or
 $ cd src && yarn watch
 ```
 
-localhost:80 にアクセス
-
-※コーディングは VSCode + Remote Container でコンテナ内で行う。
+### コンテナ立ち上げのみ
+```
+$ make up
+```
 
 ## その他よく使うコマンド
 各種コンテナにアクセス
