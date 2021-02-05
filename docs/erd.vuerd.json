@@ -2,8 +2,8 @@
   "canvas": {
     "width": 2000,
     "height": 2000,
-    "scrollTop": 0.800000011920929,
-    "scrollLeft": 1.600000023841858,
+    "scrollTop": 0,
+    "scrollLeft": 0,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -476,20 +476,7 @@
     "indexes": []
   },
   "memo": {
-    "memos": [
-      {
-        "value": "※認証機能はLaravelに用意されている機構を利用する予定。\n実際に作成されるテーブル定義が異なれば修正すること。",
-        "id": "3d99c2bd-b4d7-99fc-dc49-b1e936dbc1bb",
-        "ui": {
-          "active": false,
-          "left": 768.8000007629395,
-          "top": 500.79999999999995,
-          "zIndex": 300,
-          "width": 185.40000000000006,
-          "height": 140.80000000000007
-        }
-      }
-    ]
+    "memos": []
   },
   "relationship": {
     "relationships": [
