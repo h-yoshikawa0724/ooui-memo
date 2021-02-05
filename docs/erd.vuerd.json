@@ -3,7 +3,7 @@
     "width": 2000,
     "height": 2000,
     "scrollTop": 0,
-    "scrollLeft": 189.60000610351562,
+    "scrollLeft": 0,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -37,7 +37,7 @@
   "table": {
     "tables": [
       {
-        "name": "Memos",
+        "name": "memos",
         "comment": "メモ",
         "columns": [
           {
@@ -141,7 +141,7 @@
               "autoIncrement": false,
               "primaryKey": false,
               "unique": false,
-              "notNull": true
+              "notNull": false
             },
             "ui": {
               "active": false,
@@ -164,7 +164,7 @@
               "autoIncrement": false,
               "primaryKey": false,
               "unique": false,
-              "notNull": true
+              "notNull": false
             },
             "ui": {
               "active": false,
@@ -183,14 +183,14 @@
           "active": false,
           "left": 713.5999999999999,
           "top": 246.40000000000026,
-          "zIndex": 262,
+          "zIndex": 296,
           "widthName": 60,
           "widthComment": 60
         },
         "id": "d190a747-b4f9-36d5-ac3f-bf97a2367fbf"
       },
       {
-        "name": "Users",
+        "name": "users",
         "comment": "ユーザ",
         "columns": [
           {
@@ -309,6 +309,29 @@
             "id": "640bc667-32ee-0ba9-77d3-b9dea7d0992e"
           },
           {
+            "name": "remember_token",
+            "comment": "リメンバートークン",
+            "dataType": "VARCHAR(100)",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 112,
+              "widthComment": 119,
+              "widthDataType": 100,
+              "widthDefault": 60
+            },
+            "id": "617675cf-f796-ef00-05a3-580a3036908e"
+          },
+          {
             "name": "created_at",
             "comment": "作成日時",
             "dataType": "DATETIME",
@@ -317,7 +340,7 @@
               "autoIncrement": false,
               "primaryKey": false,
               "unique": false,
-              "notNull": true
+              "notNull": false
             },
             "ui": {
               "active": false,
@@ -340,7 +363,7 @@
               "autoIncrement": false,
               "primaryKey": false,
               "unique": false,
-              "notNull": true
+              "notNull": false
             },
             "ui": {
               "active": false,
@@ -359,30 +382,101 @@
           "active": false,
           "left": 53.599999999999994,
           "top": 77.60000000000002,
-          "zIndex": 254,
+          "zIndex": 288,
           "widthName": 60,
           "widthComment": 60
         },
         "id": "3161f808-a076-e8b3-bba8-b857cd6c907e"
+      },
+      {
+        "name": "password_resets",
+        "comment": "パスワードリセット",
+        "columns": [
+          {
+            "name": "email",
+            "comment": "メールアドレス",
+            "dataType": "VARCHAR(255)",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 93,
+              "widthDataType": 100,
+              "widthDefault": 60
+            },
+            "id": "6fd45e74-ded5-e356-63e7-df6242f5e031"
+          },
+          {
+            "name": "token",
+            "comment": "トークン",
+            "dataType": "VARCHAR(255)",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 100,
+              "widthDefault": 60
+            },
+            "id": "604adbbf-4aad-a6b0-97ef-d1a49c4e7160"
+          },
+          {
+            "name": "created_at",
+            "comment": "作成日時",
+            "dataType": "DATETIME",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 70,
+              "widthComment": 60,
+              "widthDataType": 68,
+              "widthDefault": 60
+            },
+            "id": "83b12c0d-1293-892c-1063-27a6c7bc7d14"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 59.20000002384175,
+          "top": 347.2,
+          "zIndex": 353,
+          "widthName": 108,
+          "widthComment": 119
+        },
+        "id": "671df3ac-8b48-4d86-78b2-489a13a4694e"
       }
     ],
     "indexes": []
   },
   "memo": {
-    "memos": [
-      {
-        "value": "※認証機能はLaravelに用意されている機構を利用する予定。\n実際に作成されるテーブル定義が異なれば修正すること。",
-        "id": "3d99c2bd-b4d7-99fc-dc49-b1e936dbc1bb",
-        "ui": {
-          "active": false,
-          "left": 85.60000076293959,
-          "top": 348.8,
-          "zIndex": 246,
-          "width": 185.40000000000006,
-          "height": 140.80000000000007
-        }
-      }
-    ]
+    "memos": []
   },
   "relationship": {
     "relationships": [
@@ -394,7 +488,7 @@
             "80dcdb6c-153d-980d-bec4-92666358e701"
           ],
           "x": 604.6,
-          "y": 183.85000000000002,
+          "y": 194.10000000000002,
           "direction": "right"
         },
         "end": {
