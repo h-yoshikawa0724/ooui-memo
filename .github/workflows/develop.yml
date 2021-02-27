@@ -69,6 +69,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      # GitHub Actions の PHP のデフォルトが 8系のため 7.4を使うように指定
+      - name: Setup PHP 7.4
+        run: sudo update-alternatives --set php /usr/bin/php7.4
+
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 
