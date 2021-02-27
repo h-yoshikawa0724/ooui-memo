@@ -25,6 +25,7 @@
 	"extensions": [
 		"coenraads.bracket-pair-colorizer",
 		"shardulm94.trailing-spaces",
+		"cssho.vscode-svgviewer",
 		"editorconfig.editorconfig",
 		"eamodio.gitlens",
 		"dbaeumer.vscode-eslint",
