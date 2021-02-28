@@ -1,20 +1,19 @@
-name: Develop Check
+name: Main Check & Deploy
 on:
   push:
-    branches-ignore:
+    branches:
       - main
 
 env:
   project-name: ooui-memo
 
-defaults:
-  run:
-    working-directory: ./src
-
 jobs:
   front-end-check:
     name: Front End Lint
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src
 
     steps:
       - name: Checkout
@@ -46,6 +45,9 @@ jobs:
   back-end-check:
     name: Back End Lint & Test
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src
 
     services:
       mysql:
@@ -105,3 +107,30 @@ jobs:
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         run: ./vendor/bin/phpunit
+
+  deploy:
+    name: Deploy
+    needs: [front-end-check, back-end-check]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_API_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          appdir: src
+
+      - name: Slack Notification
+        uses: 8398a7/action-slack@v3
+        if: always()
+        with:
+          status: ${{ job.status }}
+           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+          author_name: 'deploy'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
