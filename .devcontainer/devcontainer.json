@@ -28,6 +28,7 @@
 		"cssho.vscode-svgviewer",
 		"editorconfig.editorconfig",
 		"eamodio.gitlens",
+		"esbenp.prettier-vscode",
 		"dbaeumer.vscode-eslint",
 		"bmewburn.vscode-intelephense-client",
 		"ikappas.phpcs",
