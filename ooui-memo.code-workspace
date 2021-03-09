@@ -5,12 +5,33 @@
     }
   ],
   "settings": {
-    "phpcs.standard": "PSR2",
-    "phpcs.composerJsonPath": "src/composer.json",
-    "editor.formatOnSave": false,
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true
     },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false,
+    "[graphql]": {
+      "editor.formatOnSave": true
+    },
+    "[javascript]": {
+      "editor.formatOnSave": true
+    },
+    "[javascriptreact]": {
+      "editor.formatOnSave": true
+    },
+    "[json]": {
+      "editor.formatOnSave": true
+    },
+    "[typescript]": {
+      "editor.formatOnSave": true
+    },
+    "[typescriptreact]": {
+      "editor.formatOnSave": true
+    },
+    "eslint.workingDirectories": ["src"],
     "eslint.packageManager": "yarn",
+    "prettier.ignorePath": "src/.prettierignore",
+    "phpcs.standard": "PSR2",
+    "phpcs.composerJsonPath": "src/composer.json"
   }
 }
