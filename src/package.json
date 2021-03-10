@@ -8,7 +8,12 @@
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --disable-host-check --config=node_modules/laravel-mix/setup/webpack.config.js",
         "prod": "yarn run production",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "lint": "yarn run -s eslint './resources/ts/**/*.{ts,tsx}'"
+        "lint": "yarn lint:eslint && yarn lint:prettier",
+        "lint:eslint": "yarn run -s eslint './resources/ts/**/*.{js,jsx,ts,tsx}'",
+        "lint:prettier": "yarn run -s prettier --check .",
+        "fix": "yarn fix:eslint && yarn fix:prettier",
+        "fix:eslint": "yarn lint:eslint -- --fix",
+        "fix:prettier": "yarn lint:prettier -- --write"
     },
     "devDependencies": {
         "@babel/preset-react": "^7.0.0",
@@ -22,10 +27,9 @@
         "cross-env": "^7.0",
         "eslint": "^7.19.0",
         "eslint-config-airbnb": "^18.2.1",
-        "eslint-config-prettier": "^7.2.0",
+        "eslint-config-prettier": "^8.1.0",
         "eslint-plugin-import": "^2.22.1",
         "eslint-plugin-jsx-a11y": "^6.4.1",
-        "eslint-plugin-prettier": "^3.3.1",
         "eslint-plugin-react": "^7.22.0",
         "eslint-plugin-react-hooks": "^4.2.0",
         "jquery": "^3.2",

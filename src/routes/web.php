@@ -14,4 +14,3 @@
 Auth::routes();
 
 Route::get('/{any}', 'MemoController@index')->where('any', '.*');
-
