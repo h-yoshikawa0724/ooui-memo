@@ -20,6 +20,7 @@
     <exclude-pattern>/node_modules/</exclude-pattern>
     <exclude-pattern>/public/</exclude-pattern>
     <exclude-pattern>/storage/</exclude-pattern>
+    <exclude-pattern>/resources/</exclude-pattern>
     <exclude-pattern>/vendor/</exclude-pattern>
     <exclude-pattern>/server.php</exclude-pattern>
     <exclude-pattern>/app/Console/Kernel.php</exclude-pattern>
