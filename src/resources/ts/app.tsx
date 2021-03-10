@@ -1,5 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+import Login from './components/templates/Login';
+import Memo from './components/templates/Memo';
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -13,11 +17,24 @@ require('./bootstrap');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
 // require('./components/Example');
 
-const App: React.FC = () => <div> Hello World</div>;
+const App: React.FC = () => (
+  <Switch>
+    <Route exact path="/login">
+      <Login />
+    </Route>
+    <Route exact path="/">
+      <Memo />
+    </Route>
+  </Switch>
+);
 
-if (document.getElementById('memo-app')) {
-  ReactDOM.render(<App />, document.getElementById('memo-app'));
+if (document.getElementById('app')) {
+  ReactDOM.render(
+    <Router>
+      <App />
+    </Router>,
+    document.getElementById('app')
+  );
 }
