@@ -31,7 +31,7 @@
 		"esbenp.prettier-vscode",
 		"dbaeumer.vscode-eslint",
 		"bmewburn.vscode-intelephense-client",
-		"ikappas.phpcs",
+		"valeryanm.vscode-phpsab",
 		"dineug.vuerd-vscode",
 		"hediet.vscode-drawio"
 	]
