@@ -94,8 +94,5 @@ jobs:
       - name: Lint
         run: composer lint
 
-      - name: Database Migration
-        run: php artisan migrate
-
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         run: composer test-ci
