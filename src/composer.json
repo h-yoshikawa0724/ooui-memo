@@ -74,6 +74,9 @@
         ],
         "test": [
             "./vendor/bin/phpunit"
+        ],
+        "test-ci": [
+            "./vendor/bin/phpunit --configuration=phpunit-ci.xml"
         ]
     }
 }
