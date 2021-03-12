@@ -1,8 +1,11 @@
 import React, { FC, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { AppBar, Toolbar, Typography } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import useTheme from '@material-ui/core/styles/useTheme';
 
 type Props = {
   logined: boolean;
@@ -34,9 +37,9 @@ const Header: FC<Props> = ({ logined }) => {
             OOUI-MEMO
           </Typography>
           {logined && (
-            <button type="button" onClick={handleLogout}>
+            <Button type="button" onClick={handleLogout}>
               ログアウト
-            </button>
+            </Button>
           )}
         </Toolbar>
       </AppBar>
