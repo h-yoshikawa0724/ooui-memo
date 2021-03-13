@@ -1,5 +1,6 @@
 import React, { FC, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useQueryClient, useMutation } from 'react-query';
 import axios from 'axios';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -12,9 +13,15 @@ import TextField from '@material-ui/core/TextField';
 import useTheme from '@material-ui/core/styles/useTheme';
 import Header from '../organisms/Header';
 
+type FormData = {
+  email: string;
+  password: string;
+};
+
 const Login: FC = () => {
   const history = useHistory();
   const theme = useTheme();
+  const queryClient = useQueryClient();
   const [email, setEmail] = useState('');
   const [password, serPassword] = useState('');
 
@@ -32,21 +39,26 @@ const Login: FC = () => {
     []
   );
 
+  const mutataion = useMutation(
+    (formData: FormData) => axios.post('/api/login', formData),
+    {
+      onSuccess: (result) => {
+        queryClient.setQueryData('user', () => result.data);
+      },
+    }
+  );
+
   const handleLogin = useCallback(
     async (ev: React.FormEvent<HTMLFormElement>) => {
       ev.preventDefault();
       if (!email || !password) {
         return;
       }
-
-      await axios.post('/api/login', { email, password }).then((response) => {
-        console.log(response);
-        // stateにユーザ情報を保持する
-      });
+      mutataion.mutate({ email, password });
 
       history.push('/');
     },
-    [history, email, password]
+    [mutataion, history, email, password]
   );
 
   return (
