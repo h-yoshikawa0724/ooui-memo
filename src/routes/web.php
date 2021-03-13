@@ -11,6 +11,8 @@
 |
 */
 
-Auth::routes();
+// Auth::routes();
 
-Route::get('/{any}', 'MemoController@index')->where('any', '.*');
+// Route::get('/{any}', 'MemoController@index')->where('any', '.*');
+
+Route::get('/{any?}', fn() => view('index'))->where('any', '.+');

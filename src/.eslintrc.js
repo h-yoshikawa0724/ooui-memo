@@ -22,10 +22,33 @@ module.exports = {
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.tsx'] }],
     'no-use-before-define': 'off',
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
     // Laravel UIの仕様上、React本体もDevDependenciesになる？のでオフ
     'import/no-extraneous-dependencies': 'off',
   },
+  overrides: [
+    {
+      files: ['*.tsx'],
+      rules: {
+        'react/prop-types': 'off',
+      },
+    },
+  ],
   settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.tsx', '.ts'],
+      },
+    },
     react: {
       version: '16.14.0',
     },

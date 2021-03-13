@@ -54,16 +54,10 @@ jobs:
           - 3306:3306
         options: --health-cmd "mysqladmin ping -h localhost" --health-interval 20s --health-timeout 10s --health-retries 10
         env:
-          MYSQL_ROOT_PASSWORD: secret
           MYSQL_DATABASE: laravel_test
-
-    env:
-      DB_CONNECTION: mysql
-      DB_HOST: 127.0.0.1
-      DB_PORT: 3306
-      DB_DATABASE: laravel_test
-      DB_USERNAME: root
-      DB_PASSWORD: secret
+          MYSQL_USER: phper
+          MYSQL_PASSWORD: secret
+          MYSQL_ROOT_PASSWORD: secret
 
     steps:
       - name: Checkout
@@ -100,8 +94,5 @@ jobs:
       - name: Lint
         run: composer lint
 
-      - name: Database Migration
-        run: php artisan migrate
-
       - name: Execute tests (Unit and Feature tests) via PHPUnit
-        run: composer test
+        run: composer test-ci
