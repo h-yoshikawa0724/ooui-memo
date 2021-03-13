@@ -12,6 +12,8 @@
 - Laravel：6.20.9
 - MySQL：8.0.22
 
+※Docker 環境出典：[ucan-lab/docker-laravel](https://github.com/ucan-lab/docker-laravel)
+
 ## 開発環境構築
 ※前提：Docker、make コマンド導入済み
 
@@ -20,7 +22,7 @@ Laravel のセットアップ
 $ make init
 ```
 
-開発補助のライブラリインストール（※任意）
+開発補助のライブラリインストール
 ```
 $ make install-recommend-packages
 ```
@@ -47,7 +49,9 @@ Folder contains a Dev Container configuration file. Reopen folder to develop in 
 
 localhost:80 にアクセス。
 
-**※コーディングはコンテナ内に接続して行うこと（ESLint、Prettier、PHPCS をエディタ上で動作させたうえで行うため）**
+**※コーディングはコンテナ内に接続して行うこと（ESLint、Prettier、PHPCS、PHPCBF をエディタ上で動作させたうえで行うため）**
+
+React のコーディング時に重たくなり接続が切れる場合は、Docker のリソースのメモリ上限を少し上げてみる。
 
 ### フロント側の差分監視
 ```
