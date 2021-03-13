@@ -78,7 +78,7 @@ tinker:
 laravel-lint:
   docker-compose exec app ./vendor/bin/phpcs --standard=phpcs.xml .
 test:
-	docker-compose exec app .vendor/bin/phpunit
+	docker-compose exec app ./vendor/bin/phpunit
 optimize:
 	docker-compose exec app php artisan optimize
 optimize-clear:
