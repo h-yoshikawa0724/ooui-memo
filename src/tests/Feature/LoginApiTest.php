@@ -21,8 +21,9 @@ class LoginApiTest extends TestCase
 
     /**
      * @test
+     * ログインできるか
      */
-    public function loginTest()
+    public function testLogin()
     {
         $response = $this->json('POST', route('login'), [
             'email' => $this->user->email,
