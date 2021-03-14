@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
-// import { ReactQueryDevtools } from 'react-query/devtools';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 import Login from './components/templates/Login';
 import Memo from './components/templates/Memo';
@@ -24,23 +24,25 @@ require('./bootstrap');
 const queryClient = new QueryClient();
 
 const App: React.FC = () => (
-  <QueryClientProvider client={queryClient}>
-    <Switch>
-      <Route exact path="/login">
-        <Login />
-      </Route>
-      <Route exact path="/">
-        <Memo />
-      </Route>
-    </Switch>
-    {/* <ReactQueryDevtools initialIsOpen /> */}
-  </QueryClientProvider>
+  <Switch>
+    <Route exact path="/login">
+      <Login />
+    </Route>
+    <Route exact path="/">
+      <Memo />
+    </Route>
+  </Switch>
 );
 
 if (document.getElementById('app')) {
   ReactDOM.render(
     <Router>
-      <App />
+      <QueryClientProvider client={queryClient}>
+        <App />
+        {process.env.NODE_ENV === 'development' && (
+          <ReactQueryDevtools initialIsOpen={false} />
+        )}
+      </QueryClientProvider>
     </Router>,
     document.getElementById('app')
   );
