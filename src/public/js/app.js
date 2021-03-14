@@ -101123,8 +101123,8 @@ const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_m
 const react_query_1 = __webpack_require__(/*! react-query */ "./node_modules/react-query/es/index.js");
 const devtools_1 = __webpack_require__(/*! react-query/devtools */ "./node_modules/react-query/devtools/index.js");
 const axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
-const Login_1 = __importDefault(__webpack_require__(/*! ./components/templates/Login */ "./resources/ts/components/templates/Login.tsx"));
-const Memo_1 = __importDefault(__webpack_require__(/*! ./components/templates/Memo */ "./resources/ts/components/templates/Memo.tsx"));
+const Login_1 = __importDefault(__webpack_require__(/*! ./components/pages/Login */ "./resources/ts/components/pages/Login.tsx"));
+const Memo_1 = __importDefault(__webpack_require__(/*! ./components/pages/Memo */ "./resources/ts/components/pages/Memo.tsx"));
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes React and other helpers. It's a great starting point while
@@ -101272,10 +101272,10 @@ exports.default = Header;
 
 /***/ }),
 
-/***/ "./resources/ts/components/templates/Login.tsx":
-/*!*****************************************************!*\
-  !*** ./resources/ts/components/templates/Login.tsx ***!
-  \*****************************************************/
+/***/ "./resources/ts/components/pages/Login.tsx":
+/*!*************************************************!*\
+  !*** ./resources/ts/components/pages/Login.tsx ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -101366,10 +101366,10 @@ exports.default = Login;
 
 /***/ }),
 
-/***/ "./resources/ts/components/templates/Memo.tsx":
-/*!****************************************************!*\
-  !*** ./resources/ts/components/templates/Memo.tsx ***!
-  \****************************************************/
+/***/ "./resources/ts/components/pages/Memo.tsx":
+/*!************************************************!*\
+  !*** ./resources/ts/components/pages/Memo.tsx ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
