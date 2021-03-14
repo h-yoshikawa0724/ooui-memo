@@ -1,6 +1,7 @@
 import React, { FC, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { useQueryClient, useMutation } from 'react-query';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -14,12 +15,19 @@ type Props = {
 const Header: FC<Props> = ({ logined }) => {
   const history = useHistory();
   const theme = useTheme();
+  const queryClient = useQueryClient();
 
-  const handleLogout = useCallback(async () => {
-    await axios.post('/api/logout').then((response) => {
-      history.push('/login');
-    });
-  }, [history]);
+  const mutation = useMutation(() => axios.post('/api/logout'), {
+    onSuccess: () => {
+      queryClient.resetQueries('user');
+    },
+  });
+
+  const handleLogout = useCallback(() => {
+    mutation.mutate();
+
+    history.push('/login');
+  }, [mutation, history]);
 
   return (
     <>

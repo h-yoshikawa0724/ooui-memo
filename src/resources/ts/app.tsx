@@ -1,8 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import axios from 'axios';
 
 import Login from './components/templates/Login';
 import Memo from './components/templates/Memo';
@@ -23,14 +29,52 @@ require('./bootstrap');
 
 const queryClient = new QueryClient();
 
+type Props = {
+  exact?: boolean;
+  path: string;
+  children: React.ReactNode;
+};
+
+const UnAuthRoute: React.FC<Props> = ({ exact = false, path, children }) => {
+  const { data: user } = useQuery('user', () =>
+    axios.get('/api/user').then((response) => response.data)
+  );
+  return (
+    <Route
+      exact={exact}
+      path={path}
+      render={() => (user ? <Redirect to={{ pathname: '/' }} /> : children)}
+    />
+  );
+};
+
+const AuthRoute: React.FC<Props> = ({ exact = false, path, children }) => {
+  const { data: user } = useQuery('user', () =>
+    axios.get('/api/user').then((response) => response.data)
+  );
+  return (
+    <Route
+      exact={exact}
+      path={path}
+      render={({ location }) =>
+        user ? (
+          children
+        ) : (
+          <Redirect to={{ pathname: '/login', state: { from: location } }} />
+        )
+      }
+    />
+  );
+};
+
 const App: React.FC = () => (
   <Switch>
-    <Route exact path="/login">
+    <UnAuthRoute exact path="/login">
       <Login />
-    </Route>
-    <Route exact path="/">
+    </UnAuthRoute>
+    <AuthRoute exact path="/">
       <Memo />
-    </Route>
+    </AuthRoute>
   </Switch>
 );
 
