@@ -10,8 +10,8 @@ import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import axios from 'axios';
 
-import Login from './components/templates/Login';
-import Memo from './components/templates/Memo';
+import Login from './components/pages/Login';
+import Memo from './components/pages/Memo';
 
 /**
  * First we will load all of this project's JavaScript dependencies which
