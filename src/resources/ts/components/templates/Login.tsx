@@ -1,5 +1,5 @@
 import React, { FC, useState, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useQueryClient, useMutation } from 'react-query';
 import axios from 'axios';
 import Box from '@material-ui/core/Box';
@@ -18,10 +18,19 @@ type FormData = {
   password: string;
 };
 
+type LocationState = {
+  from: string;
+};
+
 const Login: FC = () => {
   const history = useHistory();
+  const location = useLocation();
+  const { from } = (location.state as LocationState) || {
+    from: { pathname: '/' },
+  };
   const theme = useTheme();
   const queryClient = useQueryClient();
+
   const [email, setEmail] = useState('');
   const [password, serPassword] = useState('');
 
@@ -39,7 +48,7 @@ const Login: FC = () => {
     []
   );
 
-  const mutataion = useMutation(
+  const mutation = useMutation(
     (formData: FormData) => axios.post('/api/login', formData),
     {
       onSuccess: (result) => {
@@ -49,16 +58,16 @@ const Login: FC = () => {
   );
 
   const handleLogin = useCallback(
-    async (ev: React.FormEvent<HTMLFormElement>) => {
+    (ev: React.FormEvent<HTMLFormElement>) => {
       ev.preventDefault();
       if (!email || !password) {
         return;
       }
-      mutataion.mutate({ email, password });
+      mutation.mutate({ email, password });
 
-      history.push('/');
+      history.replace(from);
     },
-    [mutataion, history, email, password]
+    [mutation, history, from, email, password]
   );
 
   return (
