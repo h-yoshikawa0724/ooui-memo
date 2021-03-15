@@ -2,7 +2,6 @@ import React, { FC, useState, useCallback } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useQueryClient, useMutation } from 'react-query';
 import axios from 'axios';
-import useTheme from '@material-ui/core/styles/useTheme';
 import Login from '../../components/pages/Login';
 
 type FormData = {
@@ -20,7 +19,6 @@ const EnhancedLogin: FC = () => {
   const { from } = (location.state as LocationState) || {
     from: { pathname: '/' },
   };
-  const theme = useTheme();
   const queryClient = useQueryClient();
 
   const [email, setEmail] = useState('');
@@ -64,7 +62,6 @@ const EnhancedLogin: FC = () => {
 
   return (
     <Login
-      theme={theme}
       email={email}
       password={password}
       handleChangeEmail={handleChangeEmail}

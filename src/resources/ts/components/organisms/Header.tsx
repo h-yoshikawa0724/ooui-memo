@@ -3,15 +3,16 @@ import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { Theme } from '@material-ui/core';
+import useTheme from '@material-ui/core/styles/useTheme';
 
 type Props = {
   logined: boolean;
-  theme: Theme;
   handleLogout: VoidFunction;
 };
 
-const Header: FC<Props> = ({ logined, theme, handleLogout }) => (
+const Header: FC<Props> = ({ logined, handleLogout }) => {
+  const theme = useTheme();
+  return (
   <>
     <AppBar
       position="sticky"
@@ -34,6 +35,7 @@ const Header: FC<Props> = ({ logined, theme, handleLogout }) => (
       </Toolbar>
     </AppBar>
   </>
-);
+  )
+};
 
 export default Header;
