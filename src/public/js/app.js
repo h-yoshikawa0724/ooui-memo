@@ -101225,11 +101225,15 @@ const AppBar_1 = __importDefault(__webpack_require__(/*! @material-ui/core/AppBa
 const Button_1 = __importDefault(__webpack_require__(/*! @material-ui/core/Button */ "./node_modules/@material-ui/core/esm/Button/index.js"));
 const Toolbar_1 = __importDefault(__webpack_require__(/*! @material-ui/core/Toolbar */ "./node_modules/@material-ui/core/esm/Toolbar/index.js"));
 const Typography_1 = __importDefault(__webpack_require__(/*! @material-ui/core/Typography */ "./node_modules/@material-ui/core/esm/Typography/index.js"));
-const Header = ({ logined, theme, handleLogout }) => (react_1.default.createElement(react_1.default.Fragment, null,
-    react_1.default.createElement(AppBar_1.default, { position: "sticky", style: { color: theme.palette.text.primary, backgroundColor: 'white' } },
-        react_1.default.createElement(Toolbar_1.default, null,
-            react_1.default.createElement(Typography_1.default, { component: "h1", variant: "h6", style: { flexGrow: 1 }, align: "center" }, "OOUI-MEMO"),
-            logined && (react_1.default.createElement(Button_1.default, { type: "button", onClick: handleLogout }, "\u30ED\u30B0\u30A2\u30A6\u30C8"))))));
+const useTheme_1 = __importDefault(__webpack_require__(/*! @material-ui/core/styles/useTheme */ "./node_modules/@material-ui/core/styles/useTheme.js"));
+const Header = ({ logined, handleLogout }) => {
+    const theme = useTheme_1.default();
+    return (react_1.default.createElement(react_1.default.Fragment, null,
+        react_1.default.createElement(AppBar_1.default, { position: "sticky", style: { color: theme.palette.text.primary, backgroundColor: 'white' } },
+            react_1.default.createElement(Toolbar_1.default, null,
+                react_1.default.createElement(Typography_1.default, { component: "h1", variant: "h6", style: { flexGrow: 1 }, align: "center" }, "OOUI-MEMO"),
+                logined && (react_1.default.createElement(Button_1.default, { type: "button", onClick: handleLogout }, "\u30ED\u30B0\u30A2\u30A6\u30C8"))))));
+};
 exports.default = Header;
 
 
@@ -101257,20 +101261,24 @@ const Card_1 = __importDefault(__webpack_require__(/*! @material-ui/core/Card */
 const CardHeader_1 = __importDefault(__webpack_require__(/*! @material-ui/core/CardHeader */ "./node_modules/@material-ui/core/esm/CardHeader/index.js"));
 const CardContent_1 = __importDefault(__webpack_require__(/*! @material-ui/core/CardContent */ "./node_modules/@material-ui/core/esm/CardContent/index.js"));
 const TextField_1 = __importDefault(__webpack_require__(/*! @material-ui/core/TextField */ "./node_modules/@material-ui/core/esm/TextField/index.js"));
+const useTheme_1 = __importDefault(__webpack_require__(/*! @material-ui/core/styles/useTheme */ "./node_modules/@material-ui/core/styles/useTheme.js"));
 const Header_1 = __importDefault(__webpack_require__(/*! ../../containers/organisms/Header */ "./resources/ts/containers/organisms/Header.tsx"));
-const Login = ({ theme, email, password, handleChangeEmail, handleChangePassword, handleLogin, }) => (react_1.default.createElement(react_1.default.Fragment, null,
-    react_1.default.createElement(CssBaseline_1.default, null),
-    react_1.default.createElement(Header_1.default, { logined: false }),
-    react_1.default.createElement(Container_1.default, { maxWidth: "xs" },
-        react_1.default.createElement(Card_1.default, { style: { margin: `${theme.spacing(6)}px 0` } },
-            react_1.default.createElement(CardHeader_1.default, { title: "login", style: { textAlign: 'center' } }),
-            react_1.default.createElement(CardContent_1.default, null,
-                react_1.default.createElement("form", { onSubmit: handleLogin },
-                    react_1.default.createElement(Box_1.default, { p: 2, display: "flex", flexDirection: "column", alignItems: "center" },
-                        react_1.default.createElement(TextField_1.default, { label: "\u30E1\u30FC\u30EB\u30A2\u30C9\u30EC\u30B9", variant: "outlined", fullWidth: true, value: email, margin: "normal", onChange: handleChangeEmail }),
-                        react_1.default.createElement(TextField_1.default, { type: "password", label: "\u30D1\u30B9\u30EF\u30FC\u30C9", variant: "outlined", fullWidth: true, value: password, margin: "normal", onChange: handleChangePassword }),
-                        react_1.default.createElement(Box_1.default, { my: 2 },
-                            react_1.default.createElement(Button_1.default, { type: "submit", color: "primary", variant: "contained" }, "\u30ED\u30B0\u30A4\u30F3")))))))));
+const Login = ({ email, password, handleChangeEmail, handleChangePassword, handleLogin, }) => {
+    const theme = useTheme_1.default();
+    return (react_1.default.createElement(react_1.default.Fragment, null,
+        react_1.default.createElement(CssBaseline_1.default, null),
+        react_1.default.createElement(Header_1.default, { logined: false }),
+        react_1.default.createElement(Container_1.default, { maxWidth: "xs" },
+            react_1.default.createElement(Card_1.default, { style: { margin: `${theme.spacing(6)}px 0` } },
+                react_1.default.createElement(CardHeader_1.default, { title: "login", style: { textAlign: 'center' } }),
+                react_1.default.createElement(CardContent_1.default, null,
+                    react_1.default.createElement("form", { onSubmit: handleLogin },
+                        react_1.default.createElement(Box_1.default, { p: 2, display: "flex", flexDirection: "column", alignItems: "center" },
+                            react_1.default.createElement(TextField_1.default, { label: "\u30E1\u30FC\u30EB\u30A2\u30C9\u30EC\u30B9", variant: "outlined", fullWidth: true, value: email, margin: "normal", onChange: handleChangeEmail }),
+                            react_1.default.createElement(TextField_1.default, { type: "password", label: "\u30D1\u30B9\u30EF\u30FC\u30C9", variant: "outlined", fullWidth: true, value: password, margin: "normal", onChange: handleChangePassword }),
+                            react_1.default.createElement(Box_1.default, { my: 2 },
+                                react_1.default.createElement(Button_1.default, { type: "submit", color: "primary", variant: "contained" }, "\u30ED\u30B0\u30A4\u30F3")))))))));
+};
 exports.default = Login;
 
 
@@ -101342,11 +101350,9 @@ const react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/re
 const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 const axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
 const react_query_1 = __webpack_require__(/*! react-query */ "./node_modules/react-query/es/index.js");
-const useTheme_1 = __importDefault(__webpack_require__(/*! @material-ui/core/styles/useTheme */ "./node_modules/@material-ui/core/styles/useTheme.js"));
 const Header_1 = __importDefault(__webpack_require__(/*! ../../components/organisms/Header */ "./resources/ts/components/organisms/Header.tsx"));
 const EnhancedHeader = ({ logined }) => {
     const history = react_router_dom_1.useHistory();
-    const theme = useTheme_1.default();
     const queryClient = react_query_1.useQueryClient();
     const mutation = react_query_1.useMutation(() => axios_1.default.post('/api/logout'), {
         onSuccess: () => {
@@ -101357,7 +101363,7 @@ const EnhancedHeader = ({ logined }) => {
         mutation.mutate();
         history.push('/login');
     }, [mutation, history]);
-    return react_1.default.createElement(Header_1.default, { logined: logined, theme: theme, handleLogout: handleLogout });
+    return react_1.default.createElement(Header_1.default, { logined: logined, handleLogout: handleLogout });
 };
 exports.default = EnhancedHeader;
 
@@ -101400,7 +101406,6 @@ const react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/re
 const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 const react_query_1 = __webpack_require__(/*! react-query */ "./node_modules/react-query/es/index.js");
 const axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
-const useTheme_1 = __importDefault(__webpack_require__(/*! @material-ui/core/styles/useTheme */ "./node_modules/@material-ui/core/styles/useTheme.js"));
 const Login_1 = __importDefault(__webpack_require__(/*! ../../components/pages/Login */ "./resources/ts/components/pages/Login.tsx"));
 const EnhancedLogin = () => {
     const history = react_router_dom_1.useHistory();
@@ -101408,7 +101413,6 @@ const EnhancedLogin = () => {
     const { from } = location.state || {
         from: { pathname: '/' },
     };
-    const theme = useTheme_1.default();
     const queryClient = react_query_1.useQueryClient();
     const [email, setEmail] = react_1.useState('');
     const [password, serPassword] = react_1.useState('');
@@ -101431,7 +101435,7 @@ const EnhancedLogin = () => {
         mutation.mutate({ email, password });
         history.replace(from);
     }, [mutation, history, from, email, password]);
-    return (react_1.default.createElement(Login_1.default, { theme: theme, email: email, password: password, handleChangeEmail: handleChangeEmail, handleChangePassword: handleChangePassword, handleLogin: handleLogin }));
+    return (react_1.default.createElement(Login_1.default, { email: email, password: password, handleChangeEmail: handleChangeEmail, handleChangePassword: handleChangePassword, handleLogin: handleLogin }));
 };
 exports.default = EnhancedLogin;
 
