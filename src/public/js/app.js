@@ -101518,6 +101518,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_query_1 = __webpack_require__(/*! react-query */ "./node_modules/react-query/es/index.js");
 const axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+// 未ログイン時は空文字が返るのでstring型も
 const getLoginUser = () => __awaiter(void 0, void 0, void 0, function* () {
     const { data } = yield axios_1.default.get('/api/user');
     return data;

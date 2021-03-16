@@ -2,13 +2,14 @@ import { QueryObserverResult, useQuery, UseQueryOptions } from 'react-query';
 import axios, { AxiosError } from 'axios';
 import { User } from '../models/User';
 
-const getLoginUser = async (): Promise<User> => {
+// 未ログイン時は空文字が返るのでstring型も
+const getLoginUser = async (): Promise<User | string> => {
   const { data } = await axios.get('/api/user');
   return data;
 };
 
-const useUser = <TData = User | null>(
-  options?: UseQueryOptions<User, AxiosError, TData>
+const useUser = <TData = User | string>(
+  options?: UseQueryOptions<User | string, AxiosError, TData>
 ): QueryObserverResult<TData, AxiosError> =>
   useQuery('user', getLoginUser, options);
 
