@@ -101231,13 +101231,15 @@ const Button_1 = __importDefault(__webpack_require__(/*! @material-ui/core/Butto
 const Toolbar_1 = __importDefault(__webpack_require__(/*! @material-ui/core/Toolbar */ "./node_modules/@material-ui/core/esm/Toolbar/index.js"));
 const Typography_1 = __importDefault(__webpack_require__(/*! @material-ui/core/Typography */ "./node_modules/@material-ui/core/esm/Typography/index.js"));
 const useTheme_1 = __importDefault(__webpack_require__(/*! @material-ui/core/styles/useTheme */ "./node_modules/@material-ui/core/styles/useTheme.js"));
-const Header = ({ logined, handleLogout }) => {
+const Header = ({ userName, handleLogout }) => {
     const theme = useTheme_1.default();
     return (react_1.default.createElement(react_1.default.Fragment, null,
         react_1.default.createElement(AppBar_1.default, { position: "sticky", style: { color: theme.palette.text.primary, backgroundColor: 'white' } },
             react_1.default.createElement(Toolbar_1.default, null,
                 react_1.default.createElement(Typography_1.default, { component: "h1", variant: "h6", style: { flexGrow: 1 }, align: "center" }, "OOUI-MEMO"),
-                logined && (react_1.default.createElement(Button_1.default, { type: "button", onClick: handleLogout }, "\u30ED\u30B0\u30A2\u30A6\u30C8"))))));
+                userName && (react_1.default.createElement(react_1.default.Fragment, null,
+                    react_1.default.createElement(Typography_1.default, null, userName),
+                    react_1.default.createElement(Button_1.default, { type: "button", onClick: handleLogout }, "\u30ED\u30B0\u30A2\u30A6\u30C8")))))));
 };
 exports.default = Header;
 
@@ -101272,7 +101274,7 @@ const Login = ({ email, password, handleChangeEmail, handleChangePassword, handl
     const theme = useTheme_1.default();
     return (react_1.default.createElement(react_1.default.Fragment, null,
         react_1.default.createElement(CssBaseline_1.default, null),
-        react_1.default.createElement(Header_1.default, { logined: false }),
+        react_1.default.createElement(Header_1.default, null),
         react_1.default.createElement(Container_1.default, { maxWidth: "xs" },
             react_1.default.createElement(Card_1.default, { style: { margin: `${theme.spacing(6)}px 0` } },
                 react_1.default.createElement(CardHeader_1.default, { title: "login", style: { textAlign: 'center' } }),
@@ -101307,13 +101309,11 @@ const Box_1 = __importDefault(__webpack_require__(/*! @material-ui/core/Box */ "
 const Container_1 = __importDefault(__webpack_require__(/*! @material-ui/core/Container */ "./node_modules/@material-ui/core/esm/Container/index.js"));
 const CssBaseline_1 = __importDefault(__webpack_require__(/*! @material-ui/core/CssBaseline */ "./node_modules/@material-ui/core/esm/CssBaseline/index.js"));
 const Header_1 = __importDefault(__webpack_require__(/*! ../../containers/organisms/Header */ "./resources/ts/containers/organisms/Header.tsx"));
-const Memo = ({ user }) => (react_1.default.createElement(react_1.default.Fragment, null,
+const Memo = () => (react_1.default.createElement(react_1.default.Fragment, null,
     react_1.default.createElement(CssBaseline_1.default, null),
-    react_1.default.createElement(Header_1.default, { logined: true }),
+    react_1.default.createElement(Header_1.default, null),
     react_1.default.createElement(Container_1.default, null,
-        react_1.default.createElement(Box_1.default, { m: 4 },
-            user && user.name,
-            "Memo"))));
+        react_1.default.createElement(Box_1.default, { m: 4 }, "Memo"))));
 exports.default = Memo;
 
 
@@ -101333,11 +101333,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+const react_query_1 = __webpack_require__(/*! react-query */ "./node_modules/react-query/es/index.js");
 const Header_1 = __importDefault(__webpack_require__(/*! ../../components/organisms/Header */ "./resources/ts/components/organisms/Header.tsx"));
 const useAuth_1 = __importDefault(__webpack_require__(/*! ../../hooks/useAuth */ "./resources/ts/hooks/useAuth.ts"));
-const EnhancedHeader = ({ logined }) => {
+const EnhancedHeader = () => {
+    const queryClient = react_query_1.useQueryClient();
+    const user = queryClient.getQueryData('user');
     const { handleLogout } = useAuth_1.default();
-    return react_1.default.createElement(Header_1.default, { logined: logined, handleLogout: handleLogout });
+    return react_1.default.createElement(Header_1.default, { userName: user && user.name, handleLogout: handleLogout });
 };
 exports.default = EnhancedHeader;
 
@@ -101383,13 +101386,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-const react_query_1 = __webpack_require__(/*! react-query */ "./node_modules/react-query/es/index.js");
 const Memo_1 = __importDefault(__webpack_require__(/*! ../../components/pages/Memo */ "./resources/ts/components/pages/Memo.tsx"));
-const EnhancedMemo = () => {
-    const queryClient = react_query_1.useQueryClient();
-    const user = queryClient.getQueryData('user');
-    return react_1.default.createElement(Memo_1.default, { user: user });
-};
+const EnhancedMemo = () => react_1.default.createElement(Memo_1.default, null);
 exports.default = EnhancedMemo;
 
 

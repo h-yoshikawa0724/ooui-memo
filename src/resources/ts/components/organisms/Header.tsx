@@ -6,11 +6,11 @@ import Typography from '@material-ui/core/Typography';
 import useTheme from '@material-ui/core/styles/useTheme';
 
 type Props = {
-  logined: boolean;
+  userName: string;
   handleLogout: VoidFunction;
 };
 
-const Header: FC<Props> = ({ logined, handleLogout }) => {
+const Header: FC<Props> = ({ userName, handleLogout }) => {
   const theme = useTheme();
   return (
     <>
@@ -27,10 +27,13 @@ const Header: FC<Props> = ({ logined, handleLogout }) => {
           >
             OOUI-MEMO
           </Typography>
-          {logined && (
-            <Button type="button" onClick={handleLogout}>
-              ログアウト
-            </Button>
+          {userName && (
+            <>
+              <Typography>{userName}</Typography>
+              <Button type="button" onClick={handleLogout}>
+                ログアウト
+              </Button>
+            </>
           )}
         </Toolbar>
       </AppBar>
