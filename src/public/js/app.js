@@ -101328,46 +101328,15 @@ exports.default = Memo;
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-const axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
-const react_query_1 = __webpack_require__(/*! react-query */ "./node_modules/react-query/es/index.js");
+const react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 const Header_1 = __importDefault(__webpack_require__(/*! ../../components/organisms/Header */ "./resources/ts/components/organisms/Header.tsx"));
+const useAuth_1 = __importDefault(__webpack_require__(/*! ../../hooks/useAuth */ "./resources/ts/hooks/useAuth.ts"));
 const EnhancedHeader = ({ logined }) => {
-    const history = react_router_dom_1.useHistory();
-    const queryClient = react_query_1.useQueryClient();
-    const mutation = react_query_1.useMutation(() => axios_1.default.post('/api/logout'), {
-        onSuccess: () => {
-            queryClient.resetQueries('user');
-        },
-    });
-    const handleLogout = react_1.useCallback(() => {
-        mutation.mutate();
-        history.push('/login');
-    }, [mutation, history]);
+    const { handleLogout } = useAuth_1.default();
     return react_1.default.createElement(Header_1.default, { logined: logined, handleLogout: handleLogout });
 };
 exports.default = EnhancedHeader;
@@ -101464,6 +101433,18 @@ const useLoginMutation = () => {
         },
     });
 };
+const logout = () => __awaiter(void 0, void 0, void 0, function* () {
+    const { data } = yield axios_1.default.post('/api/logout');
+    return data;
+});
+const useLogoutMutation = () => {
+    const queryClient = react_query_1.useQueryClient();
+    return react_query_1.useMutation(logout, {
+        onSuccess: () => {
+            queryClient.resetQueries('user');
+        },
+    });
+};
 const useAuth = () => {
     const history = react_router_dom_1.useHistory();
     const location = react_router_dom_1.useLocation();
@@ -101473,6 +101454,7 @@ const useAuth = () => {
     const [email, setEmail] = react_1.useState('');
     const [password, serPassword] = react_1.useState('');
     const loginMutation = useLoginMutation();
+    const logoutMutation = useLogoutMutation();
     const handleChangeEmail = react_1.useCallback((ev) => {
         setEmail(ev.target.value);
     }, []);
@@ -101490,12 +101472,21 @@ const useAuth = () => {
             },
         });
     }, [email, password, history, from, loginMutation]);
+    const handleLogout = react_1.useCallback(() => {
+        logoutMutation.mutate(undefined, {
+            onSuccess: () => {
+                history.push('/login');
+            },
+        });
+        logoutMutation.mutate();
+    }, [history, logoutMutation]);
     return {
         email,
         password,
         handleChangeEmail,
         handleChangePassword,
         handleLogin,
+        handleLogout,
     };
 };
 exports.default = useAuth;

@@ -29,12 +29,33 @@ const useLoginMutation = (): UseMutationResult<
   });
 };
 
+const logout = async (): Promise<[]> => {
+  const { data } = await axios.post('/api/logout');
+  return data;
+};
+
+const useLogoutMutation = (): UseMutationResult<
+  [],
+  AxiosError,
+  void,
+  undefined
+> => {
+  const queryClient = useQueryClient();
+
+  return useMutation(logout, {
+    onSuccess: () => {
+      queryClient.resetQueries('user');
+    },
+  });
+};
+
 const useAuth = (): {
   email: string;
   password: string;
   handleChangeEmail: (ev: React.ChangeEvent<HTMLInputElement>) => void;
   handleChangePassword: (ev: React.ChangeEvent<HTMLInputElement>) => void;
   handleLogin: (ev: React.FormEvent<HTMLFormElement>) => void;
+  handleLogout: VoidFunction;
 } => {
   const history = useHistory();
   const location = useLocation();
@@ -45,6 +66,7 @@ const useAuth = (): {
   const [email, setEmail] = useState('');
   const [password, serPassword] = useState('');
   const loginMutation = useLoginMutation();
+  const logoutMutation = useLogoutMutation();
 
   const handleChangeEmail = useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,12 +100,22 @@ const useAuth = (): {
     [email, password, history, from, loginMutation]
   );
 
+  const handleLogout = useCallback(() => {
+    logoutMutation.mutate(undefined, {
+      onSuccess: () => {
+        history.push('/login');
+      },
+    });
+    logoutMutation.mutate();
+  }, [history, logoutMutation]);
+
   return {
     email,
     password,
     handleChangeEmail,
     handleChangePassword,
     handleLogin,
+    handleLogout,
   };
 };
 
