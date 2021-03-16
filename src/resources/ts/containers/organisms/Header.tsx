@@ -1,15 +1,15 @@
 import React, { FC } from 'react';
+import { useQueryClient } from 'react-query';
 import Header from '../../components/organisms/Header';
+import { User } from '../../models/User';
 import useAuth from '../../hooks/useAuth';
 
-type Props = {
-  logined: boolean;
-};
-
-const EnhancedHeader: FC<Props> = ({ logined }) => {
+const EnhancedHeader: FC = () => {
+  const queryClient = useQueryClient();
+  const user = queryClient.getQueryData('user') as User;
   const { handleLogout } = useAuth();
 
-  return <Header logined={logined} handleLogout={handleLogout} />;
+  return <Header userName={user && user.name} handleLogout={handleLogout} />;
 };
 
 export default EnhancedHeader;

@@ -29,7 +29,7 @@ const Login: FC<Props> = ({
   return (
     <>
       <CssBaseline />
-      <Header logined={false} />
+      <Header />
       <Container maxWidth="xs">
         <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
           <CardHeader title="login" style={{ textAlign: 'center' }} />
