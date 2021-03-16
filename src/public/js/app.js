@@ -101384,62 +101384,15 @@ exports.default = EnhancedHeader;
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-const react_query_1 = __webpack_require__(/*! react-query */ "./node_modules/react-query/es/index.js");
-const axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+const react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 const Login_1 = __importDefault(__webpack_require__(/*! ../../components/pages/Login */ "./resources/ts/components/pages/Login.tsx"));
+const useAuth_1 = __importDefault(__webpack_require__(/*! ../../hooks/useAuth */ "./resources/ts/hooks/useAuth.ts"));
 const EnhancedLogin = () => {
-    const history = react_router_dom_1.useHistory();
-    const location = react_router_dom_1.useLocation();
-    const { from } = location.state || {
-        from: { pathname: '/' },
-    };
-    const queryClient = react_query_1.useQueryClient();
-    const [email, setEmail] = react_1.useState('');
-    const [password, serPassword] = react_1.useState('');
-    const handleChangeEmail = react_1.useCallback((ev) => {
-        setEmail(ev.target.value);
-    }, []);
-    const handleChangePassword = react_1.useCallback((ev) => {
-        serPassword(ev.target.value);
-    }, []);
-    const mutation = react_query_1.useMutation((formData) => axios_1.default.post('/api/login', formData), {
-        onSuccess: (result) => {
-            queryClient.setQueryData('user', () => result.data);
-        },
-    });
-    const handleLogin = react_1.useCallback((ev) => {
-        ev.preventDefault();
-        if (!email || !password) {
-            return;
-        }
-        mutation.mutate({ email, password });
-        history.replace(from);
-    }, [mutation, history, from, email, password]);
+    const { email, password, handleChangeEmail, handleChangePassword, handleLogin, } = useAuth_1.default();
     return (react_1.default.createElement(Login_1.default, { email: email, password: password, handleChangeEmail: handleChangeEmail, handleChangePassword: handleChangePassword, handleLogin: handleLogin }));
 };
 exports.default = EnhancedLogin;
@@ -101469,6 +101422,83 @@ const EnhancedMemo = () => {
     return react_1.default.createElement(Memo_1.default, { user: user });
 };
 exports.default = EnhancedMemo;
+
+
+/***/ }),
+
+/***/ "./resources/ts/hooks/useAuth.ts":
+/*!***************************************!*\
+  !*** ./resources/ts/hooks/useAuth.ts ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+const react_query_1 = __webpack_require__(/*! react-query */ "./node_modules/react-query/es/index.js");
+const axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+const login = (formData) => __awaiter(void 0, void 0, void 0, function* () {
+    const { data } = yield axios_1.default.post('/api/login', formData);
+    return data;
+});
+const useLoginMutation = () => {
+    const queryClient = react_query_1.useQueryClient();
+    return react_query_1.useMutation(login, {
+        onSuccess: (data) => {
+            queryClient.setQueryData('user', () => data);
+        },
+    });
+};
+const useAuth = () => {
+    const history = react_router_dom_1.useHistory();
+    const location = react_router_dom_1.useLocation();
+    const { from } = location.state || {
+        from: { pathname: '/' },
+    };
+    const [email, setEmail] = react_1.useState('');
+    const [password, serPassword] = react_1.useState('');
+    const loginMutation = useLoginMutation();
+    const handleChangeEmail = react_1.useCallback((ev) => {
+        setEmail(ev.target.value);
+    }, []);
+    const handleChangePassword = react_1.useCallback((ev) => {
+        serPassword(ev.target.value);
+    }, []);
+    const handleLogin = react_1.useCallback((ev) => {
+        ev.preventDefault();
+        if (!email || !password) {
+            return;
+        }
+        loginMutation.mutate({ email, password }, {
+            onSuccess: () => {
+                history.replace(from);
+            },
+        });
+    }, [email, password, history, from, loginMutation]);
+    return {
+        email,
+        password,
+        handleChangeEmail,
+        handleChangePassword,
+        handleLogin,
+    };
+};
+exports.default = useAuth;
 
 
 /***/ }),
