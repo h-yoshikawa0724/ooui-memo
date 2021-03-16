@@ -101122,9 +101122,9 @@ const react_dom_1 = __importDefault(__webpack_require__(/*! react-dom */ "./node
 const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 const react_query_1 = __webpack_require__(/*! react-query */ "./node_modules/react-query/es/index.js");
 const devtools_1 = __webpack_require__(/*! react-query/devtools */ "./node_modules/react-query/devtools/index.js");
-const axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
 const Login_1 = __importDefault(__webpack_require__(/*! ./containers/pages/Login */ "./resources/ts/containers/pages/Login.tsx"));
 const Memo_1 = __importDefault(__webpack_require__(/*! ./containers/pages/Memo */ "./resources/ts/containers/pages/Memo.tsx"));
+const useUser_1 = __importDefault(__webpack_require__(/*! ./hooks/useUser */ "./resources/ts/hooks/useUser.ts"));
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes React and other helpers. It's a great starting point while
@@ -101137,23 +101137,28 @@ __webpack_require__(/*! ./bootstrap */ "./resources/ts/bootstrap.js");
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 // require('./components/Example');
-const queryClient = new react_query_1.QueryClient();
+const client = new react_query_1.QueryClient();
 const UnAuthRoute = ({ exact = false, path, children }) => {
-    const { data: user } = react_query_1.useQuery('user', () => axios_1.default.get('/api/user').then((response) => response.data));
+    const queryClient = react_query_1.useQueryClient();
+    const user = queryClient.getQueryData('user');
     return (react_1.default.createElement(react_router_dom_1.Route, { exact: exact, path: path, render: () => (user ? react_1.default.createElement(react_router_dom_1.Redirect, { to: { pathname: '/' } }) : children) }));
 };
 const AuthRoute = ({ exact = false, path, children }) => {
-    const { data: user } = react_query_1.useQuery('user', () => axios_1.default.get('/api/user').then((response) => response.data));
+    const queryClient = react_query_1.useQueryClient();
+    const user = queryClient.getQueryData('user');
     return (react_1.default.createElement(react_router_dom_1.Route, { exact: exact, path: path, render: ({ location }) => user ? (children) : (react_1.default.createElement(react_router_dom_1.Redirect, { to: { pathname: '/login', state: { from: location } } })) }));
 };
-const App = () => (react_1.default.createElement(react_router_dom_1.Switch, null,
-    react_1.default.createElement(UnAuthRoute, { exact: true, path: "/login" },
-        react_1.default.createElement(Login_1.default, null)),
-    react_1.default.createElement(AuthRoute, { exact: true, path: "/" },
-        react_1.default.createElement(Memo_1.default, null))));
+const App = () => {
+    useUser_1.default();
+    return (react_1.default.createElement(react_router_dom_1.Switch, null,
+        react_1.default.createElement(UnAuthRoute, { exact: true, path: "/login" },
+            react_1.default.createElement(Login_1.default, null)),
+        react_1.default.createElement(AuthRoute, { exact: true, path: "/" },
+            react_1.default.createElement(Memo_1.default, null))));
+};
 if (document.getElementById('app')) {
     react_dom_1.default.render(react_1.default.createElement(react_router_dom_1.BrowserRouter, null,
-        react_1.default.createElement(react_query_1.QueryClientProvider, { client: queryClient },
+        react_1.default.createElement(react_query_1.QueryClientProvider, { client: client },
             react_1.default.createElement(App, null),
              true && (react_1.default.createElement(devtools_1.ReactQueryDevtools, { initialIsOpen: false })))), document.getElementById('app'));
 }
@@ -101464,6 +101469,40 @@ const EnhancedMemo = () => {
     return react_1.default.createElement(Memo_1.default, { user: user });
 };
 exports.default = EnhancedMemo;
+
+
+/***/ }),
+
+/***/ "./resources/ts/hooks/useUser.ts":
+/*!***************************************!*\
+  !*** ./resources/ts/hooks/useUser.ts ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const react_query_1 = __webpack_require__(/*! react-query */ "./node_modules/react-query/es/index.js");
+const axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+const getLoginUser = () => __awaiter(void 0, void 0, void 0, function* () {
+    const { data } = yield axios_1.default.get('/api/user');
+    return data;
+});
+const useUser = (options) => react_query_1.useQuery('user', getLoginUser, options);
+exports.default = useUser;
 
 
 /***/ }),
