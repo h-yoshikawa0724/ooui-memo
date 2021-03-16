@@ -6,12 +6,13 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+import { QueryClient, QueryClientProvider, useQueryClient } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import axios from 'axios';
 
 import Login from './containers/pages/Login';
 import Memo from './containers/pages/Memo';
+import { User } from './models/User';
+import useUser from './hooks/useUser';
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -27,7 +28,7 @@ require('./bootstrap');
  */
 // require('./components/Example');
 
-const queryClient = new QueryClient();
+const client = new QueryClient();
 
 type Props = {
   exact?: boolean;
@@ -36,9 +37,8 @@ type Props = {
 };
 
 const UnAuthRoute: React.FC<Props> = ({ exact = false, path, children }) => {
-  const { data: user } = useQuery('user', () =>
-    axios.get('/api/user').then((response) => response.data)
-  );
+  const queryClient = useQueryClient();
+  const user = queryClient.getQueryData('user') as User;
   return (
     <Route
       exact={exact}
@@ -49,9 +49,8 @@ const UnAuthRoute: React.FC<Props> = ({ exact = false, path, children }) => {
 };
 
 const AuthRoute: React.FC<Props> = ({ exact = false, path, children }) => {
-  const { data: user } = useQuery('user', () =>
-    axios.get('/api/user').then((response) => response.data)
-  );
+  const queryClient = useQueryClient();
+  const user = queryClient.getQueryData('user') as User;
   return (
     <Route
       exact={exact}
@@ -67,21 +66,24 @@ const AuthRoute: React.FC<Props> = ({ exact = false, path, children }) => {
   );
 };
 
-const App: React.FC = () => (
-  <Switch>
-    <UnAuthRoute exact path="/login">
-      <Login />
-    </UnAuthRoute>
-    <AuthRoute exact path="/">
-      <Memo />
-    </AuthRoute>
-  </Switch>
-);
+const App: React.FC = () => {
+  useUser();
+  return (
+    <Switch>
+      <UnAuthRoute exact path="/login">
+        <Login />
+      </UnAuthRoute>
+      <AuthRoute exact path="/">
+        <Memo />
+      </AuthRoute>
+    </Switch>
+  );
+};
 
 if (document.getElementById('app')) {
   ReactDOM.render(
     <Router>
-      <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={client}>
         <App />
         {process.env.NODE_ENV === 'development' && (
           <ReactQueryDevtools initialIsOpen={false} />

@@ -13,29 +13,29 @@ type Props = {
 const Header: FC<Props> = ({ logined, handleLogout }) => {
   const theme = useTheme();
   return (
-  <>
-    <AppBar
-      position="sticky"
-      style={{ color: theme.palette.text.primary, backgroundColor: 'white' }}
-    >
-      <Toolbar>
-        <Typography
-          component="h1"
-          variant="h6"
-          style={{ flexGrow: 1 }}
-          align="center"
-        >
-          OOUI-MEMO
-        </Typography>
-        {logined && (
-          <Button type="button" onClick={handleLogout}>
-            ログアウト
-          </Button>
-        )}
-      </Toolbar>
-    </AppBar>
-  </>
-  )
+    <>
+      <AppBar
+        position="sticky"
+        style={{ color: theme.palette.text.primary, backgroundColor: 'white' }}
+      >
+        <Toolbar>
+          <Typography
+            component="h1"
+            variant="h6"
+            style={{ flexGrow: 1 }}
+            align="center"
+          >
+            OOUI-MEMO
+          </Typography>
+          {logined && (
+            <Button type="button" onClick={handleLogout}>
+              ログアウト
+            </Button>
+          )}
+        </Toolbar>
+      </AppBar>
+    </>
+  );
 };
 
 export default Header;
