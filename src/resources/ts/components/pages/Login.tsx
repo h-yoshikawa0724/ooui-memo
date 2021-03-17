@@ -3,7 +3,6 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -35,7 +34,6 @@ const Login: FC<Props> = ({
   const theme = useTheme();
   return (
     <>
-      <CssBaseline />
       <Header />
       <Container maxWidth="xs">
         <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
