@@ -9,7 +9,10 @@ const EnhancedLogin: FC = () => {
     handleChangeEmail,
     handleChangePassword,
     handleLogin,
+    loginMutation,
   } = useAuth();
+  const { error, isLoading } = loginMutation;
+  const statusCode = error?.response?.status;
 
   return (
     <Login
@@ -17,6 +20,8 @@ const EnhancedLogin: FC = () => {
       password={password}
       handleChangeEmail={handleChangeEmail}
       handleChangePassword={handleChangePassword}
+      statusCode={statusCode}
+      isLoading={isLoading}
       handleLogin={handleLogin}
     />
   );
