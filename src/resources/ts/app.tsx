@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import { QueryClient, QueryClientProvider, useQueryClient } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Login from './containers/pages/Login';
 import Memo from './containers/pages/Memo';
@@ -84,6 +85,7 @@ if (document.getElementById('app')) {
   ReactDOM.render(
     <Router>
       <QueryClientProvider client={client}>
+        <CssBaseline />
         <App />
         {process.env.NODE_ENV === 'development' && (
           <ReactQueryDevtools initialIsOpen={false} />
