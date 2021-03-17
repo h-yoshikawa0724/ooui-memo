@@ -9,7 +9,7 @@ const EnhancedHeader: FC = () => {
   const user = queryClient.getQueryData('user') as User;
   const { handleLogout } = useAuth();
 
-  return <Header userName={user && user.name} handleLogout={handleLogout} />;
+  return <Header userName={user?.name} handleLogout={handleLogout} />;
 };
 
 export default EnhancedHeader;

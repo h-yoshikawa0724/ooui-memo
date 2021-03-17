@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
 import {
   BrowserRouter as Router,
@@ -36,7 +36,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-const UnAuthRoute: React.FC<Props> = ({ exact = false, path, children }) => {
+const UnAuthRoute: FC<Props> = ({ exact = false, path, children }) => {
   const queryClient = useQueryClient();
   const user = queryClient.getQueryData('user') as User;
   return (
@@ -48,7 +48,7 @@ const UnAuthRoute: React.FC<Props> = ({ exact = false, path, children }) => {
   );
 };
 
-const AuthRoute: React.FC<Props> = ({ exact = false, path, children }) => {
+const AuthRoute: FC<Props> = ({ exact = false, path, children }) => {
   const queryClient = useQueryClient();
   const user = queryClient.getQueryData('user') as User;
   return (
@@ -66,7 +66,7 @@ const AuthRoute: React.FC<Props> = ({ exact = false, path, children }) => {
   );
 };
 
-const App: React.FC = () => {
+const App: FC = () => {
   useUser();
   return (
     <Switch>
