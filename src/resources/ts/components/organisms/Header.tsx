@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import useTheme from '@material-ui/core/styles/useTheme';
 
 type Props = {
-  userName: string;
+  userName?: string;
   handleLogout: VoidFunction;
 };
 
@@ -16,7 +16,10 @@ const Header: FC<Props> = ({ userName, handleLogout }) => {
     <>
       <AppBar
         position="sticky"
-        style={{ color: theme.palette.text.primary, backgroundColor: 'white' }}
+        style={{
+          color: theme.palette.text.primary,
+          backgroundColor: 'white',
+        }}
       >
         <Toolbar>
           <Typography
