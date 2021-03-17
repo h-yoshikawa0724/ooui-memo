@@ -53,6 +53,9 @@ const Login: FC<Props> = ({
                   fullWidth
                   value={email}
                   margin="normal"
+                  required
+                  autoComplete="email"
+                  autoFocus
                   onChange={handleChangeEmail}
                 />
                 <TextField
@@ -62,6 +65,8 @@ const Login: FC<Props> = ({
                   fullWidth
                   value={password}
                   margin="normal"
+                  required
+                  autoComplete="current-password"
                   onChange={handleChangePassword}
                 />
                 <Box my={2}>
