@@ -56,6 +56,7 @@ const useAuth = (): {
   handleChangePassword: (ev: React.ChangeEvent<HTMLInputElement>) => void;
   handleLogin: (ev: React.FormEvent<HTMLFormElement>) => void;
   handleLogout: VoidFunction;
+  loginMutation: UseMutationResult<User, AxiosError, FormData, undefined>;
 } => {
   const history = useHistory();
   const location = useLocation();
@@ -116,6 +117,7 @@ const useAuth = (): {
     handleChangePassword,
     handleLogin,
     handleLogout,
+    loginMutation,
   };
 };
 
