@@ -13,7 +13,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Login from './containers/pages/Login';
 import Memo from './containers/pages/Memo';
 import { User } from './models/User';
-import useUser from './hooks/useUser';
+import { useGetUserQuery } from './hooks/user';
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -68,7 +68,7 @@ const AuthRoute: FC<Props> = ({ exact = false, path, children }) => {
 };
 
 const App: FC = () => {
-  useUser();
+  useGetUserQuery();
   return (
     <Switch>
       <UnAuthRoute exact path="/login">
