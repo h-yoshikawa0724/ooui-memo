@@ -68,7 +68,7 @@ const AuthRoute: FC<Props> = ({ exact = false, path, children }) => {
 };
 
 const App: FC = () => {
-  useGetUserQuery();
+  useGetUserQuery({ retry: 0 });
   return (
     <Switch>
       <UnAuthRoute exact path="/login">
