@@ -14,7 +14,8 @@
         "fix": "yarn fix:eslint && yarn fix:prettier",
         "fix:eslint": "yarn lint:eslint -- --fix",
         "fix:prettier": "yarn lint:prettier -- --write",
-        "postinstall": "typesync && yarn install --ignore-scripts"
+        "postinstall": "typesync",
+        "heroku-postbuild": "yarn prod"
     },
     "dependencies": {
         "@babel/preset-react": "^7.0.0",
