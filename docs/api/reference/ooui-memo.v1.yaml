@@ -16,6 +16,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Memos'
+        '401':
+          $ref: '#/components/responses/UnAuthorizedError'
         '500':
           $ref: '#/components/responses/ServerError'
       operationId: get-memos
@@ -29,6 +31,8 @@ paths:
       responses:
         '201':
           description: Created
+        '401':
+          $ref: '#/components/responses/UnAuthorizedError'
         '422':
           $ref: '#/components/responses/ValidationError'
         '500':
@@ -54,6 +58,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Memo'
+        '401':
+          $ref: '#/components/responses/UnAuthorizedError'
         '500':
           $ref: '#/components/responses/ServerError'
       operationId: get-memo
@@ -66,6 +72,8 @@ paths:
       responses:
         '204':
           description: No Content
+        '401':
+          $ref: '#/components/responses/UnAuthorizedError'
         '404':
           $ref: '#/components/responses/NotFoundError'
         '422':
@@ -89,6 +97,8 @@ paths:
       responses:
         '204':
           description: No Content
+        '401':
+          $ref: '#/components/responses/UnAuthorizedError'
         '404':
           $ref: '#/components/responses/NotFoundError'
         '500':
@@ -145,7 +155,9 @@ paths:
         - Users
       responses:
         '200':
-          $ref: '#/components/responses/UserOptional'
+          $ref: '#/components/responses/User'
+        '401':
+          $ref: '#/components/responses/UnAuthorizedError'
         '500':
           $ref: '#/components/responses/ServerError'
       operationId: get-user
@@ -184,8 +196,6 @@ components:
       $ref: ./models/user.v1.json
     UserLogin:
       $ref: ./models/user-login.v1.json
-    UserOptional:
-      $ref: ./models/user-optional.v1.json
   responses:
     Memos:
       description: メモ一覧情報レスポンス
@@ -237,14 +247,14 @@ components:
                 message: Server Error
     UnAuthorizedError:
       description: |-
-        UNAUTHORIZED：419
+        UNAUTHORIZED：401
         認証エラー
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
           examples:
-            '419':
+            '401':
               value:
                 message: Unauthenticated.
     NotFoundError:
@@ -255,12 +265,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    UserOptional:
-      description: ユーザ情報レスポンス（ログイン時：ログインユーザを返す　未ログイン時：nullを返す）
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/UserOptional'
   parameters:
     memo_id:
       name: memo_id

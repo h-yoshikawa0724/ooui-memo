@@ -36,13 +36,12 @@ class UserApiTest extends TestCase
 
     /**
      * @test
-     * ログインしていない時は空文字取得になるか
+     * ログインしていない時は401を返すか
      */
     public function testGetAuthUserNotLogined()
     {
         $response = $this->json('GET', route('user'));
 
-        $response->assertStatus(200);
-        $this->assertEquals("", $response->content());
+        $response->assertStatus(401);
     }
 }

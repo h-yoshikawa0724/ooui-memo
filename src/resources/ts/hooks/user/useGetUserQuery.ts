@@ -2,8 +2,7 @@ import { QueryObserverResult, useQuery, UseQueryOptions } from 'react-query';
 import axios, { AxiosError } from 'axios';
 import { User } from '../../models/User';
 
-// 未ログイン時は空文字が返るのでstring型も
-const getLoginUser = async (): Promise<User | string> => {
+const getLoginUser = async (): Promise<User> => {
   const { data } = await axios.get('/api/users/me');
   return data;
 };
