@@ -32,8 +32,6 @@ module.exports = {
         tsx: 'never',
       },
     ],
-    // Laravel UIの仕様上、React本体もDevDependenciesになる？のでオフ
-    'import/no-extraneous-dependencies': 'off',
   },
   overrides: [
     {
