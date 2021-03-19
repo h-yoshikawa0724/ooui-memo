@@ -1,0 +1,21 @@
+{
+  "title": "user-login.v1",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "メールアドレス"
+    },
+    "password": {
+      "type": "string",
+      "format": "password",
+      "description": "パスワード"
+    }
+  },
+  "required": [
+    "email",
+    "password"
+  ],
+  "description": "ユーザ情報（ログイン）モデル"
+}
