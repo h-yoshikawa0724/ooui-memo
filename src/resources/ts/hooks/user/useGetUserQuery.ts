@@ -4,7 +4,7 @@ import { User } from '../../models/User';
 
 // 未ログイン時は空文字が返るのでstring型も
 const getLoginUser = async (): Promise<User | string> => {
-  const { data } = await axios.get('/api/user');
+  const { data } = await axios.get('/api/users/me');
   return data;
 };
 
