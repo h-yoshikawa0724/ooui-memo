@@ -12,8 +12,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Login from './containers/pages/Login';
 import Memo from './containers/pages/Memo';
-import { User } from './models/User';
-import { useGetUserQuery } from './hooks/user';
+import { useGetUserQuery, useCurrentUser } from './hooks/user';
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -38,8 +37,7 @@ type Props = {
 };
 
 const UnAuthRoute: FC<Props> = ({ exact = false, path, children }) => {
-  const queryClient = useQueryClient();
-  const user = queryClient.getQueryData('user') as User;
+  const user = useCurrentUser();
   return (
     <Route
       exact={exact}
@@ -50,8 +48,7 @@ const UnAuthRoute: FC<Props> = ({ exact = false, path, children }) => {
 };
 
 const AuthRoute: FC<Props> = ({ exact = false, path, children }) => {
-  const queryClient = useQueryClient();
-  const user = queryClient.getQueryData('user') as User;
+  const user = useCurrentUser();
   return (
     <Route
       exact={exact}
@@ -68,7 +65,15 @@ const AuthRoute: FC<Props> = ({ exact = false, path, children }) => {
 };
 
 const App: FC = () => {
-  useGetUserQuery({ retry: 0 });
+  const queryClient = useQueryClient();
+  useGetUserQuery({
+    retry: 0,
+    initialData: undefined,
+    onError: () => {
+      queryClient.setQueryData('user', null);
+    },
+  });
+
   return (
     <Switch>
       <UnAuthRoute exact path="/login">

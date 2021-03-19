@@ -1,13 +1,11 @@
 import React, { FC, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useQueryClient } from 'react-query';
 import Header from '../../components/organisms/Header';
-import { User } from '../../models/User';
 import { useLogout } from '../../hooks/auth';
+import { useCurrentUser } from '../../hooks/user';
 
 const EnhancedHeader: FC = () => {
-  const queryClient = useQueryClient();
-  const user = queryClient.getQueryData('user') as User;
+  const user = useCurrentUser();
 
   const history = useHistory();
   const { mutate } = useLogout();
