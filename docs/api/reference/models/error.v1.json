@@ -6,9 +6,19 @@
     "message": {
       "type": "string",
       "description": "エラーメッセージ"
+    },
+    "errors": {
+      "type": "object",
+      "description": "エラー詳細",
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      }
     }
   },
   "required": [
     "message"
-  ]
+  ],
+  "x-examples": {}
 }

@@ -15,22 +15,24 @@ paths:
         - Memos
       responses:
         '200':
-          $ref: '#/components/responses/memos'
+          $ref: '#/components/responses/Memos'
         '500':
-          $ref: '#/components/responses/error'
+          $ref: '#/components/responses/ServerError'
       operationId: get-memos
       parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
-      description: メモ一覧参照API
+        - $ref: '#/components/parameters/XSRF-TOKEN'
+        - $ref: '#/components/parameters/page'
+      description: メモ一覧取得API
     post:
       summary: POST Memo
       operationId: post-memos
       responses:
         '201':
           description: Created
+        '422':
+          $ref: '#/components/responses/ValidationError'
         '500':
-          $ref: '#/components/responses/error'
+          $ref: '#/components/responses/ServerError'
       requestBody:
         content:
           application/json:
@@ -40,6 +42,8 @@ paths:
       description: メモ作成API
       tags:
         - Memos
+      parameters:
+        - $ref: '#/components/parameters/XSRF-TOKEN'
   '/memos/{memo_id}':
     parameters:
       - $ref: '#/components/parameters/memo_id'
@@ -49,13 +53,13 @@ paths:
         - Memos
       responses:
         '200':
-          $ref: '#/components/responses/memo'
-        '404':
-          $ref: '#/components/responses/error'
+          $ref: '#/components/responses/Memo'
         '500':
-          $ref: '#/components/responses/error'
+          $ref: '#/components/responses/ServerError'
       operationId: get-memo
-      description: メモ詳細参照API
+      description: メモ詳細取得API
+      parameters:
+        - $ref: '#/components/parameters/XSRF-TOKEN'
     put:
       summary: PUT Memo
       operationId: put-memo
@@ -63,17 +67,22 @@ paths:
         '204':
           description: No Content
         '404':
-          $ref: '#/components/responses/error'
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
         '500':
-          $ref: '#/components/responses/error'
+          $ref: '#/components/responses/ServerError'
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Memo'
+            examples: {}
       description: メモ編集API
       tags:
         - Memos
+      parameters:
+        - $ref: '#/components/parameters/XSRF-TOKEN'
     delete:
       summary: DELETE Memo
       operationId: delete-memo
@@ -81,21 +90,105 @@ paths:
         '204':
           description: No Content
         '404':
-          $ref: '#/components/responses/error'
+          $ref: '#/components/responses/NotFoundError'
         '500':
-          $ref: '#/components/responses/error'
+          $ref: '#/components/responses/ServerError'
       description: メモ削除API
       tags:
         - Memos
+      parameters:
+        - $ref: '#/components/parameters/XSRF-TOKEN'
+  /login:
+    post:
+      summary: Login
+      operationId: login
+      responses:
+        '200':
+          $ref: '#/components/responses/User'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+            examples:
+              example-1:
+                value:
+                  email: dummy@email.com
+                  password: test3101
+      description: ログインAPI
+      parameters:
+        - $ref: '#/components/parameters/XSRF-TOKEN'
+  /logout:
+    post:
+      summary: Logout
+      operationId: logout
+      responses:
+        '200':
+          description: OK
+        '500':
+          $ref: '#/components/responses/ServerError'
+      tags:
+        - Auth
+      description: ログアウトAPI
+      parameters:
+        - $ref: '#/components/parameters/XSRF-TOKEN'
+  /user:
+    get:
+      summary: GET User
+      tags:
+        - Users
+      responses:
+        '200':
+          $ref: '#/components/responses/UserOptional'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      operationId: get-user
+      description: ログインユーザ取得API
+      parameters:
+        - $ref: '#/components/parameters/XSRF-TOKEN'
+  /register:
+    post:
+      summary: POST User
+      operationId: user-register
+      responses:
+        '201':
+          $ref: '#/components/responses/User'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      description: ユーザ新規登録API
+      parameters:
+        - $ref: '#/components/parameters/XSRF-TOKEN'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      tags:
+        - Auth
+        - Users
 components:
   schemas:
     Memo:
       $ref: ./models/memo.v1.json
     Error:
       $ref: ./models/error.v1.json
+    User:
+      $ref: ./models/user.v1.json
+    UserLogin:
+      $ref: ./models/user-login.v1.json
+    UserOptional:
+      $ref: ./models/user-optional.v1.json
   responses:
-    memos:
-      description: メモ一覧参照レスポンス
+    Memos:
+      description: メモ一覧情報レスポンス
       content:
         application/json:
           schema:
@@ -104,40 +197,71 @@ components:
             items:
               $ref: '#/components/schemas/Memo'
           examples: {}
-    memo:
-      description: メモ詳細参照レスポンス
+    Memo:
+      description: メモ詳細情報レスポンス
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Memo'
-    error:
-      description: エラーレスポンス
+    User:
+      description: ユーザ情報レスポンス
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+    ValidationError:
+      description: |-
+        UNPROCESSABLE_ENTITY：422
+        バリデーションエラー
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
           examples:
-            '404':
+            '422':
               value:
-                message: リクエストされたリソースが見つかりませんでした。リソース識別子をご確認ください。
+                message: The given data was invalid.
+                errors:
+                  email: ログインできません。入力した情報に誤りがないかご確認ください。
+    ServerError:
+      description: |-
+        INTERNAL_SERVER_ERROR：500
+        サーバエラー
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
             '500':
               value:
-                message: システムエラーが発生しました。恐れ入りますが再度やり直してください。
+                message: Server Error
+    UnAuthorizedError:
+      description: |-
+        UNAUTHORIZED：419
+        認証エラー
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            '419':
+              value:
+                message: Unauthenticated.
+    NotFoundError:
+      description: |-
+        NOT_FOUND：404
+        リソースが見つからないエラー
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UserOptional:
+      description: ユーザ情報レスポンス（ログイン時：ログインユーザを返す　未ログイン時：nullを返す）
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserOptional'
   parameters:
-    limit:
-      name: limit
-      in: query
-      required: false
-      schema:
-        type: integer
-      description: レコード取得件数
-    offset:
-      name: offset
-      in: query
-      required: false
-      schema:
-        type: integer
-      description: レコード取得開始位置
     memo_id:
       name: memo_id
       in: path
@@ -146,6 +270,22 @@ components:
         type: string
         format: uuid
       description: メモID
+    XSRF-TOKEN:
+      name: XSRF-TOKEN
+      in: cookie
+      required: true
+      schema:
+        type: string
+      description: CSRF対策
+    page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: number
+      description: ページ数
+  securitySchemes: {}
 tags:
   - name: Memos
   - name: Users
+  - name: Auth
