@@ -71,6 +71,13 @@ class RegisterController extends Controller
         ]);
     }
 
+     /**
+     * ユーザ新規登録API レスポンスカスタマイズ用メソッド
+     *
+     * @param Illuminate\Http\Request $request
+     * @param \App\User $user
+     * @return \App\User
+     */
     protected function registered(Request $request, $user)
     {
         return $user;

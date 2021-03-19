@@ -27,6 +27,11 @@ $ make init
 $ make install-recommend-packages
 ```
 
+入力補完のヘルパーファイル作成
+```
+$ make ide-helper
+```
+
 フロント側のライブラリインストール
 ```
 $ make yarn

@@ -1,0 +1,27 @@
+{
+  "title": "user.v1",
+  "x-examples": {},
+  "description": "ユーザ情報モデル",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "ユーザ名"
+    },
+    "email": {
+      "type": "string",
+      "description": "メールアドレス",
+      "writeOnly": true
+    },
+    "password": {
+      "type": "string",
+      "description": "パスワード",
+      "writeOnly": true
+    }
+  },
+  "required": [
+    "name",
+    "email",
+    "password"
+  ]
+}
