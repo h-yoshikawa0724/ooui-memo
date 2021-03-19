@@ -1,7 +1,16 @@
 {
   "title": "memo",
   "type": "object",
-  "x-examples": {},
+  "x-examples": {
+    "example-1": {
+      "memo_id": "47ffb9e6-a785-4a4f-8754-8284247bce4a",
+      "user_id": "a169451c-8525-4352-b8ca-070dd449a1a5",
+      "title": "string",
+      "content": "string",
+      "created_at": "2019-08-24T14:15:22Z",
+      "updated_at": "2019-08-24T14:15:22Z"
+    }
+  },
   "properties": {
     "memo_id": {
       "type": "string",

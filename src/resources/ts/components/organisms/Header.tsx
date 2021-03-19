@@ -1,6 +1,4 @@
-import React, { FC, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
-import axios from 'axios';
+import React, { FC } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,24 +6,20 @@ import Typography from '@material-ui/core/Typography';
 import useTheme from '@material-ui/core/styles/useTheme';
 
 type Props = {
-  logined: boolean;
+  userName?: string;
+  handleLogout: VoidFunction;
 };
 
-const Header: FC<Props> = ({ logined }) => {
-  const history = useHistory();
+const Header: FC<Props> = ({ userName, handleLogout }) => {
   const theme = useTheme();
-
-  const handleLogout = useCallback(async () => {
-    await axios.post('/api/logout').then((response) => {
-      history.push('/login');
-    });
-  }, [history]);
-
   return (
     <>
       <AppBar
         position="sticky"
-        style={{ color: theme.palette.text.primary, backgroundColor: 'white' }}
+        style={{
+          color: theme.palette.text.primary,
+          backgroundColor: 'white',
+        }}
       >
         <Toolbar>
           <Typography
@@ -36,10 +30,13 @@ const Header: FC<Props> = ({ logined }) => {
           >
             OOUI-MEMO
           </Typography>
-          {logined && (
-            <Button type="button" onClick={handleLogout}>
-              ログアウト
-            </Button>
+          {userName && (
+            <>
+              <Typography>{userName}</Typography>
+              <Button type="button" onClick={handleLogout}>
+                ログアウト
+              </Button>
+            </>
           )}
         </Toolbar>
       </AppBar>

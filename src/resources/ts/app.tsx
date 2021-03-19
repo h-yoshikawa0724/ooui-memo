@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
+import { QueryClient, QueryClientProvider, useQueryClient } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
-import Login from './components/templates/Login';
-import Memo from './components/templates/Memo';
+import Login from './containers/pages/Login';
+import Memo from './containers/pages/Memo';
+import { useGetUserQuery, useCurrentUser } from './hooks/user';
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -19,21 +28,74 @@ require('./bootstrap');
  */
 // require('./components/Example');
 
-const App: React.FC = () => (
-  <Switch>
-    <Route exact path="/login">
-      <Login />
-    </Route>
-    <Route exact path="/">
-      <Memo />
-    </Route>
-  </Switch>
-);
+const client = new QueryClient();
+
+type Props = {
+  exact?: boolean;
+  path: string;
+  children: React.ReactNode;
+};
+
+const UnAuthRoute: FC<Props> = ({ exact = false, path, children }) => {
+  const user = useCurrentUser();
+  return (
+    <Route
+      exact={exact}
+      path={path}
+      render={() => (user ? <Redirect to={{ pathname: '/' }} /> : children)}
+    />
+  );
+};
+
+const AuthRoute: FC<Props> = ({ exact = false, path, children }) => {
+  const user = useCurrentUser();
+  return (
+    <Route
+      exact={exact}
+      path={path}
+      render={({ location }) =>
+        user ? (
+          children
+        ) : (
+          <Redirect to={{ pathname: '/login', state: { from: location } }} />
+        )
+      }
+    />
+  );
+};
+
+const App: FC = () => {
+  const queryClient = useQueryClient();
+  useGetUserQuery({
+    retry: 0,
+    initialData: undefined,
+    onError: () => {
+      queryClient.setQueryData('user', null);
+    },
+  });
+
+  return (
+    <Switch>
+      <UnAuthRoute exact path="/login">
+        <Login />
+      </UnAuthRoute>
+      <AuthRoute exact path="/">
+        <Memo />
+      </AuthRoute>
+    </Switch>
+  );
+};
 
 if (document.getElementById('app')) {
   ReactDOM.render(
     <Router>
-      <App />
+      <QueryClientProvider client={client}>
+        <CssBaseline />
+        <App />
+        {process.env.NODE_ENV === 'development' && (
+          <ReactQueryDevtools initialIsOpen={false} />
+        )}
+      </QueryClientProvider>
     </Router>,
     document.getElementById('app')
   );

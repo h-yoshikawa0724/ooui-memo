@@ -13,8 +13,9 @@ class RegisterApiTest extends TestCase
 
     /**
      * @test
+     * ユーザ新規登録できるか
      */
-    public function registerTest()
+    public function testRegister()
     {
         $data = [
             'name' => 'ooui-memo user',
