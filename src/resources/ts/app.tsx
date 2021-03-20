@@ -12,6 +12,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Login from './containers/pages/Login';
 import Memo from './containers/pages/Memo';
+import Loding from './components/pages/Loding';
 import { useGetUserQuery, useCurrentUser } from './hooks/user';
 
 /**
@@ -66,13 +67,17 @@ const AuthRoute: FC<Props> = ({ exact = false, path, children }) => {
 
 const App: FC = () => {
   const queryClient = useQueryClient();
-  useGetUserQuery({
+  const { isLoading } = useGetUserQuery({
     retry: 0,
     initialData: undefined,
     onError: () => {
       queryClient.setQueryData('user', null);
     },
   });
+
+  if (isLoading) {
+    return <Loding />;
+  }
 
   return (
     <Switch>
