@@ -7,8 +7,8 @@ const getLoginUser = async (): Promise<User> => {
   return data;
 };
 
-const useGetUserQuery = <TData = User | string>(
-  options?: UseQueryOptions<User | string, AxiosError, TData>
+const useGetUserQuery = <TData = User>(
+  options?: UseQueryOptions<User, AxiosError, TData>
 ): QueryObserverResult<TData, AxiosError> =>
   useQuery('user', getLoginUser, options);
 
