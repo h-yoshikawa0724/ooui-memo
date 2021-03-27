@@ -25,4 +25,13 @@ class Memo extends Model
     protected $visible = [
         'memo_id', 'title', 'content', 'created_at', 'updated_at'
     ];
+
+    /**
+     * リレーション - users
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'user_id', 'user_id', 'users');
+    }
 }
