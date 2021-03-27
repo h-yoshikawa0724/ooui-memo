@@ -24,7 +24,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
         - $ref: '#/components/parameters/page'
-      description: メモ一覧取得API
+      description: メモ一覧取得API（1ページつき50件）
     post:
       summary: POST Memo
       operationId: post-memos
