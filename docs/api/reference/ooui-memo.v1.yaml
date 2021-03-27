@@ -24,7 +24,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
         - $ref: '#/components/parameters/page'
-      description: メモ一覧取得API（1ページつき50件）
+      description: |
+        （ログインユーザの）メモ一覧取得API（1ページつき50件）
     post:
       summary: POST Memo
       operationId: post-memos
@@ -60,10 +61,12 @@ paths:
           $ref: '#/components/responses/Memo'
         '401':
           $ref: '#/components/responses/UnAuthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
         '500':
           $ref: '#/components/responses/ServerError'
       operationId: get-memo
-      description: メモ詳細取得API
+      description: （ログインユーザの）メモ詳細取得API
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
     put:
@@ -260,7 +263,7 @@ components:
     NotFoundError:
       description: |-
         NOT_FOUND：404
-        リソースが見つからないエラー
+        リソースが見つからないエラー（ログインユーザ以外のユーザのリソースアクセスもこれに該当）
       content:
         application/json:
           schema:

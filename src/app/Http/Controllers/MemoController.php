@@ -30,4 +30,22 @@ class MemoController extends Controller
 
         return $memos;
     }
+
+    /**
+     * （ログインユーザの）メモ詳細取得API
+     *
+     * @param string $memo_id
+     * @return \App\Memo
+     */
+    public function show(string $memo_id)
+    {
+        $memo = Memo::findOrFail($memo_id);
+
+        $user = Auth::user();
+        if ($memo->user_id !== $user->user_id) {
+            return abort(404);
+        };
+
+        return $memo;
+    }
 }
