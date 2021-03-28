@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Memo;
+use App\Http\Requests\MemoRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -47,5 +48,24 @@ class MemoController extends Controller
         };
 
         return $memo;
+    }
+
+    /**
+     * （ログインユーザで）メモ新規作成API
+     *
+     * @param MemoRequest $request
+     * @return \App\Memo
+     */
+    public function create(MemoRequest $request)
+    {
+        $memo = new Memo();
+        $memo->title = $request->title;
+        $memo->content = $request->content;
+
+        /** @var App\User $user */
+        $user = Auth::user();
+        $user->memos()->save($memo);
+
+        return response($memo, 201);
     }
 }
