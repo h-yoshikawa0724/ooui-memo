@@ -54,7 +54,7 @@ class MemoController extends Controller
      * （ログインユーザで）メモ作成API
      *
      * @param MemoRequest $request
-     * @return \App\Memo
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
     public function create(MemoRequest $request)
     {
@@ -74,7 +74,7 @@ class MemoController extends Controller
      *
      * @param MemoRequest $request
      * @param string $memo_id
-     * @return \App\Memo
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
     public function update(MemoRequest $request, string $memo_id)
     {
@@ -90,5 +90,25 @@ class MemoController extends Controller
         $memo->save();
 
         return response($memo, 200);
+    }
+
+    /**
+     * （ログインユーザで）メモ削除API
+     *
+     * @param string $memo_id
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function delete(string $memo_id)
+    {
+        $memo = Memo::findOrFail($memo_id);
+
+        $user = Auth::user();
+        if ($memo->user_id !== $user->user_id) {
+            return abort(404);
+        };
+
+        $memo->delete();
+
+        return response(null, 204);
     }
 }
