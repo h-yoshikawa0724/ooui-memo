@@ -2,23 +2,43 @@
   "title": "error",
   "type": "object",
   "description": "エラー情報モデル",
+  "x-examples": {},
   "properties": {
     "message": {
       "type": "string",
       "description": "エラーメッセージ"
     },
     "errors": {
-      "type": "object",
       "description": "エラー詳細",
-      "properties": {
-        "email": {
-          "type": "string"
+      "anyOf": [
+        {
+          "properties": {
+            "email": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "properties": {
+            "title": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "content": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
         }
-      }
+      ],
+      "type": "object"
     }
   },
   "required": [
     "message"
-  ],
-  "x-examples": {}
+  ]
 }

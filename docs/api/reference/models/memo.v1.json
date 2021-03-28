@@ -11,18 +11,13 @@
       "updated_at": "2019-08-24T14:15:22Z"
     }
   },
+  "description": "メモ情報モデル",
   "properties": {
     "memo_id": {
       "type": "string",
-      "readOnly": true,
       "format": "uuid",
-      "description": "メモID"
-    },
-    "user_id": {
-      "type": "string",
-      "readOnly": true,
-      "format": "uuid",
-      "description": "ユーザID"
+      "description": "メモID",
+      "readOnly": true
     },
     "title": {
       "type": "string",
@@ -36,22 +31,20 @@
     },
     "created_at": {
       "type": "string",
-      "readOnly": true,
       "description": "作成日時",
-      "format": "date-time"
+      "format": "date-time",
+      "readOnly": true
     },
     "updated_at": {
       "type": "string",
-      "readOnly": true,
       "description": "更新日時",
-      "format": "date-time"
+      "format": "date-time",
+      "readOnly": true
     }
   },
   "required": [
     "memo_id",
-    "user_id",
     "created_at",
     "updated_at"
-  ],
-  "description": "メモ情報モデル"
+  ]
 }

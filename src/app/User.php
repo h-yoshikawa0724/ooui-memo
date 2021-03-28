@@ -38,4 +38,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+     /**
+     * リレーション - Memo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function memos()
+    {
+        return $this->hasMany('App\Memo', 'user_id');
+    }
 }

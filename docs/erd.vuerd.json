@@ -112,7 +112,7 @@
           {
             "name": "content",
             "comment": "メモ内容",
-            "dataType": "VARCHAR(21844)",
+            "dataType": "TEXT",
             "default": "NULL",
             "option": {
               "autoIncrement": false,
@@ -127,7 +127,7 @@
               "pfk": false,
               "widthName": 60,
               "widthComment": 60,
-              "widthDataType": 116,
+              "widthDataType": 60,
               "widthDefault": 60
             },
             "id": "3f9d685c-4b1b-7bee-0d66-b87fcc2cdcb4"
@@ -183,7 +183,7 @@
           "active": false,
           "left": 713.5999999999999,
           "top": 246.40000000000026,
-          "zIndex": 296,
+          "zIndex": 362,
           "widthName": 60,
           "widthComment": 60
         },
