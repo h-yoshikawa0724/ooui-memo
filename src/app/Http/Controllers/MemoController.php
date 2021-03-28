@@ -51,7 +51,7 @@ class MemoController extends Controller
     }
 
     /**
-     * （ログインユーザで）メモ新規作成API
+     * （ログインユーザで）メモ作成API
      *
      * @param MemoRequest $request
      * @return \App\Memo
@@ -67,5 +67,28 @@ class MemoController extends Controller
         $user->memos()->save($memo);
 
         return response($memo, 201);
+    }
+
+    /**
+     * （ログインユーザで）メモ更新API
+     *
+     * @param MemoRequest $request
+     * @param string $memo_id
+     * @return \App\Memo
+     */
+    public function update(MemoRequest $request, string $memo_id)
+    {
+        $memo = Memo::findOrFail($memo_id);
+
+        $user = Auth::user();
+        if ($memo->user_id !== $user->user_id) {
+            return abort(404);
+        };
+
+        $memo->title = $request->title;
+        $memo->content = $request->content;
+        $memo->save();
+
+        return response($memo, 200);
     }
 }
