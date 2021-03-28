@@ -231,11 +231,19 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
           examples:
-            '422':
+            422(ログインAPI):
               value:
                 message: The given data was invalid.
                 errors:
                   email: ログインできません。入力した情報に誤りがないかご確認ください。
+            422(メモ新規作成・更新API):
+              value:
+                message: string
+                errors:
+                  title:
+                    - メモタイトルの最大文字数100を超えています。
+                  content:
+                    - メモ内容の最大文字数65535を超えています。
     ServerError:
       description: |-
         INTERNAL_SERVER_ERROR：500
