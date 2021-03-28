@@ -27,11 +27,11 @@ class Memo extends Model
     ];
 
     /**
-     * リレーション - users
+     * リレーション - User
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
-        return $this->belongsTo('App\User', 'user_id', 'user_id', 'users');
+        return $this->belongsTo('App\User', 'user_id', 'user_id');
     }
 }

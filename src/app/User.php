@@ -40,11 +40,11 @@ class User extends Authenticatable
     ];
 
      /**
-     * リレーション - Memos
+     * リレーション - Memo
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function memos()
     {
-        return $this->hasMany('App\Memo');
+        return $this->hasMany('App\Memo', 'user_id');
     }
 }
