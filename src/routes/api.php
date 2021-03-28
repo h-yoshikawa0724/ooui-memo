@@ -21,3 +21,4 @@ Route::get('/users/me', 'UserController@show')->name('user');
 Route::get('/memos', 'MemoController@index')->name('memo.index');
 Route::get('/memos/{memo_id}', 'MemoController@show')->name('memo.show');
 Route::post('/memos', 'MemoController@create')->name('memo.create');
+Route::patch('/memos/{memo_id}', 'MemoController@update')->name('memo.update');

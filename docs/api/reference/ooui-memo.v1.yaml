@@ -31,7 +31,7 @@ paths:
       operationId: post-memos
       responses:
         '201':
-          description: Created
+          $ref: '#/components/responses/Memo'
         '401':
           $ref: '#/components/responses/UnAuthorizedError'
         '422':
@@ -69,31 +69,6 @@ paths:
       description: （ログインユーザの）メモ詳細取得API
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
-    put:
-      summary: PUT Memo
-      operationId: put-memo
-      responses:
-        '204':
-          description: No Content
-        '401':
-          $ref: '#/components/responses/UnAuthorizedError'
-        '404':
-          $ref: '#/components/responses/NotFoundError'
-        '422':
-          $ref: '#/components/responses/ValidationError'
-        '500':
-          $ref: '#/components/responses/ServerError'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Memo'
-            examples: {}
-      description: メモ編集API
-      tags:
-        - Memos
-      parameters:
-        - $ref: '#/components/parameters/XSRF-TOKEN'
     delete:
       summary: DELETE Memo
       operationId: delete-memo
@@ -111,6 +86,30 @@ paths:
         - Memos
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
+    patch:
+      summary: PATCH Memo
+      operationId: patch-memo
+      responses:
+        '200':
+          $ref: '#/components/responses/Memo'
+        '401':
+          $ref: '#/components/responses/UnAuthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      description: メモ更新API
+      parameters:
+        - $ref: '#/components/parameters/XSRF-TOKEN'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Memo'
+      tags:
+        - Memos
   /login:
     post:
       summary: Login
