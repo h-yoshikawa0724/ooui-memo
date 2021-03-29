@@ -3,18 +3,26 @@ import { Box, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
 type Props = {
-  handleSelectItem: VoidFunction;
+  memoId: string;
+  title: string;
+  content: string;
+  handleSelectItem: (memoId: string) => void;
 };
 
-const MemoListItem: FC<Props> = ({ handleSelectItem }) => (
-  <ListItem button onClick={handleSelectItem}>
+const MemoListItem: FC<Props> = ({
+  memoId,
+  title,
+  content,
+  handleSelectItem,
+}) => (
+  <ListItem button onClick={() => handleSelectItem(memoId)}>
     <ListItemIcon>
       <AssignmentIcon />
     </ListItemIcon>
     <Box overflow="hidden">
       <ListItemText
-        primary="Single-line item"
-        secondary="Secondary text Secondary text Secondary text Secondary"
+        primary={title}
+        secondary={content}
         primaryTypographyProps={{
           noWrap: true,
         }}
