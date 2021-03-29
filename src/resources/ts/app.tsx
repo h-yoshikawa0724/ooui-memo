@@ -84,7 +84,7 @@ const App: FC = () => {
       <UnAuthRoute exact path="/login">
         <Login />
       </UnAuthRoute>
-      <AuthRoute exact path="/">
+      <AuthRoute path="/:memoId?">
         <Memo />
       </AuthRoute>
     </Switch>
