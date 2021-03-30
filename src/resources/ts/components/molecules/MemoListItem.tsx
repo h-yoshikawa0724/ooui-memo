@@ -15,7 +15,7 @@ const MemoListItem: FC<Props> = ({
   content,
   handleSelectItem,
 }) => (
-  <ListItem button key={memoId} onClick={() => handleSelectItem(memoId)}>
+  <ListItem button onClick={() => handleSelectItem(memoId)}>
     <ListItemIcon>
       <AssignmentIcon />
     </ListItemIcon>
