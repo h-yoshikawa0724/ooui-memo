@@ -3,7 +3,7 @@ import { Box, Typography } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 
 type Props = {
-  contentCount: number;
+  contentCount?: number;
 };
 
 const MemoFooter: FC<Props> = ({ contentCount }) => {

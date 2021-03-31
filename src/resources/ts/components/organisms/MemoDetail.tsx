@@ -3,16 +3,16 @@ import { Box, Input } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import MemoDetailHeader from '../molecules/MemoDetailHeader';
 import MemoDetailFooter from '../molecules/MemoDetailFooter';
+import { Memo } from '../../models/Memo';
 
 type Props = {
+  memo?: Memo;
   handleBack: VoidFunction;
   handleDeleteMemo: VoidFunction;
 };
 
-const MemoDetail: FC<Props> = ({ handleBack, handleDeleteMemo }) => {
+const MemoDetail: FC<Props> = ({ memo, handleBack, handleDeleteMemo }) => {
   const theme = useTheme();
-  const text =
-    'テキストテスト <br />テキストテスト\nテキストテスト テキストテスト テキストテスト';
   return (
     <>
       <MemoDetailHeader
@@ -28,6 +28,7 @@ const MemoDetail: FC<Props> = ({ handleBack, handleDeleteMemo }) => {
           disableUnderline
           fullWidth
           multiline
+          value={memo?.title}
           inputProps={{ 'aria-label': 'memo-title' }}
           style={theme.typography.h4}
         />
@@ -37,12 +38,12 @@ const MemoDetail: FC<Props> = ({ handleBack, handleDeleteMemo }) => {
             disableUnderline
             fullWidth
             multiline
-            value={text}
+            value={memo?.content}
             inputProps={{ 'aria-label': 'memo-note' }}
             style={{ whiteSpace: 'pre-wrap' }}
           />
         </Box>
-        <MemoDetailFooter contentCount={text.length} />
+        <MemoDetailFooter contentCount={memo?.content.length} />
       </Box>
     </>
   );
