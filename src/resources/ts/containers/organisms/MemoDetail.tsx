@@ -8,7 +8,7 @@ type Props = {
 };
 
 const EnhancedMemoDetail: FC<Props> = ({ memoId }) => {
-  const { data: memo } = useGetMemoQuery(memoId, {
+  const { data: memo, isLoading } = useGetMemoQuery(memoId, {
     enabled: !!memoId,
   });
 
@@ -25,6 +25,7 @@ const EnhancedMemoDetail: FC<Props> = ({ memoId }) => {
   return (
     <MemoDetail
       memo={memo}
+      isLoading={isLoading}
       handleBack={handleBack}
       handleDeleteMemo={handleDeleteMemo}
     />
