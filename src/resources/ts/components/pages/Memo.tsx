@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type Props = {
-  memoId?: string;
+  memoId: string;
 };
 
 const MemoBody: FC<Props> = ({ memoId }) => {
@@ -41,7 +41,7 @@ const MemoBody: FC<Props> = ({ memoId }) => {
         flexGrow={2}
         className={!selectedMemo ? classes.display : ''}
       >
-        <MemoDetail />
+        <MemoDetail memoId={memoId} />
       </Box>
     </Box>
   );

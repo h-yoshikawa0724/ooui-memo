@@ -1,8 +1,17 @@
 import React, { FC, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import MemoDetail from '../../components/organisms/MemoDetail';
+import { useGetMemoQuery } from '../../hooks/memo';
 
-const EnhancedMemoDetail: FC = () => {
+type Props = {
+  memoId: string;
+};
+
+const EnhancedMemoDetail: FC<Props> = ({ memoId }) => {
+  const { data: memo } = useGetMemoQuery(memoId, {
+    enabled: !!memoId,
+  });
+
   const history = useHistory();
   const handleBack = useCallback(() => {
     history.push('/');
@@ -14,7 +23,11 @@ const EnhancedMemoDetail: FC = () => {
   }, []);
 
   return (
-    <MemoDetail handleBack={handleBack} handleDeleteMemo={handleDeleteMemo} />
+    <MemoDetail
+      memo={memo}
+      handleBack={handleBack}
+      handleDeleteMemo={handleDeleteMemo}
+    />
   );
 };
 
