@@ -1,5 +1,8 @@
 import React, { FC } from 'react';
-import { Box, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
 type Props = {

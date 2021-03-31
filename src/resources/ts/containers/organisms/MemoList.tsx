@@ -6,11 +6,14 @@ import { useIntersectionObserver } from '../../hooks/util';
 
 const EnhancedMemoList: FC = () => {
   const {
-    data,
+    isLoading,
+    error,
+    data: paginateMemos,
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
   } = useGetMemoListQuery();
+  const statusCode = error?.response?.status;
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
   useIntersectionObserver({
@@ -34,7 +37,9 @@ const EnhancedMemoList: FC = () => {
 
   return (
     <MemoList
-      listData={data?.pages}
+      paginateMemos={paginateMemos?.pages}
+      isLoading={isLoading}
+      statusCode={statusCode}
       loadMoreRef={loadMoreRef}
       hasNextPage={hasNextPage}
       isFetchingNextPage={isFetchingNextPage}

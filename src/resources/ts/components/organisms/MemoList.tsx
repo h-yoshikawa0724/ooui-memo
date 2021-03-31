@@ -1,12 +1,18 @@
 import React, { FC } from 'react';
+import Alert from '@material-ui/lab/Alert';
+import AlertTitle from '@material-ui/lab/AlertTitle';
 import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
 import MemoListHeader from '../molecules/MemoListHeader';
 import MemoListItem from '../molecules/MemoListItem';
+import MemoListItemSkeleton from '../molecules/MemoListItemSkeleton';
+import { INTERNAL_SERVER_ERROR } from '../../constants/statusCode';
 import { Memos } from '../../models/Memos';
 
 type Props = {
-  listData?: Memos[];
+  paginateMemos?: Memos[];
+  isLoading: boolean;
+  statusCode?: number;
   loadMoreRef: React.RefObject<HTMLDivElement>;
   hasNextPage?: boolean;
   isFetchingNextPage: boolean;
@@ -15,13 +21,42 @@ type Props = {
 };
 
 const MemoList: FC<Props> = ({
-  listData,
+  paginateMemos,
+  isLoading,
+  statusCode,
   loadMoreRef,
   hasNextPage,
   isFetchingNextPage,
   handleAddMemo,
   handleSelectItem,
 }) => {
+  if (isLoading) {
+    return (
+      <>
+        <Box height={48} px={2} />
+        <List style={{ maxHeight: 'calc(100vh - 140px)' }}>
+          {[1, 2, 3, 4, 5].map((value) => (
+            <MemoListItemSkeleton value={value} />
+          ))}
+        </List>
+      </>
+    );
+  }
+
+  if (statusCode) {
+    return (
+      <>
+        <Box height={48} px={2} />
+        {statusCode === INTERNAL_SERVER_ERROR && (
+          <Alert severity="error">
+            <AlertTitle>サーバエラー</AlertTitle>
+            予期しないエラーが発生し、メモデータ取得に失敗しました。恐れ入りますが時間をおいて再度お試しください。
+          </Alert>
+        )}
+      </>
+    );
+  }
+
   let loadMoreMessage;
   if (isFetchingNextPage) {
     loadMoreMessage = '読み込み中...';
@@ -33,7 +68,7 @@ const MemoList: FC<Props> = ({
     <>
       <MemoListHeader handleAddMemo={handleAddMemo} />
       <List style={{ maxHeight: 'calc(100vh - 140px)', overflowY: 'scroll' }}>
-        {listData?.map((page) => (
+        {paginateMemos?.map((page) => (
           <React.Fragment key={page.currentPage}>
             {page.data.map((memo) => (
               <MemoListItem
