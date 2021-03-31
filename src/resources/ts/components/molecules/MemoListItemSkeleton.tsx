@@ -5,12 +5,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Skeleton from '@material-ui/lab/Skeleton';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
-type Props = {
-  value: number;
-};
-
-const MemoListItemSkeleton: FC<Props> = ({ value }) => (
-  <ListItem key={value}>
+const MemoListItemSkeleton: FC = () => (
+  <ListItem>
     <ListItemIcon>
       <Skeleton>
         <AssignmentIcon />

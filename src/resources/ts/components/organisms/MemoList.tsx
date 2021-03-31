@@ -62,9 +62,7 @@ const MemoList: FC<Props> = ({
       )}
       <List style={{ maxHeight: 'calc(100vh - 140px)', overflowY: 'scroll' }}>
         {isLoading
-          ? [1, 2, 3, 4, 5].map((value) => (
-              <MemoListItemSkeleton value={value} />
-            ))
+          ? [1, 2, 3, 4, 5].map((value) => <MemoListItemSkeleton key={value} />)
           : paginateMemos?.map((page) => (
               <React.Fragment key={page.currentPage}>
                 {page.data.map((memo) => (
