@@ -8,9 +8,10 @@ type Props = {
 };
 
 const EnhancedMemoDetail: FC<Props> = ({ memoId }) => {
-  const { data: memo, isLoading } = useGetMemoQuery(memoId, {
+  const { isLoading, error, data: memo } = useGetMemoQuery(memoId, {
     enabled: !!memoId,
   });
+  const statusCode = error?.response?.status;
 
   const history = useHistory();
   const handleBack = useCallback(() => {
@@ -26,6 +27,7 @@ const EnhancedMemoDetail: FC<Props> = ({ memoId }) => {
     <MemoDetail
       memo={memo}
       isLoading={isLoading}
+      statusCode={statusCode}
       handleBack={handleBack}
       handleDeleteMemo={handleDeleteMemo}
     />
