@@ -30,19 +30,6 @@ const MemoList: FC<Props> = ({
   handleAddMemo,
   handleSelectItem,
 }) => {
-  if (isLoading) {
-    return (
-      <>
-        <Box height={48} px={2} />
-        <List style={{ maxHeight: 'calc(100vh - 140px)' }}>
-          {[1, 2, 3, 4, 5].map((value) => (
-            <MemoListItemSkeleton value={value} />
-          ))}
-        </List>
-      </>
-    );
-  }
-
   if (statusCode) {
     return (
       <>
@@ -64,23 +51,33 @@ const MemoList: FC<Props> = ({
     loadMoreMessage = hasNextPage ? '続きを読み込む' : ' ';
   }
 
+  // エラー時の描画内容のように、ローディング時の描画内容は先に書いておいて return させたかったが、
+  // loadMoreRef を持つ Box コンポーネントが最初からないと無限スクロールが動作しなくなるので、こういう書き方にした
   return (
     <>
-      <MemoListHeader handleAddMemo={handleAddMemo} />
+      {isLoading ? (
+        <Box height={48} px={2} />
+      ) : (
+        <MemoListHeader handleAddMemo={handleAddMemo} />
+      )}
       <List style={{ maxHeight: 'calc(100vh - 140px)', overflowY: 'scroll' }}>
-        {paginateMemos?.map((page) => (
-          <React.Fragment key={page.currentPage}>
-            {page.data.map((memo) => (
-              <MemoListItem
-                key={memo.memoId}
-                memoId={memo.memoId}
-                title={memo.title}
-                content={memo.content}
-                handleSelectItem={handleSelectItem}
-              />
+        {isLoading
+          ? [1, 2, 3, 4, 5].map((value) => (
+              <MemoListItemSkeleton value={value} />
+            ))
+          : paginateMemos?.map((page) => (
+              <React.Fragment key={page.currentPage}>
+                {page.data.map((memo) => (
+                  <MemoListItem
+                    key={memo.memoId}
+                    memoId={memo.memoId}
+                    title={memo.title}
+                    content={memo.content}
+                    handleSelectItem={handleSelectItem}
+                  />
+                ))}
+              </React.Fragment>
             ))}
-          </React.Fragment>
-        ))}
         <Box {...{ ref: loadMoreRef }} textAlign="center">
           {loadMoreMessage}
         </Box>
