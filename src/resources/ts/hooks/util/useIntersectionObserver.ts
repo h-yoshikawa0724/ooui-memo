@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { FetchNextPageOptions, InfiniteQueryObserverResult } from 'react-query';
 import { AxiosError } from 'axios';
 
 type Argument = {
   root?: React.RefObject<HTMLElement> | null;
-  target: React.RefObject<HTMLElement>;
   onIntersect: (
     options?: FetchNextPageOptions | undefined
   ) => Promise<InfiniteQueryObserverResult<unknown, AxiosError>>;
@@ -13,14 +12,26 @@ type Argument = {
   enabled?: boolean;
 };
 
+type Response = {
+  loadMoreRef: (node: Element) => void;
+};
+
 const useIntersectionObserver = ({
   root,
-  target,
   onIntersect,
   threshold = 1.0,
   rootMargin = '0px',
   enabled = true,
-}: Argument): void => {
+}: Argument): Response => {
+  const [target, setTarget] = useState<Element | null>(null);
+
+  // コールバックref（呼び出し側はこれを無限スクロール検知用要素のrefに渡せばいい）
+  const loadMoreRef = useCallback((node: Element) => {
+    if (node !== null) {
+      setTarget(node);
+    }
+  }, []);
+
   const newIntersectionObserver = useCallback(
     () =>
       new IntersectionObserver(
@@ -39,12 +50,11 @@ const useIntersectionObserver = ({
     if (!enabled) {
       return;
     }
-    const el = target && target.current;
+    const el = target;
 
     if (!el) {
       return;
     }
-
     const observer = newIntersectionObserver();
 
     observer.observe(el);
@@ -54,6 +64,8 @@ const useIntersectionObserver = ({
       observer.unobserve(el);
     };
   }, [enabled, target, newIntersectionObserver]);
+
+  return { loadMoreRef };
 };
 
 export default useIntersectionObserver;

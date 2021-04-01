@@ -13,7 +13,7 @@ type Props = {
   paginateMemos?: Memos[];
   isLoading: boolean;
   statusCode?: number;
-  loadMoreRef: React.RefObject<HTMLDivElement>;
+  loadMoreRef: (node: Element) => void;
   hasNextPage?: boolean;
   isFetchingNextPage: boolean;
   handleAddMemo: VoidFunction;
@@ -30,6 +30,17 @@ const MemoList: FC<Props> = ({
   handleAddMemo,
   handleSelectItem,
 }) => {
+  if (isLoading) {
+    return (
+      <>
+        <Box height={48} px={2} />
+        {[1, 2, 3, 4, 5].map((value) => (
+          <MemoListItemSkeleton key={value} />
+        ))}
+      </>
+    );
+  }
+
   if (statusCode) {
     return (
       <>
@@ -51,31 +62,23 @@ const MemoList: FC<Props> = ({
     loadMoreMessage = hasNextPage ? '続きを読み込む' : ' ';
   }
 
-  // エラー時の描画内容のように、ローディング時の描画内容は先に書いておいて return させたかったが、
-  // loadMoreRef を持つ Box コンポーネントが最初からないと無限スクロールが動作しなくなるので、こういう書き方にした
   return (
     <>
-      {isLoading ? (
-        <Box height={48} px={2} />
-      ) : (
-        <MemoListHeader handleAddMemo={handleAddMemo} />
-      )}
+      <MemoListHeader handleAddMemo={handleAddMemo} />
       <List style={{ maxHeight: 'calc(100vh - 140px)', overflowY: 'scroll' }}>
-        {isLoading
-          ? [1, 2, 3, 4, 5].map((value) => <MemoListItemSkeleton key={value} />)
-          : paginateMemos?.map((page) => (
-              <React.Fragment key={page.currentPage}>
-                {page.data.map((memo) => (
-                  <MemoListItem
-                    key={memo.memoId}
-                    memoId={memo.memoId}
-                    title={memo.title}
-                    content={memo.content}
-                    handleSelectItem={handleSelectItem}
-                  />
-                ))}
-              </React.Fragment>
+        {paginateMemos?.map((page) => (
+          <React.Fragment key={page.currentPage}>
+            {page.data.map((memo) => (
+              <MemoListItem
+                key={memo.memoId}
+                memoId={memo.memoId}
+                title={memo.title}
+                content={memo.content}
+                handleSelectItem={handleSelectItem}
+              />
             ))}
+          </React.Fragment>
+        ))}
         <Box {...{ ref: loadMoreRef }} textAlign="center">
           {loadMoreMessage}
         </Box>
