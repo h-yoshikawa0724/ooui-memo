@@ -58,9 +58,8 @@ class MemoController extends Controller
      */
     public function create(MemoRequest $request)
     {
-        $memo = new Memo();
-        $memo->title = $request->title;
-        $memo->content = $request->content;
+        // パラメータは直接使うのでなく、フォームリクエストで加工したものを使う
+        $memo = new Memo($request->validated());
 
         /** @var App\User $user */
         $user = Auth::user();

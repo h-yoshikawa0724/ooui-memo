@@ -38,9 +38,24 @@ class MemoRequestTest extends TestCase
                 ['テスト タイトル', 'テスト 内容'],
                 false
             ],
+            'OK:空文字' => [
+                ['title', 'content'],
+                ['', ''],
+                false
+            ],
+            'NG:titleが存在しない' => [
+                ['content'],
+                ['テスト 内容'],
+                true
+            ],
             'NG:titleが文字列でない' => [
                 ['title', 'content'],
                 [123, 'テスト 内容'],
+                true
+            ],
+            'NG:titleがnull' => [
+                ['title', 'content'],
+                [null, 'テスト 内容'],
                 true
             ],
             'OK:titleが100文字以内' => [
@@ -53,9 +68,19 @@ class MemoRequestTest extends TestCase
                 [str_repeat('a', 101), 'テスト 内容'],
                 true
             ],
+            'NG:contentが存在しない' => [
+                ['title'],
+                ['テスト タイトル'],
+                true
+            ],
             'NG:contentが文字列でない' => [
                 ['title', 'content'],
                 ['テスト タイトル', 123],
+                true
+            ],
+            'NG:contentがnull' => [
+                ['title', 'content'],
+                ['テスト タイトル', null],
                 true
             ],
             'OK:contentが65535文字以内' => [
