@@ -34,7 +34,7 @@ const MemoBody: FC<Props> = ({ memoId }) => {
         flexGrow={1}
         className={selectedMemo ? classes.display : ''}
       >
-        <MemoList />
+        <MemoList memoId={memoId} />
       </Box>
       <Box
         px={{ xs: 2, sm: 4 }}

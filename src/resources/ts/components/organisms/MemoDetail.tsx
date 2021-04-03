@@ -12,6 +12,7 @@ import { Memo } from '../../models/Memo';
 
 type Props = {
   memo?: Memo;
+  isIdle: boolean;
   isLoading: boolean;
   statusCode?: number;
   handleBack: VoidFunction;
@@ -20,6 +21,7 @@ type Props = {
 
 const MemoDetail: FC<Props> = ({
   memo,
+  isIdle,
   isLoading,
   statusCode,
   handleBack,
@@ -27,7 +29,7 @@ const MemoDetail: FC<Props> = ({
 }) => {
   const theme = useTheme();
 
-  if (isLoading) {
+  if (isIdle || isLoading) {
     return (
       <>
         <Box height={48} px={2} />

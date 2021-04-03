@@ -17,7 +17,7 @@ type Props = {
   hasNextPage?: boolean;
   isFetchingNextPage: boolean;
   handleAddMemo: VoidFunction;
-  handleSelectItem: (memoId: string) => void;
+  handleSelectItem: (selectMemoId: string) => void;
 };
 
 const MemoList: FC<Props> = ({
