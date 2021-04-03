@@ -84,9 +84,8 @@ class MemoController extends Controller
             return abort(404);
         };
 
-        $memo->title = $request->title;
-        $memo->content = $request->content;
-        $memo->save();
+        // パラメータは直接使うのでなく、フォームリクエストで加工したものを使う
+        $memo->update($request->validated());
 
         return response($memo, 200);
     }
