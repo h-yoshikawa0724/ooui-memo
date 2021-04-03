@@ -204,10 +204,61 @@ components:
       content:
         application/json:
           schema:
-            type: array
             description: メモ情報の配列（※title、content は先頭30文字分のみ取得）
-            items:
-              $ref: '#/components/schemas/Memo'
+            type: object
+            properties:
+              total:
+                type: number
+                description: 総件数
+              per_page:
+                type: number
+                description: 1ページあたりの件数
+              current_page:
+                type: number
+                description: 現在のページ数
+              last_page:
+                type: number
+                description: 最後のページ数
+              first_page_url:
+                type: string
+                description: 最初のページURL
+              last_page_url:
+                type: string
+                description: 最後のページURL
+              next_page_url:
+                type: string
+                nullable: true
+                description: 次のページURL
+              prev_page_url:
+                type: string
+                nullable: true
+                description: 前のページURL
+              path:
+                type: string
+                description: 元のリクエストURL
+              from:
+                type: number
+                description: 何件数目からか
+              to:
+                type: number
+                description: 何件数までか
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Memo'
+            required:
+              - total
+              - per_page
+              - current_page
+              - last_page
+              - first_page_url
+              - last_page_url
+              - next_page_url
+              - prev_page_url
+              - path
+              - from
+              - to
+              - data
           examples: {}
     Memo:
       description: メモ詳細情報レスポンス

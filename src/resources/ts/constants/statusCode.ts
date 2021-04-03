@@ -1,3 +1,6 @@
+// リソースが見つからないエラー
+export const NOT_FOUND = 404;
+
 // バリデーションエラー
 export const UNPROCESSABLE_ENTITY = 422;
 
