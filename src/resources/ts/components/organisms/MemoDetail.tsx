@@ -12,18 +12,26 @@ import { Memo } from '../../models/Memo';
 
 type Props = {
   memo?: Memo;
+  title: string;
+  content: string;
   isIdle: boolean;
   isLoading: boolean;
   statusCode?: number;
+  handleChangeTitle: (ev: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChangeContent: (ev: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleBack: VoidFunction;
   handleDeleteMemo: VoidFunction;
 };
 
 const MemoDetail: FC<Props> = ({
   memo,
+  title,
+  content,
   isIdle,
   isLoading,
   statusCode,
+  handleChangeTitle,
+  handleChangeContent,
   handleBack,
   handleDeleteMemo,
 }) => {
@@ -76,23 +84,24 @@ const MemoDetail: FC<Props> = ({
         style={{ maxHeight: 'calc(100vh - 140px)', overflowY: 'scroll' }}
       >
         <Input
-          placeholder="タイトル"
+          placeholder="メモタイトル"
           disableUnderline
           fullWidth
-          multiline
-          value={memo?.title}
+          value={title || memo?.title}
           inputProps={{ 'aria-label': 'memo-title' }}
           style={theme.typography.h4}
+          onChange={handleChangeTitle}
         />
         <Box my={4}>
           <Input
-            placeholder="内容"
+            placeholder="メモ内容"
             disableUnderline
             fullWidth
             multiline
-            value={memo?.content}
-            inputProps={{ 'aria-label': 'memo-note' }}
+            value={content || memo?.content}
+            inputProps={{ 'aria-label': 'memo-content' }}
             style={{ whiteSpace: 'pre-wrap' }}
+            onChange={handleChangeContent}
           />
         </Box>
         <MemoDetailFooter contentCount={memo?.content.length} />
