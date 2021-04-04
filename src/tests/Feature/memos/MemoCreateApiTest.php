@@ -50,6 +50,37 @@ class MemoCreateApiTest extends TestCase
 
     /**
      * @test
+     * 空文字パラメータの時、メモ情報を新規作成できるか
+     *
+     * 空文字パラメータは、API側で受け取るとConvertEmptyStringsToNullミドルウェアによりnullに変換される
+     * それをフォームリクエストで空文字に再変換して保存しているので、そのテスト
+     */
+    public function testPostMemoNullData()
+    {
+        $data = [
+            'title' => '',
+            'content' => ''
+        ];
+
+        $response = $this->actingAs($this->user)->json('POST', route('memo.create'), $data);
+
+        $memo = Memo::first();
+        $this->assertEquals($this->user->user_id, $memo->user_id);
+        $this->assertEquals($data['title'], $memo->title);
+        $this->assertEquals($data['content'], $memo->content);
+
+        $response->assertStatus(201)
+            ->assertJson([
+                'memo_id' => $memo->memo_id,
+                'title' => $memo->title,
+                'content' => $memo->content,
+                'created_at' => $memo->created_at->format(self::DATE_TIME_FORMAT),
+                'updated_at' => $memo->updated_at->format(self::DATE_TIME_FORMAT),
+            ]);
+    }
+
+    /**
+     * @test
      * バリデーションエラー時は422になるか
      */
     public function testPostMemoValidate()

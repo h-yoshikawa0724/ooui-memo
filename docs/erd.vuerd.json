@@ -90,12 +90,12 @@
             "name": "title",
             "comment": "メモタイトル",
             "dataType": "VARCHAR(100)",
-            "default": "NULL",
+            "default": "\"\"",
             "option": {
               "autoIncrement": false,
               "primaryKey": false,
               "unique": false,
-              "notNull": false
+              "notNull": true
             },
             "ui": {
               "active": false,
@@ -113,12 +113,12 @@
             "name": "content",
             "comment": "メモ内容",
             "dataType": "TEXT",
-            "default": "NULL",
+            "default": "\"\"",
             "option": {
               "autoIncrement": false,
               "primaryKey": false,
               "unique": false,
-              "notNull": false
+              "notNull": true
             },
             "ui": {
               "active": false,
@@ -183,7 +183,7 @@
           "active": false,
           "left": 713.5999999999999,
           "top": 246.40000000000026,
-          "zIndex": 362,
+          "zIndex": 385,
           "widthName": 60,
           "widthComment": 60
         },

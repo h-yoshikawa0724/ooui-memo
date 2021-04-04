@@ -22,7 +22,7 @@ const MemoListItem: FC<Props> = ({
     <ListItemIcon>
       <AssignmentIcon />
     </ListItemIcon>
-    <Box overflow="hidden">
+    <Box height={54} overflow="hidden">
       <ListItemText
         primary={title}
         secondary={content}
