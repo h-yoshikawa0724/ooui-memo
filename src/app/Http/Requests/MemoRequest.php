@@ -17,6 +17,26 @@ class MemoRequest extends FormRequest
     }
 
     /**
+     * Get data to be validated from the request.
+     *
+     * @return array
+     */
+    public function validationData()
+    {
+        $all = parent::validationData();
+
+        // 値がnullの時は空文字を入れる
+        if (is_null($all['title'])) {
+            $all['title'] = '';
+        }
+        if (is_null($all['content'])) {
+            $all['content'] = '';
+        }
+
+        return $all;
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -24,8 +44,8 @@ class MemoRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'string|max:100',
-            'content' => 'string|max:65535'
+            'title' => 'present|string|max:100',
+            'content' => 'present|string|max:65535'
         ];
     }
 

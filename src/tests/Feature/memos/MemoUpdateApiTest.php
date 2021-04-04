@@ -56,6 +56,40 @@ class MemoUpdateApiTest extends TestCase
 
     /**
      * @test
+     * 空文字パラメータの時、メモ情報を更新できるか
+     *
+     * 空文字パラメータは、API側で受け取るとConvertEmptyStringsToNullミドルウェアによりnullに変換される
+     * それをフォームリクエストで空文字に再変換して保存しているので、そのテスト
+     */
+    public function testPatchMemoNullData()
+    {
+        $memo_id = factory(Memo::class)->create(['user_id' => $this->auth_user->user_id])->memo_id;
+
+        $data = [
+            'title' => '',
+            'content' => ''
+        ];
+
+        $response = $this->actingAs($this->auth_user)
+            ->json('PATCH', route('memo.update', ['memo_id' => $memo_id]), $data);
+
+        $memo = Memo::find($memo_id);
+        $this->assertEquals($this->auth_user->user_id, $memo->user_id);
+        $this->assertEquals($data['title'], $memo->title);
+        $this->assertEquals($data['content'], $memo->content);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'memo_id' => $memo->memo_id,
+                'title' => $memo->title,
+                'content' => $memo->content,
+                'created_at' => $memo->created_at->format(self::DATE_TIME_FORMAT),
+                'updated_at' => $memo->updated_at->format(self::DATE_TIME_FORMAT),
+            ]);
+    }
+
+    /**
+     * @test
      * 違うユーザのメモ情報を更新しようとすると404が返るか
      */
     public function testPatchMemoOtherUser()
