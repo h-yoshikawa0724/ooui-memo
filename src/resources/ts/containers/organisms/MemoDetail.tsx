@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import MemoDetail from '../../components/organisms/MemoDetail';
 import { useGetMemoQuery } from '../../hooks/memo';
@@ -18,6 +18,21 @@ const EnhancedMemoDetail: FC<Props> = ({ memoId }) => {
     history.push('/');
   }, [history]);
 
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const handleChangeTitle = useCallback(
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setTitle(ev.target.value);
+    },
+    []
+  );
+  const handleChangeContent = useCallback(
+    (ev: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setContent(ev.target.value);
+    },
+    []
+  );
+
   const handleDeleteMemo = useCallback(() => {
     // 仮
     console.log('Delete Memo');
@@ -26,9 +41,13 @@ const EnhancedMemoDetail: FC<Props> = ({ memoId }) => {
   return (
     <MemoDetail
       memo={memo}
+      title={title}
+      content={content}
       isIdle={isIdle}
       isLoading={isLoading}
       statusCode={statusCode}
+      handleChangeTitle={handleChangeTitle}
+      handleChangeContent={handleChangeContent}
       handleBack={handleBack}
       handleDeleteMemo={handleDeleteMemo}
     />
