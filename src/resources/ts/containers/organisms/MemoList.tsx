@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import MemoList from '../../components/organisms/MemoList';
-import { useGetMemoListQuery } from '../../hooks/memo';
+import { useGetMemoListQuery, usePostMemoMutation } from '../../hooks/memo';
 import { useIntersectionObserver } from '../../hooks/util';
 
 type Props = {
@@ -18,7 +18,9 @@ const EnhancedMemoList: FC<Props> = ({ memoId }) => {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-  } = useGetMemoListQuery();
+  } = useGetMemoListQuery({
+    refetchInterval: 1000,
+  });
   const history = useHistory();
   const statusCode = error?.response?.status;
 
@@ -32,15 +34,16 @@ const EnhancedMemoList: FC<Props> = ({ memoId }) => {
     }
   }, [history, paginateMemos, memoId, iswideDisplay]);
 
+  // 無限スクロール処理
   const { loadMoreRef } = useIntersectionObserver({
     onIntersect: fetchNextPage,
     enabled: hasNextPage,
   });
 
+  const { mutate } = usePostMemoMutation();
   const handleAddMemo = useCallback(() => {
-    // 仮
-    console.log('Add Memo');
-  }, []);
+    mutate({ title: '', content: '' });
+  }, [mutate]);
 
   const handleSelectItem = useCallback(
     (selectMemoId: string) => {
