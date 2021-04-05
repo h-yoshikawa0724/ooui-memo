@@ -11,7 +11,6 @@ import { NOT_FOUND, INTERNAL_SERVER_ERROR } from '../../constants/statusCode';
 import { Memo } from '../../models/Memo';
 
 type Props = {
-  memo?: Memo;
   title: string;
   content: string;
   isIdle: boolean;
@@ -24,7 +23,6 @@ type Props = {
 };
 
 const MemoDetail: FC<Props> = ({
-  memo,
   title,
   content,
   isIdle,
@@ -87,7 +85,7 @@ const MemoDetail: FC<Props> = ({
           placeholder="メモタイトル"
           disableUnderline
           fullWidth
-          value={title || memo?.title}
+          value={title}
           inputProps={{ 'aria-label': 'memo-title' }}
           style={theme.typography.h4}
           onChange={handleChangeTitle}
@@ -98,13 +96,13 @@ const MemoDetail: FC<Props> = ({
             disableUnderline
             fullWidth
             multiline
-            value={content || memo?.content}
+            value={content}
             inputProps={{ 'aria-label': 'memo-content' }}
             style={{ whiteSpace: 'pre-wrap' }}
             onChange={handleChangeContent}
           />
         </Box>
-        <MemoDetailFooter contentCount={memo?.content.length} />
+        <MemoDetailFooter contentCount={content.length} />
       </Box>
     </>
   );
