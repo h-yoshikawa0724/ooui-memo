@@ -1,23 +1,48 @@
 import React, { FC } from 'react';
-import { Box, Typography } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
+import Badge from '@material-ui/core/Badge';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(() => ({
+  decorationLine: {
+    borderImage: 'linear-gradient(0.25turn, transparent, #888, transparent)',
+    borderImageSlice: 1,
+  },
+}));
 
 type Props = {
-  contentCount?: number;
+  marginTop: number;
+  contentCount: number;
+  isUnsaved: boolean;
+  updatedAt?: Date;
 };
 
-const MemoFooter: FC<Props> = ({ contentCount }) => {
+const MemoFooter: FC<Props> = ({
+  marginTop = 0,
+  contentCount,
+  isUnsaved,
+  updatedAt,
+}) => {
+  const classes = useStyles();
   const theme = useTheme();
   return (
     <Box
-      width="100%"
-      position="fixed"
-      bottom={0}
+      mt={marginTop} // 8 × marginTop が実際にあたる値
       p={1}
       zIndex={theme.zIndex.appBar}
-      style={{ backgroundColor: 'white' }}
+      display="flex"
+      borderTop={2}
+      className={classes.decorationLine}
     >
-      <Typography color="textSecondary">{contentCount} / 65,535 字</Typography>
+      <Box flexGrow={1}>
+        <Badge color="primary" variant="dot" invisible={!isUnsaved}>
+          <Typography color="textSecondary">{updatedAt}</Typography>
+        </Badge>
+      </Box>
+      <Typography color="textSecondary">
+        {contentCount.toLocaleString()} / 65,535 字
+      </Typography>
     </Box>
   );
 };

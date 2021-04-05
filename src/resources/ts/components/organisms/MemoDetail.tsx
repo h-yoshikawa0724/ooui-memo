@@ -8,7 +8,6 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import MemoDetailHeader from '../molecules/MemoDetailHeader';
 import MemoDetailFooter from '../molecules/MemoDetailFooter';
 import { NOT_FOUND, INTERNAL_SERVER_ERROR } from '../../constants/statusCode';
-import { Memo } from '../../models/Memo';
 
 type Props = {
   title: string;
@@ -16,6 +15,8 @@ type Props = {
   isIdle: boolean;
   isLoading: boolean;
   statusCode?: number;
+  isUnsaved: boolean;
+  updatedAt?: Date;
   handleChangeTitle: (ev: React.ChangeEvent<HTMLInputElement>) => void;
   handleChangeContent: (ev: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleBack: VoidFunction;
@@ -28,6 +29,8 @@ const MemoDetail: FC<Props> = ({
   isIdle,
   isLoading,
   statusCode,
+  isUnsaved,
+  updatedAt,
   handleChangeTitle,
   handleChangeContent,
   handleBack,
@@ -72,14 +75,18 @@ const MemoDetail: FC<Props> = ({
   }
 
   return (
-    <>
+    <Box height={1} display="flex" flexDirection="column">
       <MemoDetailHeader
         handleBack={handleBack}
         handleDeleteMemo={handleDeleteMemo}
       />
       <Box
         py={2}
-        style={{ maxHeight: 'calc(100vh - 140px)', overflowY: 'scroll' }}
+        style={{
+          maxHeight: 'calc(100vh - 180px)',
+          overflowY: 'scroll',
+          flexGrow: 1,
+        }}
       >
         <Input
           placeholder="メモタイトル"
@@ -102,9 +109,14 @@ const MemoDetail: FC<Props> = ({
             onChange={handleChangeContent}
           />
         </Box>
-        <MemoDetailFooter contentCount={content.length} />
       </Box>
-    </>
+      <MemoDetailFooter
+        marginTop={1}
+        contentCount={content.length}
+        isUnsaved={isUnsaved}
+        updatedAt={updatedAt}
+      />
+    </Box>
   );
 };
 
