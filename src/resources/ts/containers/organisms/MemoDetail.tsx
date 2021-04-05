@@ -14,11 +14,11 @@ const EnhancedMemoDetail: FC<Props> = ({ memoId }) => {
   const unsavedRef = useRef(false);
 
   // メモ選択時でメモの未保存データがない場合のみ、データ取得を行う
-  const { isIdle, isLoading, error } = useGetMemoQuery(memoId, {
+  const { isIdle, isLoading, error, data: memo } = useGetMemoQuery(memoId, {
     enabled: !!memoId && !unsavedRef.current,
-    onSuccess: (memo) => {
-      setTitle(memo.title);
-      setContent(memo.content);
+    onSuccess: (data) => {
+      setTitle(data.title);
+      setContent(data.content);
     },
   });
   const statusCode = error?.response?.status;
@@ -80,6 +80,8 @@ const EnhancedMemoDetail: FC<Props> = ({ memoId }) => {
       isIdle={isIdle}
       isLoading={isLoading}
       statusCode={statusCode}
+      isUnsaved={unsavedRef.current}
+      updatedAt={memo?.updatedAt}
       handleChangeTitle={handleChangeTitle}
       handleChangeContent={handleChangeContent}
       handleBack={handleBack}
