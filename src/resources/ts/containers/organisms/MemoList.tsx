@@ -18,9 +18,7 @@ const EnhancedMemoList: FC<Props> = ({ memoId }) => {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-  } = useGetMemoListQuery({
-    refetchInterval: 1000,
-  });
+  } = useGetMemoListQuery();
   const history = useHistory();
   const statusCode = error?.response?.status;
 
