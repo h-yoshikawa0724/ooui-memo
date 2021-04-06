@@ -3,10 +3,10 @@ import { IconButton, Tooltip } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 type Props = {
-  handleDeleteMemo: VoidFunction;
+  handleDeleteDialogOpen: VoidFunction;
 };
 
-const DeleteButton: FC<Props> = ({ handleDeleteMemo }) => {
+const DeleteButton: FC<Props> = ({ handleDeleteDialogOpen }) => {
   const deleteId = 'delete-memo';
   return (
     <Tooltip title="このメモを削除">
@@ -15,7 +15,7 @@ const DeleteButton: FC<Props> = ({ handleDeleteMemo }) => {
         aria-controls={deleteId}
         aria-haspopup="true"
         color="inherit"
-        onClick={handleDeleteMemo}
+        onClick={handleDeleteDialogOpen}
       >
         <DeleteIcon />
       </IconButton>
