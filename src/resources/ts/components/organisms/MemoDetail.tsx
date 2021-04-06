@@ -8,22 +8,31 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import MemoDetailHeader from '../molecules/MemoDetailHeader';
 import MemoDetailFooter from '../molecules/MemoDetailFooter';
 import { NOT_FOUND, INTERNAL_SERVER_ERROR } from '../../constants/statusCode';
-import { Memo } from '../../models/Memo';
 
 type Props = {
-  memo?: Memo;
+  title: string;
+  content: string;
   isIdle: boolean;
   isLoading: boolean;
   statusCode?: number;
+  isUnsaved: boolean;
+  updatedAt?: Date;
+  handleChangeTitle: (ev: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChangeContent: (ev: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleBack: VoidFunction;
   handleDeleteMemo: VoidFunction;
 };
 
 const MemoDetail: FC<Props> = ({
-  memo,
+  title,
+  content,
   isIdle,
   isLoading,
   statusCode,
+  isUnsaved,
+  updatedAt,
+  handleChangeTitle,
+  handleChangeContent,
   handleBack,
   handleDeleteMemo,
 }) => {
@@ -66,38 +75,49 @@ const MemoDetail: FC<Props> = ({
   }
 
   return (
-    <>
+    <Box height={1} display="flex" flexDirection="column">
       <MemoDetailHeader
         handleBack={handleBack}
         handleDeleteMemo={handleDeleteMemo}
       />
       <Box
         py={2}
-        style={{ maxHeight: 'calc(100vh - 140px)', overflowY: 'scroll' }}
+        style={{
+          maxHeight: 'calc(100vh - 180px)',
+          overflowY: 'scroll',
+          flexGrow: 1,
+        }}
       >
         <Input
-          placeholder="タイトル"
+          placeholder="メモタイトル"
           disableUnderline
           fullWidth
           multiline
-          value={memo?.title}
+          value={title}
           inputProps={{ 'aria-label': 'memo-title' }}
-          style={theme.typography.h4}
+          style={{ ...theme.typography.h4, ...{ whiteSpace: 'pre-wrap' } }}
+          onChange={handleChangeTitle}
         />
         <Box my={4}>
           <Input
-            placeholder="内容"
+            placeholder="メモ内容"
             disableUnderline
             fullWidth
             multiline
-            value={memo?.content}
-            inputProps={{ 'aria-label': 'memo-note' }}
+            value={content}
+            inputProps={{ 'aria-label': 'memo-content' }}
             style={{ whiteSpace: 'pre-wrap' }}
+            onChange={handleChangeContent}
           />
         </Box>
-        <MemoDetailFooter contentCount={memo?.content.length} />
       </Box>
-    </>
+      <MemoDetailFooter
+        marginTop={1}
+        contentCount={content.length}
+        isUnsaved={isUnsaved}
+        updatedAt={updatedAt}
+      />
+    </Box>
   );
 };
 
