@@ -92,9 +92,10 @@ const MemoDetail: FC<Props> = ({
           placeholder="メモタイトル"
           disableUnderline
           fullWidth
+          multiline
           value={title}
           inputProps={{ 'aria-label': 'memo-title' }}
-          style={theme.typography.h4}
+          style={{ ...theme.typography.h4, ...{ whiteSpace: 'pre-wrap' } }}
           onChange={handleChangeTitle}
         />
         <Box my={4}>
