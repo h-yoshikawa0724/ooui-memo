@@ -25,6 +25,7 @@ const usePatchMemoMutation = (): UseMutationResult<
 
   return useMutation(({ memoId, memoData }) => updateMemo(memoId, memoData), {
     onSuccess: ({ memoId }) => {
+      queryClient.invalidateQueries(['memos']);
       queryClient.invalidateQueries(['memo', memoId]);
     },
   });
