@@ -5,16 +5,19 @@ import DeleteMemoButton from '../atoms/DeleteMemoButton';
 
 type Props = {
   handleBack: VoidFunction;
-  handleDeleteMemo: VoidFunction;
+  handleDeleteDialogOpen: VoidFunction;
 };
 
-const MemoDetailHeader: FC<Props> = ({ handleBack, handleDeleteMemo }) => (
+const MemoDetailHeader: FC<Props> = ({
+  handleBack,
+  handleDeleteDialogOpen,
+}) => (
   <Box height={48} px={2} display="flex" justifyContent="flex-end">
     <Box flexGrow={1} display={{ xs: 'block', sm: 'none' }}>
       <BackButton handleBack={handleBack} />
     </Box>
     <Box>
-      <DeleteMemoButton handleDeleteMemo={handleDeleteMemo} />
+      <DeleteMemoButton handleDeleteDialogOpen={handleDeleteDialogOpen} />
     </Box>
   </Box>
 );

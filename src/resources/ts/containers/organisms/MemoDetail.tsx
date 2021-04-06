@@ -1,7 +1,11 @@
 import React, { FC, useState, useEffect, useCallback, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import MemoDetail from '../../components/organisms/MemoDetail';
-import { useGetMemoQuery, usePatchMemoMutation } from '../../hooks/memo';
+import {
+  useGetMemoQuery,
+  usePatchMemoMutation,
+  useDeleteMemoMutation,
+} from '../../hooks/memo';
 
 type Props = {
   memoId: string;
@@ -51,7 +55,7 @@ const EnhancedMemoDetail: FC<Props> = ({ memoId }) => {
     [timeId]
   );
 
-  const { mutate } = usePatchMemoMutation();
+  const { mutate: updateMutate } = usePatchMemoMutation();
   // 入力後に3秒入力がなかった場合のみ更新をかける
   useEffect(() => {
     if (!unsavedRef.current) {
@@ -59,7 +63,7 @@ const EnhancedMemoDetail: FC<Props> = ({ memoId }) => {
     }
     const tId = window.setTimeout(() => {
       const memoData = { title, content };
-      mutate(
+      updateMutate(
         { memoId, memoData },
         {
           onSuccess: () => {
@@ -69,12 +73,16 @@ const EnhancedMemoDetail: FC<Props> = ({ memoId }) => {
       );
     }, 3000);
     setTimeId(tId);
-  }, [memoId, title, content, mutate]);
+  }, [memoId, title, content, updateMutate]);
 
+  const { mutate: deleteMutate } = useDeleteMemoMutation();
   const handleDeleteMemo = useCallback(() => {
-    // 仮
-    console.log('Delete Memo');
-  }, []);
+    deleteMutate(memoId, {
+      onSuccess: () => {
+        history.push('/');
+      },
+    });
+  }, [history, memoId, deleteMutate]);
 
   return (
     <MemoDetail
