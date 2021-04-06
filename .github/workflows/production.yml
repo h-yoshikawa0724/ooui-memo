@@ -11,7 +11,7 @@ jobs:
   front-end-check:
     name: Front End Lint
     runs-on: ubuntu-latest
-    imeout-minutes: 5
+    timeout-minutes: 5
     defaults:
       run:
         working-directory: ./src
@@ -46,7 +46,7 @@ jobs:
   back-end-check:
     name: Back End Lint & Test
     runs-on: ubuntu-latest
-    imeout-minutes: 5
+    timeout-minutes: 5
     defaults:
       run:
         working-directory: ./src
@@ -82,7 +82,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-${{ env.project-name }}-${{ hashFiles(format('{0}{1}', github.workspace, '/composer.lock')) }} 
+          key: ${{ runner.os }}-${{ env.project-name }}-${{ hashFiles(format('{0}{1}', github.workspace, '/composer.lock')) }}
           restore-keys: |
             ${{ runner.os }}-composer-
 
