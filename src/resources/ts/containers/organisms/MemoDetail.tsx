@@ -17,8 +17,11 @@ const EnhancedMemoDetail: FC<Props> = ({ memoId }) => {
   const { isIdle, isLoading, error, data: memo } = useGetMemoQuery(memoId, {
     enabled: !!memoId && !unsavedRef.current,
     onSuccess: (data) => {
-      setTitle(data.title);
-      setContent(data.content);
+      // データ取得中に未保存フラグが切り変わった時のために、ここでも分岐を入れないと未保存データが飛ぶ
+      if (!unsavedRef.current) {
+        setTitle(data.title);
+        setContent(data.content);
+      }
     },
   });
   const statusCode = error?.response?.status;
