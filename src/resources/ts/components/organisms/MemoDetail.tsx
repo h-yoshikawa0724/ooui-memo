@@ -91,10 +91,11 @@ const MemoDetail: FC<Props> = ({
           handleBack={handleBack}
           handleDeleteDialogOpen={handleDeleteDialogOpen}
         />
+        {/* 182px = ヘッダー：64 + メモ詳細ヘッダー：48 + メモ詳細フッター：42 + 下部余白：28 */}
         <Box
           py={2}
           style={{
-            maxHeight: 'calc(100vh - 180px)',
+            height: 'calc(100vh - 182px)',
             overflowY: 'scroll',
             flexGrow: 1,
           }}
