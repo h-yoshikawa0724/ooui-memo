@@ -69,17 +69,17 @@ class MemoListApiTest extends TestCase
      */
     public function testGetMemoListPages()
     {
-        factory(Memo::class, 52)->create(['user_id' => $this->auth_user->user_id]);
+        factory(Memo::class, 32)->create(['user_id' => $this->auth_user->user_id]);
 
         // 1ページ目
         $response = $this->actingAs($this->auth_user)->json('GET', route('memo.index'));
 
-        $memos = Memo::where('user_id', $this->auth_user->user_id)->orderBy('updated_at', 'desc')->limit(50)->get();
+        $memos = Memo::where('user_id', $this->auth_user->user_id)->orderBy('updated_at', 'desc')->limit(30)->get();
 
         $expected_data_first = $this->setExpectedData($memos);
 
         $response->assertStatus(200)
-            ->assertJsonCount(50, 'data')
+            ->assertJsonCount(30, 'data')
             ->assertJsonFragment([
                 "data" => $expected_data_first,
             ]);
@@ -89,8 +89,8 @@ class MemoListApiTest extends TestCase
 
         $memos = Memo::where('user_id', $this->auth_user->user_id)
             ->orderBy('updated_at', 'desc')
-            ->offset(50)
-            ->limit(50)
+            ->offset(30)
+            ->limit(30)
             ->get();
 
         $expected_data_second = $this->setExpectedData($memos);

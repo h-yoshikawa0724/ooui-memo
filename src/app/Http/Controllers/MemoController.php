@@ -27,7 +27,7 @@ class MemoController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $memos = Memo::where('user_id', $user->user_id)->orderBy(Memo::UPDATED_AT, 'desc')->paginate(50);
+        $memos = Memo::where('user_id', $user->user_id)->orderBy(Memo::UPDATED_AT, 'desc')->paginate(30);
 
         return $memos;
     }
