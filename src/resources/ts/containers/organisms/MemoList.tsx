@@ -12,6 +12,7 @@ type Props = {
 
 const EnhancedMemoList: FC<Props> = ({ memoId }) => {
   const {
+    isFetching,
     isLoading,
     error,
     data: paginateMemos,
@@ -22,15 +23,15 @@ const EnhancedMemoList: FC<Props> = ({ memoId }) => {
   const history = useHistory();
   const statusCode = error?.response?.status;
 
-  // 画面幅が広い + メモ未選択時は、メモ一覧の一番新しいメモへ遷移
+  // データ取得中でない + 画面幅が広い + メモ未選択時は、メモ一覧の一番新しいメモへ遷移
   const theme = useTheme();
   const iswideDisplay = useMediaQuery(theme.breakpoints.up('sm'));
   useEffect(() => {
     const firstMemoId = paginateMemos?.pages[0]?.data[0].memoId;
-    if (!memoId && iswideDisplay && firstMemoId) {
+    if (!isFetching && !memoId && iswideDisplay && firstMemoId) {
       history.push(`/${firstMemoId}`);
     }
-  }, [history, paginateMemos, memoId, iswideDisplay]);
+  }, [history, isFetching, paginateMemos, memoId, iswideDisplay]);
 
   // 無限スクロール処理
   const { loadMoreRef } = useIntersectionObserver({
