@@ -2,8 +2,7 @@ import { useQueryClient, UseMutationResult, useMutation } from 'react-query';
 import axios, { AxiosError } from 'axios';
 
 const logout = async (): Promise<void> => {
-  const { data } = await axios.post('/api/logout');
-  return data;
+  await axios.post('/api/logout');
 };
 
 const useLogout = (): UseMutationResult<void, AxiosError, void, undefined> => {
@@ -11,7 +10,7 @@ const useLogout = (): UseMutationResult<void, AxiosError, void, undefined> => {
 
   return useMutation(logout, {
     onSuccess: () => {
-      queryClient.resetQueries('user');
+      queryClient.clear();
     },
   });
 };
