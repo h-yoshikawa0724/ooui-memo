@@ -65,7 +65,8 @@ const MemoList: FC<Props> = ({
   return (
     <>
       <MemoListHeader handleAddMemo={handleAddMemo} />
-      <List style={{ maxHeight: 'calc(100vh - 140px)', overflowY: 'scroll' }}>
+      {/* 140px = ヘッダー：64 + メモ一覧ヘッダー：48 + 下部余白：28 */}
+      <List style={{ height: 'calc(100vh - 140px)', overflowY: 'scroll' }}>
         {paginateMemos?.map((page) => (
           <React.Fragment key={page.currentPage}>
             {page.data.map((memo) => (
