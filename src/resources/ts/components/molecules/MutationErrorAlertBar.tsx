@@ -31,6 +31,7 @@ const MutationErrorAlert: FC<Props> = ({ error, handleErrorBarClose }) => (
 
 const MutationErrorAlertBar: FC<Props> = ({ error, handleErrorBarClose }) => (
   <Snackbar
+    key={`${error?.statusCode}-${error?.errorMessage}`}
     anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
     open={!!error}
     autoHideDuration={6000}
