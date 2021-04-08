@@ -13,7 +13,7 @@ type Props = {
 
 const MutationErrorAlert: FC<Props> = ({ error, handleErrorBarClose }) => (
   // Snackbarの子要素は1つの要素を返す必要があるので、FragmentでなくBoxで囲む
-  <Box>
+  <Box boxShadow={3}>
     {error?.statusCode === NOT_FOUND && (
       <Alert onClose={handleErrorBarClose} severity="error">
         <AlertTitle>リソースが見つからないエラー</AlertTitle>
