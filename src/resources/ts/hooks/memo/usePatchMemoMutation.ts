@@ -34,7 +34,7 @@ const usePatchMemoMutation = (): UseMutationResult<
         statusCode: error.response?.status,
         errorMessage: 'メモの更新に失敗しました。',
       };
-      queryClient.setQueryData(['memo', 'error'], mutationError);
+      queryClient.setQueryData('error', mutationError);
     },
   });
 };

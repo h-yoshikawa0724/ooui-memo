@@ -23,7 +23,7 @@ const useDeleteMemoMutation = (): UseMutationResult<
         statusCode: error.response?.status,
         errorMessage: 'メモの削除に失敗しました。',
       };
-      queryClient.setQueryData(['memo', 'error'], mutationError);
+      queryClient.setQueryData('error', mutationError);
     },
   });
 };

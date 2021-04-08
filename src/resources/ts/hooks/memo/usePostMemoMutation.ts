@@ -30,7 +30,7 @@ const usePostMemoMutation = (): UseMutationResult<
         statusCode: error.response?.status,
         errorMessage: 'メモの新規作成に失敗しました。',
       };
-      queryClient.setQueryData(['memo', 'error'], mutationError);
+      queryClient.setQueryData('error', mutationError);
     },
   });
 };
