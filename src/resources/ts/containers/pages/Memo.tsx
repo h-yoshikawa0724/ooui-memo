@@ -16,7 +16,7 @@ const EnhancedMemo: FC = () => {
         return;
       }
 
-      queryClient.resetQueries(['memo', 'error']);
+      queryClient.resetQueries('error');
     },
     [queryClient]
   );
