@@ -3,3 +3,5 @@ export { default as useGetMemoQuery } from './useGetMemoQuery';
 export { default as usePostMemoMutation } from './usePostMemoMutation';
 export { default as usePatchMemoMutation } from './usePatchMemoMutation';
 export { default as useDeleteMemoMutation } from './useDeleteMemoMutation';
+
+export { default as useMemoMutationErrorQuery } from './useMemoMutationErrorQuery';

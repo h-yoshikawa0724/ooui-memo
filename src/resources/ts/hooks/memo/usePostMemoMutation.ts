@@ -1,6 +1,7 @@
 import { useQueryClient, UseMutationResult, useMutation } from 'react-query';
 import axios, { AxiosError } from 'axios';
 import { Memo } from '../../models/Memo';
+import { MutationError } from '../../models/MutationError';
 
 type MemoData = {
   title: string;
@@ -23,6 +24,13 @@ const usePostMemoMutation = (): UseMutationResult<
   return useMutation(createMemo, {
     onSuccess: () => {
       queryClient.invalidateQueries('memos');
+    },
+    onError: (error) => {
+      const mutationError: MutationError = {
+        statusCode: error.response?.status,
+        errorMessage: 'メモの新規作成に失敗しました。',
+      };
+      queryClient.setQueryData(['memo', 'error'], mutationError);
     },
   });
 };
