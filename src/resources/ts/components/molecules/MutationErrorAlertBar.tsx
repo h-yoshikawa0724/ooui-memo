@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
 import Box from '@material-ui/core/Box';
 import Snackbar from '@material-ui/core/Snackbar';
-import Alert from '@material-ui/lab/Alert';
-import AlertTitle from '@material-ui/lab/AlertTitle';
+import GeneralAlert from '../atoms/GeneralAlert';
 import { NOT_FOUND, INTERNAL_SERVER_ERROR } from '../../constants/statusCode';
 import { MutationError } from '../../models/MutationError';
 
@@ -15,16 +14,20 @@ const MutationErrorAlert: FC<Props> = ({ error, handleErrorBarClose }) => (
   // Snackbarの子要素は1つの要素を返す必要があるので、FragmentでなくBoxで囲む
   <Box boxShadow={3}>
     {error?.statusCode === NOT_FOUND && (
-      <Alert onClose={handleErrorBarClose} severity="error">
-        <AlertTitle>リソースが見つからないエラー</AlertTitle>
-        {error?.errorMessage}
-      </Alert>
+      <GeneralAlert
+        type="error"
+        title="リソースが見つからないエラー"
+        content={error?.errorMessage}
+        onClose={handleErrorBarClose}
+      />
     )}
     {error?.statusCode === INTERNAL_SERVER_ERROR && (
-      <Alert onClose={handleErrorBarClose} severity="error">
-        <AlertTitle>サーバエラー</AlertTitle>
-        {error?.errorMessage}
-      </Alert>
+      <GeneralAlert
+        type="error"
+        title="サーバエラー"
+        content={error?.errorMessage}
+        onClose={handleErrorBarClose}
+      />
     )}
   </Box>
 );
