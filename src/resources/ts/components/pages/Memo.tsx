@@ -7,12 +7,14 @@ import { useTheme } from '@material-ui/core/styles';
 import Header from '../../containers/organisms/Header';
 import MemoList from '../../containers/organisms/MemoList';
 import MemoDetail from '../../containers/organisms/MemoDetail';
+import MutationErrorAlertBar from '../molecules/MutationErrorAlertBar';
+import { MutationError } from '../../models/MutationError';
 
-type Props = {
+type BodyProps = {
   memoId: string;
 };
 
-const MemoBody: FC<Props> = ({ memoId }) => {
+const MemoBody: FC<BodyProps> = ({ memoId }) => {
   const selectedMemo = !!memoId;
   return (
     <Box display="flex">
@@ -35,7 +37,13 @@ const MemoBody: FC<Props> = ({ memoId }) => {
   );
 };
 
-const Memo: FC<Props> = ({ memoId }) => {
+type Props = {
+  memoId: string;
+  error?: MutationError;
+  handleErrorBarClose: (event?: React.SyntheticEvent, reason?: string) => void;
+};
+
+const Memo: FC<Props> = ({ memoId, error, handleErrorBarClose }) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
@@ -49,6 +57,10 @@ const Memo: FC<Props> = ({ memoId }) => {
       ) : (
         <MemoBody memoId={memoId} />
       )}
+      <MutationErrorAlertBar
+        error={error}
+        handleErrorBarClose={handleErrorBarClose}
+      />
     </>
   );
 };
