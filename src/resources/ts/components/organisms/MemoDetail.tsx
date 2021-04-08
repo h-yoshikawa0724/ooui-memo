@@ -1,10 +1,9 @@
 import React, { FC, useState, useCallback } from 'react';
-import Alert from '@material-ui/lab/Alert';
-import AlertTitle from '@material-ui/lab/AlertTitle';
 import Box from '@material-ui/core/Box';
 import Input from '@material-ui/core/Input';
 import { useTheme } from '@material-ui/core/styles';
 import Skeleton from '@material-ui/lab/Skeleton';
+import GeneralAlert from '../atoms/GeneralAlert';
 import MemoDetailHeader from '../molecules/MemoDetailHeader';
 import MemoDetailFooter from '../molecules/MemoDetailFooter';
 import MemoDeleteDialog from '../molecules/MemoDeleteDialog';
@@ -68,16 +67,18 @@ const MemoDetail: FC<Props> = ({
         <Box height={48} px={2} />
         <Box py={2}>
           {statusCode === NOT_FOUND && (
-            <Alert severity="error">
-              <AlertTitle>メモデータが見つかりません</AlertTitle>
-              このIDのメモデータは存在しません。メモ一覧からメモを選択してください。
-            </Alert>
+            <GeneralAlert
+              type="error"
+              title="メモデータが見つかりません"
+              content="このIDのメモデータは存在しません。メモ一覧からメモを選択してください。"
+            />
           )}
           {statusCode === INTERNAL_SERVER_ERROR && (
-            <Alert severity="error">
-              <AlertTitle>サーバエラー</AlertTitle>
-              予期しないエラーが発生し、メモデータ取得に失敗しました。恐れ入りますが時間をおいて再度お試しください。
-            </Alert>
+            <GeneralAlert
+              type="error"
+              title="サーバエラー"
+              content="予期しないエラーが発生し、メモデータ取得に失敗しました。恐れ入りますが時間をおいて再度お試しください。"
+            />
           )}
         </Box>
       </>
