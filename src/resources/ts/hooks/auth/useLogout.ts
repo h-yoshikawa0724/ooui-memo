@@ -11,7 +11,10 @@ const useLogout = (): UseMutationResult<void, AxiosError, void, undefined> => {
 
   return useMutation(logout, {
     onSuccess: () => {
-      queryClient.clear();
+      queryClient.removeQueries({
+        predicate: (query) => query.queryKey !== 'user',
+      });
+      queryClient.resetQueries('user');
     },
     onError: (error) => {
       const mutationError: MutationError = {

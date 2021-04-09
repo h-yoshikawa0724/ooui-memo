@@ -4,6 +4,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import GeneralAlert from '../atoms/GeneralAlert';
 import {
   NOT_FOUND,
+  UNKNOWN_STATUS,
   UNPROCESSABLE_ENTITY,
   INTERNAL_SERVER_ERROR,
 } from '../../constants/statusCode';
@@ -33,7 +34,8 @@ const MutationErrorAlert: FC<Props> = ({ error, handleErrorBarClose }) => (
         onClose={handleErrorBarClose}
       />
     )}
-    {error?.statusCode === INTERNAL_SERVER_ERROR && (
+    {(error?.statusCode === UNKNOWN_STATUS ||
+      error?.statusCode === INTERNAL_SERVER_ERROR) && (
       <GeneralAlert
         type="error"
         title="サーバエラー"
