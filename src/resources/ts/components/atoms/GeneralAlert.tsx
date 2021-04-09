@@ -10,7 +10,7 @@ type Props = {
 };
 
 const GeneralAlert: FC<Props> = ({ type, title, content, onClose }) => (
-  <Alert severity={type} onClose={onClose}>
+  <Alert severity={type} onClose={onClose} style={{ whiteSpace: 'pre-wrap' }}>
     <AlertTitle>{title}</AlertTitle>
     {content}
   </Alert>

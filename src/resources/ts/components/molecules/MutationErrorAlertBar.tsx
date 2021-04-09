@@ -2,7 +2,11 @@ import React, { FC } from 'react';
 import Box from '@material-ui/core/Box';
 import Snackbar from '@material-ui/core/Snackbar';
 import GeneralAlert from '../atoms/GeneralAlert';
-import { NOT_FOUND, INTERNAL_SERVER_ERROR } from '../../constants/statusCode';
+import {
+  NOT_FOUND,
+  UNPROCESSABLE_ENTITY,
+  INTERNAL_SERVER_ERROR,
+} from '../../constants/statusCode';
 import { MutationError } from '../../models/MutationError';
 
 type Props = {
@@ -17,6 +21,14 @@ const MutationErrorAlert: FC<Props> = ({ error, handleErrorBarClose }) => (
       <GeneralAlert
         type="error"
         title="リソースが見つからないエラー"
+        content={error?.errorMessage}
+        onClose={handleErrorBarClose}
+      />
+    )}
+    {error?.statusCode === UNPROCESSABLE_ENTITY && (
+      <GeneralAlert
+        type="error"
+        title="バリデーションエラー"
         content={error?.errorMessage}
         onClose={handleErrorBarClose}
       />
