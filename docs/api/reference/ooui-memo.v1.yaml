@@ -34,6 +34,8 @@ paths:
           $ref: '#/components/responses/Memo'
         '401':
           $ref: '#/components/responses/UnAuthorizedError'
+        '419':
+          $ref: '#/components/responses/UnknownStatusError'
         '422':
           $ref: '#/components/responses/ValidationError'
         '500':
@@ -79,6 +81,8 @@ paths:
           $ref: '#/components/responses/UnAuthorizedError'
         '404':
           $ref: '#/components/responses/NotFoundError'
+        '419':
+          $ref: '#/components/responses/UnknownStatusError'
         '500':
           $ref: '#/components/responses/ServerError'
       description: メモ削除API
@@ -96,6 +100,8 @@ paths:
           $ref: '#/components/responses/UnAuthorizedError'
         '404':
           $ref: '#/components/responses/NotFoundError'
+        '419':
+          $ref: '#/components/responses/UnknownStatusError'
         '422':
           $ref: '#/components/responses/ValidationError'
         '500':
@@ -117,6 +123,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/User'
+        '419':
+          $ref: '#/components/responses/UnknownStatusError'
         '422':
           $ref: '#/components/responses/ValidationError'
         '500':
@@ -143,6 +151,8 @@ paths:
       responses:
         '204':
           description: No Content
+        '419':
+          $ref: '#/components/responses/UnknownStatusError'
         '500':
           $ref: '#/components/responses/ServerError'
       tags:
@@ -173,6 +183,8 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/User'
+        '419':
+          $ref: '#/components/responses/UnknownStatusError'
         '422':
           $ref: '#/components/responses/ValidationError'
         '500':
@@ -288,7 +300,7 @@ components:
                   email: ログインできません。入力した情報に誤りがないかご確認ください。
             422(メモ新規作成・更新API):
               value:
-                message: string
+                message: The given data was invalid.
                 errors:
                   title:
                     - メモタイトルの最大文字数100を超えています。
@@ -326,6 +338,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    UnknownStatusError:
+      description: |-
+        UNKNOWN_STATUS：419
+        CSRFトークン不一致など
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            419（CSRFトークン不一致）:
+              value:
+                message: CSRF token mismatch.
   parameters:
     memo_id:
       name: memo_id
