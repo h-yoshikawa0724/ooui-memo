@@ -6,16 +6,16 @@ import {
 } from 'react-query';
 import { MutationError } from '../../models/MutationError';
 
-const getMemoMutationError = async (
+const getMutationError = async (
   queryClient: QueryClient
 ): Promise<MutationError> => {
   const error = (await queryClient.getQueryData('error')) as MutationError;
   return error;
 };
 
-const useMemoMutationErrorQuery = (): UseQueryResult<MutationError> => {
+const useMutationErrorQuery = (): UseQueryResult<MutationError> => {
   const queryClient = useQueryClient();
-  return useQuery('error', () => getMemoMutationError(queryClient));
+  return useQuery('error', () => getMutationError(queryClient));
 };
 
-export default useMemoMutationErrorQuery;
+export default useMutationErrorQuery;
