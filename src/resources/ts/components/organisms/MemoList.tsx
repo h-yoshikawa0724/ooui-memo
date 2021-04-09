@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
-import Alert from '@material-ui/lab/Alert';
-import AlertTitle from '@material-ui/lab/AlertTitle';
 import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
+import GeneralAlert from '../atoms/GeneralAlert';
 import MemoListHeader from '../molecules/MemoListHeader';
 import MemoListItem from '../molecules/MemoListItem';
 import MemoListItemSkeleton from '../molecules/MemoListItemSkeleton';
@@ -46,10 +45,11 @@ const MemoList: FC<Props> = ({
       <>
         <Box height={48} px={2} />
         {statusCode === INTERNAL_SERVER_ERROR && (
-          <Alert severity="error">
-            <AlertTitle>サーバエラー</AlertTitle>
-            予期しないエラーが発生し、メモデータ取得に失敗しました。恐れ入りますが時間をおいて再度お試しください。
-          </Alert>
+          <GeneralAlert
+            type="error"
+            title="サーバエラー"
+            content="予期しないエラーが発生し、メモデータ取得に失敗しました。恐れ入りますが時間をおいて再度お試しください。"
+          />
         )}
       </>
     );

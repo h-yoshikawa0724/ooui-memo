@@ -29,7 +29,16 @@ require('./bootstrap');
  */
 // require('./components/Example');
 
-const client = new QueryClient();
+const client = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+    },
+    mutations: {
+      retry: 1,
+    },
+  },
+});
 
 type Props = {
   exact?: boolean;

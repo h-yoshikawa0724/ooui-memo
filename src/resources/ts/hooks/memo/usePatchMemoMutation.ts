@@ -1,6 +1,8 @@
 import { useQueryClient, UseMutationResult, useMutation } from 'react-query';
 import axios, { AxiosError } from 'axios';
+import { UNPROCESSABLE_ENTITY } from '../../constants/statusCode';
 import { Memo } from '../../models/Memo';
+import { MutationError } from '../../models/MutationError';
 
 type MemoData = {
   title: string;
@@ -27,6 +29,22 @@ const usePatchMemoMutation = (): UseMutationResult<
     onSuccess: ({ memoId }) => {
       queryClient.invalidateQueries(['memos']);
       queryClient.invalidateQueries(['memo', memoId]);
+    },
+    onError: (error) => {
+      let errorMessage = 'メモの更新に失敗しました。';
+      if (error.response?.status === UNPROCESSABLE_ENTITY) {
+        const msgArrayList = (Object.values(
+          error.response.data.errors
+        ) as string[][]).map((msgArray) => msgArray);
+        errorMessage = msgArrayList
+          .flat()
+          .reduce((createMsg, msg) => `${createMsg}\n${msg}`, errorMessage);
+      }
+      const mutationError: MutationError = {
+        statusCode: error.response?.status,
+        errorMessage,
+      };
+      queryClient.setQueryData('error', mutationError);
     },
   });
 };
