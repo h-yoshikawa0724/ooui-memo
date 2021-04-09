@@ -12,8 +12,11 @@ type Props = {
 };
 
 const EnhancedMemoDetail: FC<Props> = ({ memoId }) => {
+  // フォームの項目が増える場合は、状態を個別でなくまとめて管理にしたほうが良さそう
   const [title, setTitle] = useState<string>('');
+  const [titleError, setTitleError] = useState<string>('');
   const [content, setContent] = useState<string>('');
+  const [contentError, setContentError] = useState<string>('');
   // メモの未保存データがあるかどうか
   const unsavedRef = useRef(false);
 
@@ -39,6 +42,11 @@ const EnhancedMemoDetail: FC<Props> = ({ memoId }) => {
 
   const handleChangeTitle = useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
+      if (ev.target.value.length > 100) {
+        setTitleError('メモタイトルの文字数が最大文字数100を超えています。');
+      } else {
+        setTitleError('');
+      }
       setTitle(ev.target.value);
       unsavedRef.current = true;
       clearTimeout(timeId);
@@ -48,6 +56,11 @@ const EnhancedMemoDetail: FC<Props> = ({ memoId }) => {
 
   const handleChangeContent = useCallback(
     (ev: React.ChangeEvent<HTMLTextAreaElement>) => {
+      if (ev.target.value.length > 65535) {
+        setContentError('メモ内容の文字数が最大文字数65535を超えています。');
+      } else {
+        setContentError('');
+      }
       setContent(ev.target.value);
       unsavedRef.current = true;
       clearTimeout(timeId);
@@ -58,7 +71,8 @@ const EnhancedMemoDetail: FC<Props> = ({ memoId }) => {
   const { mutate: updateMutate } = usePatchMemoMutation();
   // 入力後に3秒入力がなかった場合のみ更新をかける
   useEffect(() => {
-    if (!unsavedRef.current) {
+    // 未保存データがないかバリデーションエラーがあるときはスキップ
+    if (!unsavedRef.current || titleError || contentError) {
       return;
     }
     const tId = window.setTimeout(() => {
@@ -73,7 +87,7 @@ const EnhancedMemoDetail: FC<Props> = ({ memoId }) => {
       );
     }, 3000);
     setTimeId(tId);
-  }, [memoId, title, content, updateMutate]);
+  }, [memoId, title, titleError, content, contentError, updateMutate]);
 
   const { mutate: deleteMutate } = useDeleteMemoMutation();
   const handleDeleteMemo = useCallback(() => {
@@ -87,7 +101,9 @@ const EnhancedMemoDetail: FC<Props> = ({ memoId }) => {
   return (
     <MemoDetail
       title={title}
+      titleError={titleError}
       content={content}
+      contentError={contentError}
       isIdle={isIdle}
       isLoading={isLoading}
       statusCode={statusCode}

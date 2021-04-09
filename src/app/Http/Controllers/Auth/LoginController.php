@@ -54,13 +54,13 @@ class LoginController extends Controller
      * ログアウトAPI レスポンスカスタマイズ用メソッド
      *
      * @param Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
     protected function loggedOut(Request $request)
     {
         // セッションを再生成する
         $request->session()->regenerate();
 
-        return response()->json();
+        return response(null, 204);
     }
 }
