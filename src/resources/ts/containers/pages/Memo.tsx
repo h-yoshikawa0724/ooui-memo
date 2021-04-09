@@ -2,12 +2,12 @@ import React, { FC, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQueryClient } from 'react-query';
 import Memo from '../../components/pages/Memo';
-import { useMemoMutationErrorQuery } from '../../hooks/memo';
+import { useMutationErrorQuery } from '../../hooks/util';
 
 const EnhancedMemo: FC = () => {
   const { memoId = '' } = useParams<{ memoId?: string }>();
 
-  const { data: error } = useMemoMutationErrorQuery();
+  const { data: error } = useMutationErrorQuery();
   const queryClient = useQueryClient();
 
   const handleErrorBarClose = useCallback(
