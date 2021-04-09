@@ -141,8 +141,8 @@ paths:
       summary: Logout
       operationId: logout
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
         '500':
           $ref: '#/components/responses/ServerError'
       tags:
