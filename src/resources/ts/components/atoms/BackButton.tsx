@@ -10,7 +10,11 @@ type Props = {
 
 const BackButton: FC<Props> = ({ edge, handleBack }) => (
   <Tooltip title="メモ一覧へ戻る">
-    <IconButton edge={edge || false} onClick={handleBack}>
+    <IconButton
+      aria-label="メモ一覧へ戻る"
+      edge={edge || false}
+      onClick={handleBack}
+    >
       <ArrowBackIosIcon />
     </IconButton>
   </Tooltip>
