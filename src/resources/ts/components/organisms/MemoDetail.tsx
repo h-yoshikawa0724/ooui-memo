@@ -116,7 +116,7 @@ const MemoDetail: FC<Props> = ({
               fullWidth
               multiline
               value={title}
-              inputProps={{ 'aria-label': 'memo-title' }}
+              inputProps={{ 'aria-label': 'メモタイトル' }}
               style={{ ...theme.typography.h4, ...{ whiteSpace: 'pre-wrap' } }}
               onChange={handleChangeTitle}
             />
@@ -132,7 +132,7 @@ const MemoDetail: FC<Props> = ({
                 fullWidth
                 multiline
                 value={content}
-                inputProps={{ 'aria-label': 'memo-content' }}
+                inputProps={{ 'aria-label': 'メモ内容' }}
                 style={{ whiteSpace: 'pre-wrap' }}
                 onChange={handleChangeContent}
               />
