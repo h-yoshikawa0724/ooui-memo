@@ -1,9 +1,9 @@
 import React, { FC, useState, useCallback } from 'react';
 import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import useTheme from '@material-ui/core/styles/useTheme';
+import AccountButton from '../atoms/AccountButton';
 import AccountMenu from '../molecules/AccountMenu';
 
 type Props = {
@@ -49,8 +49,9 @@ const Header: FC<Props> = ({ userName, handleLogout }) => {
           </Typography>
           {userName && (
             <>
-              <Button onClick={handleAccountMenuOpen}>{userName}</Button>
+              <AccountButton handleAccountMenuOpen={handleAccountMenuOpen} />
               <AccountMenu
+                userName={userName}
                 anchorEl={menuAnchorEl}
                 open={isAccouuntMenuOpen}
                 handleAccountMenuClose={handleAccountMenuClose}
