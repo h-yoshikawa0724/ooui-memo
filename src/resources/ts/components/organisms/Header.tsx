@@ -1,9 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC, useState, useCallback } from 'react';
 import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import useTheme from '@material-ui/core/styles/useTheme';
+import AccountButton from '../atoms/AccountButton';
+import AccountMenu from '../molecules/AccountMenu';
 
 type Props = {
   userName?: string;
@@ -12,6 +13,23 @@ type Props = {
 
 const Header: FC<Props> = ({ userName, handleLogout }) => {
   const theme = useTheme();
+  const menuId = 'account-menu';
+
+  // componentsには基本的にロジックを持たせないが、UIの状態に関するものなので、ここで定義している
+  const [menuAnchorEl, setMenuAnchorEl] = useState<Element | null>(null);
+  const isAccouuntMenuOpen = Boolean(menuAnchorEl);
+
+  const handleAccountMenuOpen = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      setMenuAnchorEl(event.currentTarget);
+    },
+    []
+  );
+
+  const handleAccountMenuClose = useCallback(() => {
+    setMenuAnchorEl(null);
+  }, []);
+
   return (
     <>
       <AppBar
@@ -32,10 +50,18 @@ const Header: FC<Props> = ({ userName, handleLogout }) => {
           </Typography>
           {userName && (
             <>
-              <Typography>{userName}</Typography>
-              <Button type="button" onClick={handleLogout}>
-                ログアウト
-              </Button>
+              <AccountButton
+                menuId={menuId}
+                handleAccountMenuOpen={handleAccountMenuOpen}
+              />
+              <AccountMenu
+                menuId={menuId}
+                userName={userName}
+                anchorEl={menuAnchorEl}
+                open={isAccouuntMenuOpen}
+                handleAccountMenuClose={handleAccountMenuClose}
+                handleLogout={handleLogout}
+              />
             </>
           )}
         </Toolbar>

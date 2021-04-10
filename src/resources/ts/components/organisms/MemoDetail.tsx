@@ -43,14 +43,15 @@ const MemoDetail: FC<Props> = ({
   handleDeleteMemo,
 }) => {
   const theme = useTheme();
+  const dialogId = 'delete-memo-confirm';
 
   // componentsには基本的にロジックを持たせないが、UIの状態に関するものなので、ここで定義している
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
   const handleDeleteDialogOpen = useCallback(() => {
-    setDeleteDialogOpen(true);
+    setIsDeleteDialogOpen(true);
   }, []);
   const handleDeleteDialogClose = useCallback(() => {
-    setDeleteDialogOpen(false);
+    setIsDeleteDialogOpen(false);
   }, []);
 
   if (isIdle || isLoading) {
@@ -95,6 +96,7 @@ const MemoDetail: FC<Props> = ({
     <>
       <Box height={1} display="flex" flexDirection="column">
         <MemoDetailHeader
+          dialogId={dialogId}
           handleBack={handleBack}
           handleDeleteDialogOpen={handleDeleteDialogOpen}
         />
@@ -114,7 +116,7 @@ const MemoDetail: FC<Props> = ({
               fullWidth
               multiline
               value={title}
-              inputProps={{ 'aria-label': 'memo-title' }}
+              inputProps={{ 'aria-label': 'メモタイトル' }}
               style={{ ...theme.typography.h4, ...{ whiteSpace: 'pre-wrap' } }}
               onChange={handleChangeTitle}
             />
@@ -130,7 +132,7 @@ const MemoDetail: FC<Props> = ({
                 fullWidth
                 multiline
                 value={content}
-                inputProps={{ 'aria-label': 'memo-content' }}
+                inputProps={{ 'aria-label': 'メモ内容' }}
                 style={{ whiteSpace: 'pre-wrap' }}
                 onChange={handleChangeContent}
               />
@@ -148,7 +150,8 @@ const MemoDetail: FC<Props> = ({
         />
       </Box>
       <MemoDeleteDialog
-        open={deleteDialogOpen}
+        dialogId={dialogId}
+        open={isDeleteDialogOpen}
         handleDeleteDialogClose={handleDeleteDialogClose}
         handleDeleteMemo={handleDeleteMemo}
       />
