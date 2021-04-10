@@ -103,6 +103,7 @@ const MemoDetail: FC<Props> = ({
         {/* 182px = ヘッダー：64 + メモ詳細ヘッダー：48 + メモ詳細フッター：42 + 下部余白：28 */}
         <Box
           py={2}
+          pr={2}
           style={{
             height: 'calc(100vh - 182px)',
             overflowY: 'scroll',
