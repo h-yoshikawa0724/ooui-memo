@@ -5,11 +5,13 @@ import BackButton from '../atoms/BackButton';
 import DeleteMemoButton from '../atoms/DeleteMemoButton';
 
 type Props = {
+  dialogId: string;
   handleBack: VoidFunction;
   handleDeleteDialogOpen: VoidFunction;
 };
 
 const MemoDetailHeader: FC<Props> = ({
+  dialogId,
   handleBack,
   handleDeleteDialogOpen,
 }) => (
@@ -20,7 +22,10 @@ const MemoDetailHeader: FC<Props> = ({
       </Box>
     </Hidden>
     <Box>
-      <DeleteMemoButton handleDeleteDialogOpen={handleDeleteDialogOpen} />
+      <DeleteMemoButton
+        dialogId={dialogId}
+        handleDeleteDialogOpen={handleDeleteDialogOpen}
+      />
     </Box>
   </Box>
 );

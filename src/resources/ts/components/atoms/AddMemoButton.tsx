@@ -7,21 +7,16 @@ type Props = {
   handleAddMemo: VoidFunction;
 };
 
-const AddButton: FC<Props> = ({ handleAddMemo }) => {
-  const addId = 'add-memo';
-  return (
-    <Tooltip title="メモを新規作成">
-      <IconButton
-        aria-label="add memo"
-        aria-controls={addId}
-        aria-haspopup="true"
-        color="inherit"
-        onClick={handleAddMemo}
-      >
-        <AddIcon />
-      </IconButton>
-    </Tooltip>
-  );
-};
+const AddButton: FC<Props> = ({ handleAddMemo }) => (
+  <Tooltip title="メモを新規作成">
+    <IconButton
+      aria-label="メモを新規作成"
+      color="inherit"
+      onClick={handleAddMemo}
+    >
+      <AddIcon />
+    </IconButton>
+  </Tooltip>
+);
 
 export default AddButton;
