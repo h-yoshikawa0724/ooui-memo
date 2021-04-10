@@ -109,11 +109,10 @@ const MemoDetail: FC<Props> = ({
             flexGrow: 1,
           }}
         >
-          <FormControl error={!!titleError}>
+          <FormControl error={!!titleError} fullWidth>
             <Input
               placeholder="メモタイトル"
               disableUnderline
-              fullWidth
               multiline
               value={title}
               inputProps={{ 'aria-label': 'メモタイトル' }}
@@ -125,11 +124,10 @@ const MemoDetail: FC<Props> = ({
             </FormHelperText>
           </FormControl>
           <Box my={4}>
-            <FormControl error={!!contentError}>
+            <FormControl error={!!contentError} fullWidth>
               <Input
                 placeholder="メモ内容"
                 disableUnderline
-                fullWidth
                 multiline
                 value={content}
                 inputProps={{ 'aria-label': 'メモ内容' }}
