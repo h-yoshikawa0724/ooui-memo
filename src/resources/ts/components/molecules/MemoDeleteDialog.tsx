@@ -7,21 +7,24 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 type Props = {
+  dialogId: string;
   open: boolean;
   handleDeleteDialogClose: VoidFunction;
   handleDeleteMemo: VoidFunction;
 };
 
 const MemoDeleteDialog: FC<Props> = ({
+  dialogId,
   open,
   handleDeleteDialogClose,
   handleDeleteMemo,
 }) => (
   <Dialog
-    open={open}
-    onClose={handleDeleteDialogClose}
+    id={dialogId}
     aria-labelledby="alert-dialog-title"
     aria-describedby="alert-dialog-description"
+    open={open}
+    onClose={handleDeleteDialogClose}
   >
     <DialogTitle id="alert-dialog-title">
       本当にこのメモを削除してよろしいですか？

@@ -13,6 +13,7 @@ type Props = {
 
 const Header: FC<Props> = ({ userName, handleLogout }) => {
   const theme = useTheme();
+  const menuId = 'account-menu';
 
   // componentsには基本的にロジックを持たせないが、UIの状態に関するものなので、ここで定義している
   const [menuAnchorEl, setMenuAnchorEl] = useState<Element | null>(null);
@@ -49,8 +50,12 @@ const Header: FC<Props> = ({ userName, handleLogout }) => {
           </Typography>
           {userName && (
             <>
-              <AccountButton handleAccountMenuOpen={handleAccountMenuOpen} />
+              <AccountButton
+                menuId={menuId}
+                handleAccountMenuOpen={handleAccountMenuOpen}
+              />
               <AccountMenu
+                menuId={menuId}
                 userName={userName}
                 anchorEl={menuAnchorEl}
                 open={isAccouuntMenuOpen}

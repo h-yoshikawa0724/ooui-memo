@@ -3,24 +3,22 @@ import { IconButton, Tooltip } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 type Props = {
+  dialogId: string;
   handleDeleteDialogOpen: VoidFunction;
 };
 
-const DeleteButton: FC<Props> = ({ handleDeleteDialogOpen }) => {
-  const deleteId = 'delete-memo';
-  return (
-    <Tooltip title="このメモを削除">
-      <IconButton
-        aria-label="delete current memo"
-        aria-controls={deleteId}
-        aria-haspopup="true"
-        color="inherit"
-        onClick={handleDeleteDialogOpen}
-      >
-        <DeleteIcon />
-      </IconButton>
-    </Tooltip>
-  );
-};
+const DeleteButton: FC<Props> = ({ dialogId, handleDeleteDialogOpen }) => (
+  <Tooltip title="このメモを削除">
+    <IconButton
+      aria-label="このメモを削除"
+      aria-controls={dialogId}
+      aria-haspopup="dialog"
+      color="inherit"
+      onClick={handleDeleteDialogOpen}
+    >
+      <DeleteIcon />
+    </IconButton>
+  </Tooltip>
+);
 
 export default DeleteButton;

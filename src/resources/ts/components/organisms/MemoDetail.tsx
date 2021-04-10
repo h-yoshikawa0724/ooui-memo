@@ -43,6 +43,7 @@ const MemoDetail: FC<Props> = ({
   handleDeleteMemo,
 }) => {
   const theme = useTheme();
+  const dialogId = 'delete-memo-confirm';
 
   // componentsには基本的にロジックを持たせないが、UIの状態に関するものなので、ここで定義している
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
@@ -95,6 +96,7 @@ const MemoDetail: FC<Props> = ({
     <>
       <Box height={1} display="flex" flexDirection="column">
         <MemoDetailHeader
+          dialogId={dialogId}
           handleBack={handleBack}
           handleDeleteDialogOpen={handleDeleteDialogOpen}
         />
@@ -148,6 +150,7 @@ const MemoDetail: FC<Props> = ({
         />
       </Box>
       <MemoDeleteDialog
+        dialogId={dialogId}
         open={isDeleteDialogOpen}
         handleDeleteDialogClose={handleDeleteDialogClose}
         handleDeleteMemo={handleDeleteMemo}
