@@ -1,4 +1,4 @@
-import { QueryObserverResult, useQuery, UseQueryOptions } from 'react-query';
+import { UseQueryResult, useQuery, UseQueryOptions } from 'react-query';
 import axios, { AxiosError } from 'axios';
 import camelcaseKeys from 'camelcase-keys';
 import { Memo } from '../../models/Memo';
@@ -11,7 +11,7 @@ const getMemo = async (memoId: string): Promise<Memo> => {
 const useGetMemoQuery = <TData = Memo>(
   memoId: string,
   options?: UseQueryOptions<Memo, AxiosError, TData>
-): QueryObserverResult<TData, AxiosError> =>
+): UseQueryResult<TData, AxiosError> =>
   useQuery(['memo', memoId], () => getMemo(memoId), options);
 
 export default useGetMemoQuery;

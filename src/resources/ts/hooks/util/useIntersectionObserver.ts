@@ -17,7 +17,7 @@ type Response = {
 };
 
 const useIntersectionObserver = ({
-  root,
+  root = null,
   onIntersect,
   threshold = 1.0,
   rootMargin = '0px',
