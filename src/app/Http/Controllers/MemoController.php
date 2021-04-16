@@ -22,12 +22,25 @@ class MemoController extends Controller
     /**
      * （ログインユーザの）メモ一覧取得API
      *
+     * @param Request $request
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function index()
+    public function index(Request $request)
     {
+        $searchWord = $request->query('searchWord', null);
         $user = Auth::user();
-        $memos = Memo::where('user_id', $user->user_id)->orderBy(Memo::UPDATED_AT, 'desc')->paginate(30);
+
+        // 検索キーワードがある場合のみLIKE条件を含める
+        if (isset($searchWord)) {
+            $memos = Memo::where('user_id', $user->user_id)
+                        ->whereLikes($searchWord)
+                        ->orderBy(Memo::UPDATED_AT, 'desc')
+                        ->paginate(30);
+        } else {
+            $memos = Memo::where('user_id', $user->user_id)
+                        ->orderBy(Memo::UPDATED_AT, 'desc')
+                        ->paginate(30);
+        }
 
         return $memos;
     }
