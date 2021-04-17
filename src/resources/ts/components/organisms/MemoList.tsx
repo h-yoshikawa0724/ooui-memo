@@ -15,6 +15,8 @@ type Props = {
   loadMoreRef: (node: Element) => void;
   hasNextPage?: boolean;
   isFetchingNextPage: boolean;
+  searchWord: string;
+  handleChangeSearchWord: (ev: React.ChangeEvent<HTMLInputElement>) => void;
   handleAddMemo: VoidFunction;
   handleSelectItem: (selectMemoId: string) => void;
 };
@@ -26,6 +28,8 @@ const MemoList: FC<Props> = ({
   loadMoreRef,
   hasNextPage,
   isFetchingNextPage,
+  searchWord,
+  handleChangeSearchWord,
   handleAddMemo,
   handleSelectItem,
 }) => {
@@ -64,7 +68,11 @@ const MemoList: FC<Props> = ({
 
   return (
     <>
-      <MemoListHeader handleAddMemo={handleAddMemo} />
+      <MemoListHeader
+        searchWord={searchWord}
+        handleChangeSearchWord={handleChangeSearchWord}
+        handleAddMemo={handleAddMemo}
+      />
       {/* 140px = ヘッダー：64 + メモ一覧ヘッダー：48 + 下部余白：28 */}
       <List style={{ height: 'calc(100vh - 140px)', overflowY: 'scroll' }}>
         {paginateMemos?.map((page) => (
