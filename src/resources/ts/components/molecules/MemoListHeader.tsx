@@ -27,7 +27,7 @@ const MemoListHeader: FC<Props> = ({
       }
       value={searchWord}
       inputProps={{ 'aria-label': 'メモ検索ワード入力' }}
-      style={{ height: '40px', flexGrow: 1 }}
+      style={{ height: '32px', flexGrow: 1 }}
       onChange={handleChangeSearchWord}
     />
     <AddMemoButton handleAddMemo={handleAddMemo} />
