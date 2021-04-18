@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import React, { FC, useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
@@ -11,15 +11,17 @@ type Props = {
 };
 
 const EnhancedMemoList: FC<Props> = ({ memoId }) => {
+  const [searchWord, setSearchWord] = useState<string>('');
   const {
     isFetching,
     isLoading,
     error,
     data: paginateMemos,
+    refetch,
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-  } = useGetMemoListQuery();
+  } = useGetMemoListQuery(searchWord);
   const history = useHistory();
   const statusCode = error?.response?.status;
 
@@ -27,11 +29,22 @@ const EnhancedMemoList: FC<Props> = ({ memoId }) => {
   const theme = useTheme();
   const iswideDisplay = useMediaQuery(theme.breakpoints.up('sm'));
   useEffect(() => {
-    const firstMemoId = paginateMemos?.pages[0]?.data[0].memoId;
+    const firstMemoId = paginateMemos?.pages[0]?.data[0]?.memoId;
     if (!isFetching && !memoId && iswideDisplay && firstMemoId) {
       history.push(`/${firstMemoId}`);
     }
   }, [history, isFetching, paginateMemos, memoId, iswideDisplay]);
+
+  const handleChangeSearchWord = useCallback(
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchWord(ev.target.value);
+    },
+    []
+  );
+  // 検索ワードが入力されたら再取得する
+  useEffect(() => {
+    refetch({ cancelRefetch: true });
+  }, [refetch, searchWord]);
 
   // 無限スクロール処理
   const { loadMoreRef } = useIntersectionObserver({
@@ -59,6 +72,8 @@ const EnhancedMemoList: FC<Props> = ({ memoId }) => {
       loadMoreRef={loadMoreRef}
       hasNextPage={hasNextPage}
       isFetchingNextPage={isFetchingNextPage}
+      searchWord={searchWord}
+      handleChangeSearchWord={handleChangeSearchWord}
       handleAddMemo={handleAddMemo}
       handleSelectItem={handleSelectItem}
     />

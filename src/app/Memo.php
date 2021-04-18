@@ -34,4 +34,17 @@ class Memo extends Model
     {
         return $this->belongsTo('App\User', 'user_id', 'user_id');
     }
+
+    /**
+     * メモタイトルかメモ内容の部分一致クエリのスコープ
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $keyword
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWhereLikes($query, string $keyword)
+    {
+        return $query->where('title', 'like', '%' . addcslashes($keyword, '%_\\') . '%')
+                     ->orWhere('content', 'like', '%' . addcslashes($keyword, '%_\\') . '%');
+    }
 }

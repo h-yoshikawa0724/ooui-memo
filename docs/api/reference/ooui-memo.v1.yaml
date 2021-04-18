@@ -23,6 +23,7 @@ paths:
       operationId: get-memos
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
+        - $ref: '#/components/parameters/searchWord'
         - $ref: '#/components/parameters/page'
       description: |
         （ログインユーザの）メモ一覧取得API（1ページつき30件）
@@ -373,6 +374,13 @@ components:
       schema:
         type: number
       description: ページ数
+    searchWord:
+      name: searchWord
+      in: query
+      required: false
+      schema:
+        type: string
+      description: 検索文字
   securitySchemes: {}
 tags:
   - name: Memos
