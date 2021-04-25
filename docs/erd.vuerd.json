@@ -3,8 +3,8 @@
     "version": "2.0.10",
     "width": 2000,
     "height": 2000,
-    "scrollTop": -201.6,
-    "scrollLeft": -43.99999999999999,
+    "scrollTop": -0.8,
+    "scrollLeft": -0.8,
     "zoomLevel": 1,
     "show": {
       "tableComment": true,
@@ -243,6 +243,29 @@
             "id": "9bd65de5-70e0-b097-1c83-57953e088ffa"
           },
           {
+            "name": "auth_type",
+            "comment": "認証タイプ【SOCAIL, MAIL】",
+            "dataType": "ENUM",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 66,
+              "widthComment": 120,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "4b7a582c-387d-4021-95d1-7240c2c3b036"
+          },
+          {
             "name": "email",
             "comment": "メールアドレス",
             "dataType": "VARCHAR(255)",
@@ -383,9 +406,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 53.599999999999994,
+          "left": 51.99999999999999,
           "top": 77.60000000000002,
-          "zIndex": 3,
+          "zIndex": 12,
           "widthName": 60,
           "widthComment": 60
         },
@@ -596,10 +619,10 @@
           }
         ],
         "ui": {
-          "active": true,
+          "active": false,
           "left": 52.51111111111118,
           "top": 417.2444444444444,
-          "zIndex": 6,
+          "zIndex": 3,
           "widthName": 116,
           "widthComment": 106
         },
@@ -639,8 +662,8 @@
           "columnIds": [
             "80dcdb6c-153d-980d-bec4-92666358e701"
           ],
-          "x": 579.6,
-          "y": 194.10000000000002,
+          "x": 578,
+          "y": 204.35000000000002,
           "direction": "right"
         },
         "end": {
@@ -663,8 +686,8 @@
           "columnIds": [
             "80dcdb6c-153d-980d-bec4-92666358e701"
           ],
-          "x": 316.6,
-          "y": 310.6,
+          "x": 315,
+          "y": 331.1,
           "direction": "bottom"
         },
         "end": {
