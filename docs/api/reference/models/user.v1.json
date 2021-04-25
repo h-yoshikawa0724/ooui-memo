@@ -8,6 +8,11 @@
       "type": "string",
       "description": "ユーザ名"
     },
+    "auth_type": {
+      "type": "string",
+      "description": "認証タイプ【Social, Mail】",
+      "readOnly": true
+    },
     "email": {
       "type": "string",
       "description": "メールアドレス",
@@ -21,6 +26,7 @@
   },
   "required": [
     "name",
+    "auth_type",
     "email",
     "password"
   ]

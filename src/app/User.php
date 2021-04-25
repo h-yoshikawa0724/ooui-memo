@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'auth_type', 'email', 'password',
     ];
 
     /**
@@ -27,7 +27,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $visible = [
-        'name',
+        'name', 'auth_type'
     ];
 
     /**
@@ -39,12 +39,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-     /**
+    /**
      * リレーション - Memo
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function memos()
     {
         return $this->hasMany('App\Memo', 'user_id');
+    }
+
+    /**
+     * リレーション - IdentityProviders
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function identityProviders()
+    {
+        return $this->hasMany('App\IdentityProvider', 'user_id');
     }
 }
