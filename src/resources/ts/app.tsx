@@ -12,6 +12,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Login from './containers/pages/Login';
 import Memo from './containers/pages/Memo';
+import Account from './containers/pages/Account';
 import Loding from './components/pages/Loding';
 import { useGetUserQuery, useCurrentUser } from './hooks/user';
 
@@ -93,6 +94,9 @@ const App: FC = () => {
       <UnAuthRoute exact path="/login">
         <Login />
       </UnAuthRoute>
+      <AuthRoute path="/settings/account">
+        <Account />
+      </AuthRoute>
       <AuthRoute path="/:memoId?">
         <Memo />
       </AuthRoute>
