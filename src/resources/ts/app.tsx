@@ -13,6 +13,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Login from './containers/pages/Login';
 import Memo from './containers/pages/Memo';
 import Loding from './components/pages/Loding';
+import Terms from './components/pages/Terms';
 import { useGetUserQuery, useCurrentUser } from './hooks/user';
 
 /**
@@ -90,6 +91,9 @@ const App: FC = () => {
 
   return (
     <Switch>
+      <Route exact path="/terms">
+        <Terms />
+      </Route>
       <UnAuthRoute exact path="/login">
         <Login />
       </UnAuthRoute>
