@@ -16,7 +16,7 @@ class CreateMemosTable extends Migration
         Schema::create('memos', function (Blueprint $table) {
             $table->uuid('memo_id')->primary()->comment('メモID');
             $table->uuid('user_id')->comment('ユーザID');
-            $table->foreign('user_id')->references('user_id')->on('users');
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');;
 
             $table->string('title', 100)->nullable()->comment('メモタイトル');
             $table->text('content')->nullable()->comment('メモ内容'); // 65535文字
