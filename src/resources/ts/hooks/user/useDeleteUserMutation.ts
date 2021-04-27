@@ -3,7 +3,7 @@ import axios, { AxiosError } from 'axios';
 import { MutationError } from '../../models/MutationError';
 
 const deleteUser = async (): Promise<void> => {
-  await axios.delete('/api/memos/me');
+  await axios.delete('/api/users/me');
 };
 
 const useDeleteUserMutation = (): UseMutationResult<

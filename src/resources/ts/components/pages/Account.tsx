@@ -1,7 +1,8 @@
-import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
+import React, { FC, useState, useCallback } from 'react';
+import Backdrop from '@material-ui/core/Backdrop';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -9,6 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Header from '../../containers/organisms/Header';
 import SettingsSideBar from '../organisms/SettingsSideBar';
+import UserDeleteDialog from '../molecules/UserDeleteDialog';
+import UserDeleteAlert from '../molecules/UserDeleteAlert';
 
 const useStyles = makeStyles(() => ({
   decorationLine: {
@@ -18,13 +21,27 @@ const useStyles = makeStyles(() => ({
 }));
 
 type Props = {
+  statusCode?: number;
+  isLoading: boolean;
   handleDeleteUser: VoidFunction;
 };
 
-const Account: FC<Props> = ({ handleDeleteUser }) => {
+const Account: FC<Props> = ({ statusCode, isLoading, handleDeleteUser }) => {
   const theme = useTheme();
   const classes = useStyles();
   const paddingY = 2;
+
+  const dialogId = 'delete-user-confirm';
+
+  // componentsには基本的にロジックを持たせないが、UIの状態に関するものなので、ここで定義している
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
+  const handleDeleteDialogOpen = useCallback(() => {
+    setIsDeleteDialogOpen(true);
+  }, []);
+  const handleDeleteDialogClose = useCallback(() => {
+    setIsDeleteDialogOpen(false);
+  }, []);
+
   return (
     <>
       <Header />
@@ -60,7 +77,19 @@ const Account: FC<Props> = ({ handleDeleteUser }) => {
                 <Typography paragraph>
                   削除すると元に戻すことは出来ません。
                 </Typography>
-                <Button color="secondary" variant="outlined">
+                {statusCode && (
+                  <Box mb={2}>
+                    <UserDeleteAlert statusCode={statusCode} />
+                  </Box>
+                )}
+                <Button
+                  color="secondary"
+                  variant="outlined"
+                  aria-label="ログインユーザを削除"
+                  aria-controls={dialogId}
+                  aria-haspopup="dialog"
+                  onClick={handleDeleteDialogOpen}
+                >
                   アカウント削除
                 </Button>
               </Box>
@@ -68,6 +97,15 @@ const Account: FC<Props> = ({ handleDeleteUser }) => {
           </Grid>
         </Grid>
       </Container>
+      <UserDeleteDialog
+        dialogId={dialogId}
+        open={isDeleteDialogOpen}
+        handleDeleteDialogClose={handleDeleteDialogClose}
+        handleDeleteUser={handleDeleteUser}
+      />
+      <Backdrop style={{ zIndex: theme.zIndex.drawer + 1 }} open={isLoading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </>
   );
 };
