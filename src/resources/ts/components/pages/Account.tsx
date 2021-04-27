@@ -4,12 +4,11 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import MenuList from '@material-ui/core/MenuList';
-import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Header from '../../containers/organisms/Header';
+import SettingsSideBar from '../organisms/SettingsSideBar';
 
 const useStyles = makeStyles(() => ({
   decorationLine: {
@@ -32,16 +31,7 @@ const Account: FC<Props> = ({ handleDeleteUser }) => {
       <Container maxWidth="md">
         <Grid container spacing={3} style={{ marginTop: theme.spacing(2) }}>
           <Grid item xs={12} sm={3}>
-            <Paper>
-              <MenuList>
-                {/* <MenuItem selected>
-                  <Link to="/settings/profile">プロフィール設定</Link>
-                </MenuItem> */}
-                <MenuItem selected>
-                  <Link to="/settings/account">アカウント設定</Link>
-                </MenuItem>
-              </MenuList>
-            </Paper>
+            <SettingsSideBar />
           </Grid>
           <Grid item xs={12} sm={9}>
             <Paper
