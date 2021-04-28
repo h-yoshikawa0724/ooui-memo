@@ -17,6 +17,7 @@ Route::post('/register', 'Auth\RegisterController@register')->name('register');
 Route::post('/login', 'Auth\LoginController@login')->name('login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/users/me', 'UserController@show')->name('user');
+Route::delete('/users/me', 'UserController@delete')->name('user.delete');
 
 Route::get('/memos', 'MemoController@index')->name('memo.index');
 Route::get('/memos/{memo_id}', 'MemoController@show')->name('memo.show');

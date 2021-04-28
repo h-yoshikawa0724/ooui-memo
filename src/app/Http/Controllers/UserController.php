@@ -26,4 +26,22 @@ class UserController extends Controller
     {
         return Auth::user();
     }
+
+    /**
+     * （ログインユーザで）ユーザ削除API
+     *
+     * @param Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function delete(Request $request)
+    {
+        /** @var App\User $user */
+        $user = Auth::user();
+        $user->delete();
+
+        // セッションを再生成する
+        $request->session()->regenerate();
+
+        return response(null, 204);
+    }
 }

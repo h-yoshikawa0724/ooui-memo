@@ -161,7 +161,7 @@ paths:
       description: ログアウトAPI
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
-  /user:
+  /user/me:
     get:
       summary: GET User
       tags:
@@ -177,6 +177,21 @@ paths:
       description: ログインユーザ取得API
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
+    delete:
+      summary: DELETE User
+      operationId: delete-user
+      responses:
+        '204':
+          description: No Content
+        '401':
+          $ref: '#/components/responses/UnAuthorizedError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      description: ログインユーザ削除API（ユーザに紐づく子データも削除）
+      parameters:
+        - $ref: '#/components/parameters/XSRF-TOKEN'
+      tags:
+        - Users
   /register:
     post:
       summary: POST User
