@@ -9,6 +9,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import SettingsIcon from '@material-ui/icons/Settings';
 
 const useStyles = makeStyles(() => ({
@@ -64,6 +65,15 @@ const AccountMenu: FC<Props> = ({
         </Box>
       </ListItem>
       <Divider />
+      <MenuItem>
+        <ListItemIcon>
+          <HelpOutlineIcon />
+        </ListItemIcon>
+        {/* 一時的にtermsに 後にaboutにする */}
+        <Link to="/terms" className={classes.sidebarMenuItem}>
+          ヘルプ
+        </Link>
+      </MenuItem>
       <MenuItem>
         <ListItemIcon>
           <SettingsIcon />

@@ -113,7 +113,7 @@ const App: FC = () => {
       <UnAuthRoute exact path="/login">
         <Login />
       </UnAuthRoute>
-      <AuthRoute path="/settings/account">
+      <AuthRoute exact path="/settings/account">
         <Account />
         <MutationErrorAlertBar
           error={error}
