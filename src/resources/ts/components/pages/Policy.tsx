@@ -25,7 +25,7 @@ const Policy: FC = () => {
       <Header />
       <Container maxWidth="md">
         <Grid container spacing={3} style={{ marginTop: theme.spacing(2) }}>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={3} style={{ minWidth: 216 }}>
             <HelpSideBar />
           </Grid>
           <Grid item xs={12} sm={9}>
