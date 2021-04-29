@@ -14,6 +14,7 @@ import Login from './containers/pages/Login';
 import Memo from './containers/pages/Memo';
 import Account from './containers/pages/Account';
 import Loding from './components/pages/Loding';
+import Policy from './components/pages/Policy';
 import Terms from './components/pages/Terms';
 import MutationErrorAlertBar from './components/molecules/MutationErrorAlertBar';
 import { useGetUserQuery, useCurrentUser } from './hooks/user';
@@ -109,6 +110,9 @@ const App: FC = () => {
     <Switch>
       <Route exact path="/terms">
         <Terms />
+      </Route>
+      <Route exact path="/policy">
+        <Policy />
       </Route>
       <UnAuthRoute exact path="/login">
         <Login />

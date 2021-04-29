@@ -9,7 +9,7 @@ const HelpSideBar: FC = () => (
       {/* <SideBarItem title="当サービスについて" linkUrl="/about" />
       <SideBarItem title="Q & A" linkUrl="/faq" /> */}
       <SideBarItem title="利用規約" linkUrl="/terms" />
-      {/* <SideBarItem title="プライバシーポリシー" linkUrl="/policy" /> */}
+      <SideBarItem title="プライバシーポリシー" linkUrl="/policy" />
     </MenuList>
   </Paper>
 );
