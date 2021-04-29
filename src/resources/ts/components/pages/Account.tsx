@@ -12,6 +12,7 @@ import Header from '../../containers/organisms/Header';
 import SettingsSideBar from '../organisms/SettingsSideBar';
 import UserDeleteDialog from '../molecules/UserDeleteDialog';
 import UserDeleteAlert from '../molecules/UserDeleteAlert';
+import Footer from '../organisms/Footer';
 
 const useStyles = makeStyles(() => ({
   decorationLine: {
@@ -97,6 +98,7 @@ const Account: FC<Props> = ({ statusCode, isLoading, handleDeleteUser }) => {
           </Grid>
         </Grid>
       </Container>
+      <Footer />
       <UserDeleteDialog
         dialogId={dialogId}
         open={isDeleteDialogOpen}

@@ -11,6 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import useTheme from '@material-ui/core/styles/useTheme';
 import Header from '../../containers/organisms/Header';
 import LoginAlert from '../molecules/LoginAlert';
+import Footer from '../organisms/Footer';
 
 type Props = {
   email: string;
@@ -79,6 +80,7 @@ const Login: FC<Props> = ({
           </CardContent>
         </Card>
       </Container>
+      <Footer />
       <Backdrop style={{ zIndex: theme.zIndex.drawer + 1 }} open={isLoading}>
         <CircularProgress color="inherit" />
       </Backdrop>

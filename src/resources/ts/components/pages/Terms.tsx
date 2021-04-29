@@ -7,6 +7,7 @@ import Typograpy from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Header from '../../containers/organisms/Header';
 import HelpSideBar from '../organisms/HelpSideBar';
+import Footer from '../organisms/Footer';
 
 const useStyles = makeStyles(() => ({
   decorationLine: {
@@ -333,6 +334,7 @@ const Terms: FC = () => {
           </Grid>
         </Grid>
       </Container>
+      <Footer />
     </>
   );
 };
