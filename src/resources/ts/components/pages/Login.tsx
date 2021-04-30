@@ -34,9 +34,10 @@ const Login: FC<Props> = ({
 }) => {
   const theme = useTheme();
   return (
-    <>
+    // 縦幅が足りないのでフッター下部固定のためのflex
+    <Box display="flex" flexDirection="column" minHeight="100vh">
       <Header />
-      <Container maxWidth="xs">
+      <Container maxWidth="xs" style={{ flex: 1 }}>
         <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
           <CardHeader title="login" style={{ textAlign: 'center' }} />
           <CardContent>
@@ -84,7 +85,7 @@ const Login: FC<Props> = ({
       <Backdrop style={{ zIndex: theme.zIndex.drawer + 1 }} open={isLoading}>
         <CircularProgress color="inherit" />
       </Backdrop>
-    </>
+    </Box>
   );
 };
 

@@ -44,9 +44,10 @@ const Account: FC<Props> = ({ statusCode, isLoading, handleDeleteUser }) => {
   }, []);
 
   return (
-    <>
+    // 縦幅が足りないのでフッター下部固定のためのflex
+    <Box display="flex" flexDirection="column" minHeight="100vh">
       <Header />
-      <Container maxWidth="md">
+      <Container maxWidth="md" style={{ flex: 1 }}>
         <Grid
           container
           spacing={3}
@@ -116,7 +117,7 @@ const Account: FC<Props> = ({ statusCode, isLoading, handleDeleteUser }) => {
       <Backdrop style={{ zIndex: theme.zIndex.drawer + 1 }} open={isLoading}>
         <CircularProgress color="inherit" />
       </Backdrop>
-    </>
+    </Box>
   );
 };
 
