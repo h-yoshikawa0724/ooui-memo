@@ -37,50 +37,52 @@ const Login: FC<Props> = ({
     // 縦幅が足りないのでフッター下部固定のためのflex
     <Box display="flex" flexDirection="column" minHeight="100vh">
       <Header />
-      <Container component="main" maxWidth="xs" style={{ flex: 1 }}>
-        <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
-          <CardHeader title="login" style={{ textAlign: 'center' }} />
-          <CardContent>
-            <form onSubmit={handleLogin}>
-              <Box
-                p={2}
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-              >
-                {statusCode && <LoginAlert statusCode={statusCode} />}
-                <TextField
-                  label="メールアドレス"
-                  variant="outlined"
-                  fullWidth
-                  value={email}
-                  margin="normal"
-                  required
-                  autoComplete="email"
-                  autoFocus
-                  onChange={handleChangeEmail}
-                />
-                <TextField
-                  type="password"
-                  label="パスワード"
-                  variant="outlined"
-                  fullWidth
-                  value={password}
-                  margin="normal"
-                  required
-                  autoComplete="current-password"
-                  onChange={handleChangePassword}
-                />
-                <Box my={2}>
-                  <Button type="submit" color="primary" variant="contained">
-                    ログイン
-                  </Button>
+      <main style={{ flex: 1 }}>
+        <Container maxWidth="xs">
+          <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
+            <CardHeader title="login" style={{ textAlign: 'center' }} />
+            <CardContent>
+              <form onSubmit={handleLogin}>
+                <Box
+                  p={2}
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="center"
+                >
+                  {statusCode && <LoginAlert statusCode={statusCode} />}
+                  <TextField
+                    label="メールアドレス"
+                    variant="outlined"
+                    fullWidth
+                    value={email}
+                    margin="normal"
+                    required
+                    autoComplete="email"
+                    autoFocus
+                    onChange={handleChangeEmail}
+                  />
+                  <TextField
+                    type="password"
+                    label="パスワード"
+                    variant="outlined"
+                    fullWidth
+                    value={password}
+                    margin="normal"
+                    required
+                    autoComplete="current-password"
+                    onChange={handleChangePassword}
+                  />
+                  <Box my={2}>
+                    <Button type="submit" color="primary" variant="contained">
+                      ログイン
+                    </Button>
+                  </Box>
                 </Box>
-              </Box>
-            </form>
-          </CardContent>
-        </Card>
-      </Container>
+              </form>
+            </CardContent>
+          </Card>
+        </Container>
+      </main>
       <Footer />
       <Backdrop style={{ zIndex: theme.zIndex.drawer + 1 }} open={isLoading}>
         <CircularProgress color="inherit" />
