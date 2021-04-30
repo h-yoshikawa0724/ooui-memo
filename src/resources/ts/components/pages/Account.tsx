@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Header from '../../containers/organisms/Header';
 import SettingsSideBar from '../organisms/SettingsSideBar';
 import UserDeleteDialog from '../molecules/UserDeleteDialog';
@@ -29,6 +30,7 @@ type Props = {
 
 const Account: FC<Props> = ({ statusCode, isLoading, handleDeleteUser }) => {
   const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
   const classes = useStyles();
   const paddingY = 2;
 
@@ -63,7 +65,9 @@ const Account: FC<Props> = ({ statusCode, isLoading, handleDeleteUser }) => {
               <Paper
                 component="section"
                 style={{
-                  padding: `${theme.spacing(2)}px ${theme.spacing(6)}px`,
+                  padding: matches
+                    ? `${theme.spacing(2)}px ${theme.spacing(6)}px`
+                    : `${theme.spacing(2)}px ${theme.spacing(3)}px`,
                 }}
               >
                 <Box
@@ -71,7 +75,7 @@ const Account: FC<Props> = ({ statusCode, isLoading, handleDeleteUser }) => {
                   borderBottom={2}
                   className={classes.decorationLine}
                 >
-                  <Typography component="h2" variant="h4">
+                  <Typography align="center" component="h2" variant="h4">
                     アカウント設定
                   </Typography>
                 </Box>

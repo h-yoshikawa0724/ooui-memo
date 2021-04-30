@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typograpy from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Header from '../../containers/organisms/Header';
 import HelpSideBar from '../organisms/HelpSideBar';
 import Footer from '../organisms/Footer';
@@ -18,6 +19,7 @@ const useStyles = makeStyles(() => ({
 
 const Terms: FC = () => {
   const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
   const classes = useStyles();
   const paddingY = 2;
   return (
@@ -40,7 +42,9 @@ const Terms: FC = () => {
               <Paper
                 component="article"
                 style={{
-                  padding: `${theme.spacing(2)}px ${theme.spacing(6)}px`,
+                  padding: matches
+                    ? `${theme.spacing(2)}px ${theme.spacing(6)}px`
+                    : `${theme.spacing(2)}px ${theme.spacing(3)}px`,
                 }}
               >
                 <Box
