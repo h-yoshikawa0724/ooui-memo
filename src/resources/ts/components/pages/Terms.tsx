@@ -27,7 +27,10 @@ const Terms: FC = () => {
         <Grid
           container
           spacing={3}
-          style={{ margin: `${theme.spacing(6)}px 0px` }}
+          style={{
+            paddingTop: theme.spacing(6),
+            paddingBottom: theme.spacing(6),
+          }}
         >
           <Grid item xs={12} sm={3}>
             <HelpSideBar />
