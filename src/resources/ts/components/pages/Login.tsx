@@ -37,7 +37,7 @@ const Login: FC<Props> = ({
     // 縦幅が足りないのでフッター下部固定のためのflex
     <Box display="flex" flexDirection="column" minHeight="100vh">
       <Header />
-      <Container maxWidth="xs" style={{ flex: 1 }}>
+      <Container component="main" maxWidth="xs" style={{ flex: 1 }}>
         <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
           <CardHeader title="login" style={{ textAlign: 'center' }} />
           <CardContent>

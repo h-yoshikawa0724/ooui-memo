@@ -47,7 +47,7 @@ const Account: FC<Props> = ({ statusCode, isLoading, handleDeleteUser }) => {
     // 縦幅が足りないのでフッター下部固定のためのflex
     <Box display="flex" flexDirection="column" minHeight="100vh">
       <Header />
-      <Container maxWidth="md" style={{ flex: 1 }}>
+      <Container component="main" maxWidth="md" style={{ flex: 1 }}>
         <Grid
           container
           spacing={3}

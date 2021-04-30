@@ -23,7 +23,7 @@ const Terms: FC = () => {
   return (
     <>
       <Header />
-      <Container maxWidth="md">
+      <Container component="main" maxWidth="md">
         <Grid
           container
           spacing={3}
