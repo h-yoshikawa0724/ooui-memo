@@ -13,30 +13,28 @@ const Footer: FC = () => {
   return (
     <Box component="footer" bgcolor={theme.palette.common.white}>
       <Container>
-        <Grid container spacing={3} style={{ marginTop: theme.spacing(2) }}>
+        <Grid container spacing={3} style={{ padding: theme.spacing(2) }}>
           <Grid item xs={6} component="nav">
-            <Typography component="h4" variant="h5">
+            <Typography component="h4" variant="h6">
               About
             </Typography>
             <List>
-              {/* <FooterNavItem title="OOUI-MEMOとは？" linkUrl="/about" /> */}
-              <ListItem>
-                <Typography>OOUI-MEMOとは？</Typography>
-              </ListItem>
-              {/* <FooterNavItem title="Q &amp; A" linkUrl="/faq" /> */}
-              <ListItem>
-                <Typography>Q &amp; A</Typography>
-              </ListItem>
+              {/* ページはまだ未作成 */}
+              <FooterNavItem title="OOUI-MEMOとは？" linkUrl="/about" />
+              <FooterNavItem title="Q &amp; A" linkUrl="/faq" />
             </List>
           </Grid>
           <Grid item xs={6} component="nav">
-            <Typography component="h4" variant="h5">
+            <Typography component="h4" variant="h6">
               Legal
             </Typography>
             <List>
               <FooterNavItem title="利用規約" linkUrl="/terms" />
               <FooterNavItem title="プライバシーポリシー" linkUrl="/policy" />
             </List>
+          </Grid>
+          <Grid xs={12}>
+            <Typography align="center">© 2021 h-yoshikawa44</Typography>
           </Grid>
         </Grid>
       </Container>

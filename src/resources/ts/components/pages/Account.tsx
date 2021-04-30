@@ -47,7 +47,11 @@ const Account: FC<Props> = ({ statusCode, isLoading, handleDeleteUser }) => {
     <>
       <Header />
       <Container maxWidth="md">
-        <Grid container spacing={3} style={{ marginTop: theme.spacing(2) }}>
+        <Grid
+          container
+          spacing={3}
+          style={{ margin: `${theme.spacing(6)}px 0px` }}
+        >
           <Grid item xs={12} sm={3}>
             <SettingsSideBar />
           </Grid>
