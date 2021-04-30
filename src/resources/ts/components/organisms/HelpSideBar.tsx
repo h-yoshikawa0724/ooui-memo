@@ -4,7 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import SideBarItem from '../molecules/SidebarItem';
 
 const HelpSideBar: FC = () => (
-  <Paper>
+  <Paper component="nav">
     <MenuList>
       {/* <SideBarItem title="当サービスについて" linkUrl="/about" />
       <SideBarItem title="Q & A" linkUrl="/faq" /> */}

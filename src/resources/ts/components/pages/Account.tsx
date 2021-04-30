@@ -57,6 +57,7 @@ const Account: FC<Props> = ({ statusCode, isLoading, handleDeleteUser }) => {
           </Grid>
           <Grid item xs={12} sm={9}>
             <Paper
+              component="section"
               style={{
                 padding: `${theme.spacing(2)}px ${theme.spacing(6)}px`,
               }}

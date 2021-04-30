@@ -28,6 +28,7 @@ const MemoFooter: FC<Props> = ({
   const theme = useTheme();
   return (
     <Box
+      component="footer"
       mt={marginTop} // 8 × marginTop が実際にあたる値
       p={1}
       zIndex={theme.zIndex.appBar}

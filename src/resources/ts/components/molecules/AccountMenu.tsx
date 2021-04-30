@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Typography from '@material-ui/core/Typography';
@@ -65,29 +66,31 @@ const AccountMenu: FC<Props> = ({
         </Box>
       </ListItem>
       <Divider />
-      <MenuItem>
-        <ListItemIcon>
-          <HelpOutlineIcon />
-        </ListItemIcon>
-        {/* 一時的にtermsに 後にaboutにする */}
-        <Link to="/terms" className={classes.sidebarMenuItem}>
-          ヘルプ
-        </Link>
-      </MenuItem>
-      <MenuItem>
-        <ListItemIcon>
-          <SettingsIcon />
-        </ListItemIcon>
-        <Link to="/settings/account" className={classes.sidebarMenuItem}>
-          設定
-        </Link>
-      </MenuItem>
-      <MenuItem onClick={handleLogout}>
-        <ListItemIcon>
-          <ExitToAppIcon />
-        </ListItemIcon>
-        <Typography>ログアウト</Typography>
-      </MenuItem>
+      <MenuList>
+        <MenuItem>
+          <ListItemIcon>
+            <HelpOutlineIcon />
+          </ListItemIcon>
+          {/* 一時的にtermsに 後にaboutにする */}
+          <Link to="/terms" className={classes.sidebarMenuItem}>
+            ヘルプ
+          </Link>
+        </MenuItem>
+        <MenuItem>
+          <ListItemIcon>
+            <SettingsIcon />
+          </ListItemIcon>
+          <Link to="/settings/account" className={classes.sidebarMenuItem}>
+            設定
+          </Link>
+        </MenuItem>
+        <MenuItem onClick={handleLogout}>
+          <ListItemIcon>
+            <ExitToAppIcon />
+          </ListItemIcon>
+          <Typography>ログアウト</Typography>
+        </MenuItem>
+      </MenuList>
     </Menu>
   );
 };

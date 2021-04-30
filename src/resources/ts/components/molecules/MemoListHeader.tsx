@@ -16,7 +16,7 @@ const MemoListHeader: FC<Props> = ({
   handleChangeSearchWord,
   handleAddMemo,
 }) => (
-  <Box height={48} px={2} display="flex" alignItems="center">
+  <Box component="header" height={48} px={2} display="flex" alignItems="center">
     <Input
       type="search"
       placeholder="検索ワード"

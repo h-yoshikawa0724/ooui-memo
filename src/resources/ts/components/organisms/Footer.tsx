@@ -3,7 +3,6 @@ import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import Typography from '@material-ui/core/Typography';
 import { useTheme } from '@material-ui/core/styles';
 import FooterNavItem from '../molecules/FooterNavItem';
@@ -33,7 +32,7 @@ const Footer: FC = () => {
               <FooterNavItem title="プライバシーポリシー" linkUrl="/policy" />
             </List>
           </Grid>
-          <Grid xs={12}>
+          <Grid item xs={12}>
             <Typography align="center">© 2021 h-yoshikawa44</Typography>
           </Grid>
         </Grid>

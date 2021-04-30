@@ -35,6 +35,7 @@ const Policy: FC = () => {
           </Grid>
           <Grid item xs={12} sm={9}>
             <Paper
+              component="article"
               style={{
                 padding: `${theme.spacing(2)}px ${theme.spacing(6)}px`,
               }}

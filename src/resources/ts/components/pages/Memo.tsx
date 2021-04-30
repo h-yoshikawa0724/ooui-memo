@@ -46,13 +46,15 @@ const Memo: FC<Props> = ({ memoId }) => {
   return (
     <>
       <Header />
-      {matches ? (
-        <Container>
+      <main>
+        {matches ? (
+          <Container>
+            <MemoBody memoId={memoId} />
+          </Container>
+        ) : (
           <MemoBody memoId={memoId} />
-        </Container>
-      ) : (
-        <MemoBody memoId={memoId} />
-      )}
+        )}
+      </main>
     </>
   );
 };
