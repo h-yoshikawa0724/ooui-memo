@@ -44,7 +44,6 @@ const Account: FC<Props> = ({ statusCode, isLoading, handleDeleteUser }) => {
   }, []);
 
   return (
-    // 縦幅が足りないのでフッター下部固定のためのflex
     <Box display="flex" flexDirection="column" minHeight="100vh">
       <Header />
       <main style={{ flex: 1 }}>

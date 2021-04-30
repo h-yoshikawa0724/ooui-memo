@@ -21,7 +21,7 @@ const Terms: FC = () => {
   const classes = useStyles();
   const paddingY = 2;
   return (
-    <>
+    <Box display="flex" flexDirection="column" minHeight="100vh">
       <Header />
       <main>
         <Container maxWidth="md">
@@ -347,7 +347,7 @@ const Terms: FC = () => {
         </Container>
       </main>
       <Footer />
-    </>
+    </Box>
   );
 };
 

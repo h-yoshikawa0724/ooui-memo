@@ -44,7 +44,7 @@ const Memo: FC<Props> = ({ memoId }) => {
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
   return (
-    <>
+    <Box>
       <Header />
       <main>
         {matches ? (
@@ -55,7 +55,7 @@ const Memo: FC<Props> = ({ memoId }) => {
           <MemoBody memoId={memoId} />
         )}
       </main>
-    </>
+    </Box>
   );
 };
 
