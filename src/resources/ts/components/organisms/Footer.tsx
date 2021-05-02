@@ -11,23 +11,43 @@ const Footer: FC = () => {
   return (
     <Box component="footer" p={4} bgcolor={theme.palette.common.white}>
       <Grid container spacing={4}>
-        <Grid item xs={6} component="nav">
+        <Grid item xs={12} sm={4} component="nav">
           <Typography component="h4" variant="h6">
             About
           </Typography>
           <List>
             {/* ページはまだ未作成 */}
-            <FooterNavItem title="OOUI-MEMOとは？" linkUrl="/about" />
-            <FooterNavItem title="Q &amp; A" linkUrl="/faq" />
+            <FooterNavItem
+              type="internal"
+              title="OOUI-MEMOとは？"
+              linkUrl="/about"
+            />
+            <FooterNavItem type="internal" title="Q &amp; A" linkUrl="/faq" />
           </List>
         </Grid>
-        <Grid item xs={6} component="nav">
+        <Grid item xs={12} sm={4} component="nav">
           <Typography component="h4" variant="h6">
             Legal
           </Typography>
           <List>
-            <FooterNavItem title="利用規約" linkUrl="/terms" />
-            <FooterNavItem title="プライバシーポリシー" linkUrl="/policy" />
+            <FooterNavItem type="internal" title="利用規約" linkUrl="/terms" />
+            <FooterNavItem
+              type="internal"
+              title="プライバシーポリシー"
+              linkUrl="/policy"
+            />
+          </List>
+        </Grid>
+        <Grid item xs={12} sm={4} component="nav">
+          <Typography component="h4" variant="h6">
+            Social
+          </Typography>
+          <List>
+            <FooterNavItem
+              type="external"
+              title="GitHub"
+              linkUrl="https://github.com/h-yoshikawa44/ooui-memo"
+            />
           </List>
         </Grid>
         <Grid item xs={12}>
