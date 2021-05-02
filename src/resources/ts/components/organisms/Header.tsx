@@ -1,4 +1,5 @@
 import React, { FC, useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -36,7 +37,7 @@ const Header: FC<Props> = ({ userName, handleLogout }) => {
         position="sticky"
         style={{
           color: theme.palette.text.primary,
-          backgroundColor: 'white',
+          backgroundColor: theme.palette.common.white,
         }}
       >
         <Toolbar>
@@ -46,7 +47,9 @@ const Header: FC<Props> = ({ userName, handleLogout }) => {
             style={{ flexGrow: 1 }}
             align="center"
           >
-            OOUI-MEMO
+            <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+              OOUI-MEMO
+            </Link>
           </Typography>
           {userName && (
             <>

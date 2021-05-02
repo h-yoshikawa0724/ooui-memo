@@ -67,7 +67,7 @@ const MemoList: FC<Props> = ({
   }
 
   return (
-    <>
+    <section>
       <MemoListHeader
         searchWord={searchWord}
         handleChangeSearchWord={handleChangeSearchWord}
@@ -92,7 +92,7 @@ const MemoList: FC<Props> = ({
           {loadMoreMessage}
         </Box>
       </List>
-    </>
+    </section>
   );
 };
 

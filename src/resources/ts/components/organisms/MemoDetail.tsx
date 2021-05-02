@@ -93,7 +93,7 @@ const MemoDetail: FC<Props> = ({
   }
 
   return (
-    <>
+    <section>
       <Box height={1} display="flex" flexDirection="column">
         <MemoDetailHeader
           dialogId={dialogId}
@@ -154,7 +154,7 @@ const MemoDetail: FC<Props> = ({
         handleDeleteDialogClose={handleDeleteDialogClose}
         handleDeleteMemo={handleDeleteMemo}
       />
-    </>
+    </section>
   );
 };
 
