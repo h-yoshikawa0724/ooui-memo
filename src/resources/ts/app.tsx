@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import {
   BrowserRouter as Router,
@@ -12,8 +12,13 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Login from './containers/pages/Login';
 import Memo from './containers/pages/Memo';
+import Account from './containers/pages/Account';
 import Loding from './components/pages/Loding';
+import Policy from './components/pages/Policy';
+import Terms from './components/pages/Terms';
+import MutationErrorAlertBar from './components/molecules/MutationErrorAlertBar';
 import { useGetUserQuery, useCurrentUser } from './hooks/user';
+import { useMutationErrorQuery } from './hooks/util';
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -84,17 +89,47 @@ const App: FC = () => {
     },
   });
 
+  const { data: error } = useMutationErrorQuery();
+
+  const handleErrorBarClose = useCallback(
+    (event?: React.SyntheticEvent, reason?: string) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+
+      queryClient.resetQueries('error');
+    },
+    [queryClient]
+  );
+
   if (isLoading) {
     return <Loding />;
   }
 
   return (
     <Switch>
+      <Route exact path="/terms">
+        <Terms />
+      </Route>
+      <Route exact path="/policy">
+        <Policy />
+      </Route>
       <UnAuthRoute exact path="/login">
         <Login />
       </UnAuthRoute>
+      <AuthRoute exact path="/settings/account">
+        <Account />
+        <MutationErrorAlertBar
+          error={error}
+          handleErrorBarClose={handleErrorBarClose}
+        />
+      </AuthRoute>
       <AuthRoute path="/:memoId?">
         <Memo />
+        <MutationErrorAlertBar
+          error={error}
+          handleErrorBarClose={handleErrorBarClose}
+        />
       </AuthRoute>
     </Switch>
   );
