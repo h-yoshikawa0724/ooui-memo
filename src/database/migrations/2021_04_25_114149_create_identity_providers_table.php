@@ -15,7 +15,7 @@ class CreateIdentityProvidersTable extends Migration
     {
         Schema::create('identity_providers', function (Blueprint $table) {
             $table->uuid('user_id')->comment('ユーザID');
-            $table->foreign('user_id')->references('user_id')->on('users'); // 外部キー制約
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade'); // 外部キー制約
             $table->string('provider_name')->comment('プロバイダー名');
             $table->string('provider_user_id')->comment('プロバイダーユーザID');
             $table->primary(['provider_name', 'provider_user_id']); // 複合キー
