@@ -11,6 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import useTheme from '@material-ui/core/styles/useTheme';
 import Header from '../../containers/organisms/Header';
 import LoginAlert from '../molecules/LoginAlert';
+import LegalLink from '../molecules/LegalLink';
 import Footer from '../organisms/Footer';
 
 type Props = {
@@ -71,6 +72,9 @@ const Login: FC<Props> = ({
                     autoComplete="current-password"
                     onChange={handleChangePassword}
                   />
+                  <Box my={2}>
+                    <LegalLink />
+                  </Box>
                   <Box my={2}>
                     <Button type="submit" color="primary" variant="contained">
                       ログイン
