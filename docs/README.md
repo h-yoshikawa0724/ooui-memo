@@ -1,5 +1,10 @@
 # ドキュメントファイル
 
+## 機能一覧
+使用ツール：[Notion](https://www.notion.so/OOUI-MEMO-525e67ed17c24fdab2c3171d009e41b5)
+
+簡易的なオブジェクト一覧、画面一覧、API 一覧を含む。
+
 ## 画面遷移図
 使用ツール：[Draw.io Integration](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio)（VSCode 拡張）
 
@@ -10,9 +15,6 @@
 使用ツール：[ERD Editor](https://marketplace.visualstudio.com/items?itemName=dineug.vuerd-vscode)（VSCode 拡張）
 
 - erd.vuerd.json
-
-## 機能一覧
-使用ツール：[スプレッドシート](https://docs.google.com/spreadsheets/d/1RLcfucSQqkxhwG32PikfMHsISaOIuL6H3Jlj3bK3g-4/edit#gid=137190848)
 
 ## 構成図
 使用ツール：Draw.io（Google Drive）  
