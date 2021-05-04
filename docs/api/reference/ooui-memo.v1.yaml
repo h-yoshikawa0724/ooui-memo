@@ -8,7 +8,7 @@ servers:
   - url: 'http://localhost:3101'
     description: ''
 paths:
-  /memos:
+  /api/memos:
     get:
       summary: GET Memos
       tags:
@@ -52,7 +52,7 @@ paths:
         - Memos
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
-  '/memos/{memo_id}':
+  '/api/memos/{memo_id}':
     parameters:
       - $ref: '#/components/parameters/memo_id'
     get:
@@ -117,7 +117,7 @@ paths:
               $ref: '#/components/schemas/Memo'
       tags:
         - Memos
-  /login:
+  /api/login:
     post:
       summary: Login
       operationId: login
@@ -145,7 +145,7 @@ paths:
       description: ログインAPI
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
-  /logout:
+  /api/logout:
     post:
       summary: Logout
       operationId: logout
@@ -161,7 +161,7 @@ paths:
       description: ログアウトAPI
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
-  /user/me:
+  /api/user/me:
     get:
       summary: GET User
       tags:
@@ -192,7 +192,7 @@ paths:
         - $ref: '#/components/parameters/XSRF-TOKEN'
       tags:
         - Users
-  /register:
+  /api/register:
     post:
       summary: POST User
       operationId: user-register
