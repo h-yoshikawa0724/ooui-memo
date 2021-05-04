@@ -8,8 +8,7 @@
 ## 画面遷移図
 使用ツール：[Draw.io Integration](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio)（VSCode 拡張）
 
-- PC：desktop.drawio.png
-- モバイル：mobile.drawio.png
+- screen-transition.drawio.png
 
 ## ER 図
 使用ツール：[ERD Editor](https://marketplace.visualstudio.com/items?itemName=dineug.vuerd-vscode)（VSCode 拡張）
