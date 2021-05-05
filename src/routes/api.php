@@ -15,7 +15,12 @@ use Illuminate\Http\Request;
 
 Route::post('/register', 'Auth\RegisterController@register')->name('register');
 Route::post('/login', 'Auth\LoginController@login')->name('login');
+Route::get('/login/{provider}', 'Auth\OAuthController@getProviderOAuthURL')
+            ->where('provider', 'github')->name('oauth.request');
+Route::get('/login/{provider}/callback', 'Auth\OAuthController@handleProviderCallback')
+            ->where('provider', 'github')->name('oauth.callback');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+
 Route::get('/users/me', 'UserController@show')->name('user');
 Route::delete('/users/me', 'UserController@delete')->name('user.delete');
 
