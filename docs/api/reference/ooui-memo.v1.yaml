@@ -220,7 +220,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/provider'
     get:
-      summary: Social Login
+      summary: GET OAuth URL
       tags:
         - Auth
         - Users
@@ -232,7 +232,7 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
       operationId: get-social-login
-      description: ソーシャルログインAPI（OAuth認証画面URLを返す）
+      description: OAuth認証URL取得API
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
 components:

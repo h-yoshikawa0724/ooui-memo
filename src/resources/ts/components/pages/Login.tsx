@@ -22,6 +22,7 @@ type Props = {
   statusCode?: number;
   isLoading: boolean;
   handleLogin: (ev: React.FormEvent<HTMLFormElement>) => void;
+  handleSocialLogin: (provider: 'github') => void;
 };
 
 const Login: FC<Props> = ({
@@ -32,6 +33,7 @@ const Login: FC<Props> = ({
   statusCode,
   isLoading,
   handleLogin,
+  handleSocialLogin,
 }) => {
   const theme = useTheme();
   return (
@@ -42,6 +44,13 @@ const Login: FC<Props> = ({
           <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
             <CardHeader title="login" style={{ textAlign: 'center' }} />
             <CardContent>
+              <Button
+                onClick={() => {
+                  handleSocialLogin('github');
+                }}
+              >
+                Login with GitHub
+              </Button>
               <form onSubmit={handleLogin}>
                 <Box
                   p={2}
