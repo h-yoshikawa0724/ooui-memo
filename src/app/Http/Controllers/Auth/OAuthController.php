@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Socialite;
 
 class OAuthController extends Controller
 {
     /**
-     * 各認証プロバイダーのOAuth認証画面URL取得
+     * （各認証プロバイダーの）OAuth認証画面URL取得API
      * @param string $provider サービス名
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getProviderOAuthURL(string $provider)
     {
@@ -22,12 +23,17 @@ class OAuthController extends Controller
     }
 
     /**
-     * 各認証プロバイダーからのコールバック
+     * ソーシャルログインAPI（各認証プロバイダーからのコールバック後）
      * @param string $provider サービス名
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Model\User|App\User
      */
-    public function handleProviderCallback($provider)
+    public function handleProviderCallback(string $provider)
     {
-        // TODO あとで実装
+        $providerUser = Socialite::driver($provider)->user();
+        $authUser = User::socialFindOrCreate($providerUser, $provider);
+        Auth::login($authUser, true);
+
+        // ユーザ登録 + ログイン：201、ログインのみ：200
+        return $authUser;
     }
 }
