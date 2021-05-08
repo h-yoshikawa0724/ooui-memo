@@ -8,7 +8,7 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
-import useTheme from '@material-ui/core/styles/useTheme';
+import { useTheme } from '@material-ui/core/styles';
 import Header from '../../containers/organisms/Header';
 import LoginAlert from '../molecules/LoginAlert';
 import LegalLink from '../molecules/LegalLink';
@@ -22,7 +22,7 @@ type Props = {
   statusCode?: number;
   isLoading: boolean;
   handleLogin: (ev: React.FormEvent<HTMLFormElement>) => void;
-  handleSocialLogin: (provider: 'github') => void;
+  handleSocialLoginRequest: (provider: 'github') => void;
 };
 
 const Login: FC<Props> = ({
@@ -33,7 +33,7 @@ const Login: FC<Props> = ({
   statusCode,
   isLoading,
   handleLogin,
-  handleSocialLogin,
+  handleSocialLoginRequest,
 }) => {
   const theme = useTheme();
   return (
@@ -46,7 +46,7 @@ const Login: FC<Props> = ({
             <CardContent>
               <Button
                 onClick={() => {
-                  handleSocialLogin('github');
+                  handleSocialLoginRequest('github');
                 }}
               >
                 Login with GitHub

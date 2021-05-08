@@ -49,7 +49,7 @@ const EnhancedLogin: FC = () => {
     [email, password, history, from, login]
   );
 
-  const handleSocialLogin = useCallback(
+  const handleSocialLoginRequest = useCallback(
     (provider: 'github') => {
       redirectOAuth(provider);
     },
@@ -65,7 +65,7 @@ const EnhancedLogin: FC = () => {
       statusCode={statusCode}
       isLoading={isLoading}
       handleLogin={handleLogin}
-      handleSocialLogin={handleSocialLogin}
+      handleSocialLoginRequest={handleSocialLoginRequest}
     />
   );
 };

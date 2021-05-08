@@ -1,7 +1,7 @@
 import { UseMutationResult, useMutation } from 'react-query';
 import axios, { AxiosError } from 'axios';
 import camelcaseKeys from 'camelcase-keys';
-import { OAuthRedirect } from '../../models/OAuthRedirect';
+import { OAuthRedirect } from '../../models/OAuth';
 
 type providerName = 'github';
 
