@@ -10,8 +10,8 @@ use Socialite;
 class OAuthController extends Controller
 {
     /**
-     * （各認証プロバイダーの）OAuth認証画面URL取得API
-     * @param string $provider サービス名
+     * （各認証プロバイダーの）OAuth認可画面URL取得API
+     * @param string $provider 認証プロバイダーとなるサービス名
      * @return \Illuminate\Http\JsonResponse
      */
     public function getProviderOAuthURL(string $provider)
@@ -24,7 +24,7 @@ class OAuthController extends Controller
 
     /**
      * ソーシャルログインAPI（各認証プロバイダーからのコールバック後）
-     * @param string $provider サービス名
+     * @param string $provider 認証プロバイダーとなるサービス名
      * @return \Illuminate\Database\Eloquent\Model\User|App\User
      */
     public function handleProviderCallback(string $provider)

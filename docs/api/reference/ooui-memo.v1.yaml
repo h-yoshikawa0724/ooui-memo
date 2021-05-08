@@ -232,7 +232,7 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
       operationId: get-social-login
-      description: OAuth認証URL取得API
+      description: OAuth認可URL取得API
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
   '/api/login/{provider}/callback':
