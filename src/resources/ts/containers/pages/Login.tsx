@@ -2,6 +2,7 @@ import React, { FC, useState, useCallback } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import Login from '../../components/pages/Login';
 import { useLogin, useOAuthUrl } from '../../hooks/auth';
+import { Provider } from '../../models/OAuth';
 
 const EnhancedLogin: FC = () => {
   const history = useHistory();
@@ -50,7 +51,7 @@ const EnhancedLogin: FC = () => {
   );
 
   const handleSocialLoginRequest = useCallback(
-    (provider: 'github') => {
+    (provider: Provider) => {
       redirectOAuth(provider);
     },
     [redirectOAuth]

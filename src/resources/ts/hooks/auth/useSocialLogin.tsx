@@ -1,10 +1,10 @@
 import { useQueryClient, UseMutationResult, useMutation } from 'react-query';
 import axios, { AxiosError } from 'axios';
-import { OAuthParams } from '../../models/OAuth';
+import { Provider, OAuthParams } from '../../models/OAuth';
 import { User } from '../../models/User';
 
 const socialLogin = async (
-  provider: 'github',
+  provider: Provider,
   authParams: OAuthParams
 ): Promise<User> => {
   const { data } = await axios.post(
@@ -17,7 +17,7 @@ const socialLogin = async (
 const useSocialLogin = (): UseMutationResult<
   User,
   AxiosError,
-  { provider: 'github'; authParams: OAuthParams },
+  { provider: Provider; authParams: OAuthParams },
   undefined
 > => {
   const queryClient = useQueryClient();

@@ -13,6 +13,7 @@ import Header from '../../containers/organisms/Header';
 import LoginAlert from '../molecules/LoginAlert';
 import LegalLink from '../molecules/LegalLink';
 import Footer from '../organisms/Footer';
+import { Provider } from '../../models/OAuth';
 
 type Props = {
   email: string;
@@ -22,7 +23,7 @@ type Props = {
   statusCode?: number;
   isLoading: boolean;
   handleLogin: (ev: React.FormEvent<HTMLFormElement>) => void;
-  handleSocialLoginRequest: (provider: 'github') => void;
+  handleSocialLoginRequest: (provider: Provider) => void;
 };
 
 const Login: FC<Props> = ({

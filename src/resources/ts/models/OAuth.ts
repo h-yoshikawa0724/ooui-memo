@@ -1,9 +1,8 @@
-// GitHubから渡されたクエリパラメータをそのままAPIに渡したいので、スネークケースのまま
+export type Provider = 'github';
+
 export type GitHubOAuthParams = {
-  // eslint-disable-next-line camelcase
-  access_token: string;
-  // eslint-disable-next-line camelcase
-  token_type: string;
+  code: string;
+  state: string;
 };
 
 export type OAuthParams = GitHubOAuthParams;

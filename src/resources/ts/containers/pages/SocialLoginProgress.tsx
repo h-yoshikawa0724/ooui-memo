@@ -3,10 +3,10 @@ import { useParams, useHistory, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import SocialLoginProgress from '../../components/pages/SocialLoginProgress';
 import { useSocialLogin } from '../../hooks/auth';
-import { OAuthParams } from '../../models/OAuth';
+import { Provider, OAuthParams } from '../../models/OAuth';
 
 const EnhancedSocialLoginProgress: FC = () => {
-  const { provider } = useParams<{ provider: 'github' }>();
+  const { provider } = useParams<{ provider: Provider }>();
   const history = useHistory();
   const location = useLocation();
   const socialResponse = useMemo(
@@ -31,8 +31,6 @@ const EnhancedSocialLoginProgress: FC = () => {
       }
     );
   }, [history, provider, socialResponse, socialLogin]);
-
-  // socialLogin({ provider, authParams });
 
   return (
     <SocialLoginProgress oAuthError={oAuthError} statusCode={statusCode} />
