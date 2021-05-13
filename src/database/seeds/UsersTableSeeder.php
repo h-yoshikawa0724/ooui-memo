@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\AuthType;
 use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
@@ -13,6 +14,7 @@ class UsersTableSeeder extends Seeder
     {
         factory(App\User::class)->create([
             'name' => 'ooui-memo user',
+            'auth_type' => AuthType::MAIL,
             'email' => 'dummy@email.com',
             'password' => Hash::make('test1234'),
         ])->each(function ($user) {

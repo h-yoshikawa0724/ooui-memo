@@ -2,9 +2,11 @@
 
 namespace App;
 
+use App\Enums\AuthType;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use GoldSpecDigital\LaravelEloquentUUID\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -18,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'auth_type', 'email', 'password',
     ];
 
     /**
@@ -27,7 +29,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $visible = [
-        'name',
+        'name', 'auth_type'
     ];
 
     /**
@@ -39,12 +41,55 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-     /**
+    /**
      * リレーション - Memo
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function memos()
     {
         return $this->hasMany('App\Memo', 'user_id');
+    }
+
+    /**
+     * リレーション - IdentityProviders
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function identityProviders()
+    {
+        return $this->hasMany('App\IdentityProvider', 'user_id');
+    }
+
+    /**
+     * ソーシャルログイン処理
+     * @param $providerUser プロバイダーユーザ情報
+     * @param $provider プロバイダー名
+     * @return \Illuminate\Database\Eloquent\Model\User|App\User
+     */
+    public static function socialFindOrCreate($providerUser, $provider)
+    {
+        $account = IdentityProvider::whereProviderName($provider)
+                    ->whereProviderUserId($providerUser->getId())
+                    ->first();
+
+        if ($account) {
+            // すでにアカウントがある場合は、そのユーザを返す
+            return $account->user;
+        } else {
+            // アカウントがない場合は、ユーザ情報 + 認証プロバイダー情報を登録
+            $user = DB::transaction(function () use ($providerUser, $provider) {
+                $user = User::create([
+                    'name'  => $providerUser->getName(),
+                    'auth_type' => AuthType::SOCIAL
+                ]);
+                $user->IdentityProviders()->create([
+                    'provider_user_id'   => $providerUser->getId(),
+                    'provider_name' => $provider,
+                ]);
+
+                return $user;
+            });
+
+            return $user;
+        }
     }
 }

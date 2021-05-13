@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\User;
+use APP\Enums\AuthType;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -13,7 +14,7 @@ class RegisterApiTest extends TestCase
 
     /**
      * @test
-     * ユーザ新規登録できるか
+     * ユーザ新規登録できるか（メールアドレス認証）
      */
     public function testRegister()
     {
@@ -28,6 +29,7 @@ class RegisterApiTest extends TestCase
 
         $user = User::first();
         $this->assertEquals($data['name'], $user->name);
+        $this->assertEquals(AuthType::MAIL, $user->auth_type);
 
         $response
             ->assertStatus(201)

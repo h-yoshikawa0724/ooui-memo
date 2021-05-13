@@ -13,6 +13,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Login from './containers/pages/Login';
 import Memo from './containers/pages/Memo';
 import Account from './containers/pages/Account';
+import SocialLoginProgress from './containers/pages/SocialLoginProgress';
 import Loding from './components/pages/Loding';
 import Policy from './components/pages/Policy';
 import Terms from './components/pages/Terms';
@@ -116,6 +117,9 @@ const App: FC = () => {
       </Route>
       <UnAuthRoute exact path="/login">
         <Login />
+      </UnAuthRoute>
+      <UnAuthRoute exact path="/login/:provider/callback">
+        <SocialLoginProgress />
       </UnAuthRoute>
       <AuthRoute exact path="/settings/account">
         <Account />

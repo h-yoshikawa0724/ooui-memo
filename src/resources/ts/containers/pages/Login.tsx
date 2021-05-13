@@ -1,7 +1,8 @@
 import React, { FC, useState, useCallback } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import Login from '../../components/pages/Login';
-import { useLogin } from '../../hooks/auth';
+import { useLogin, useOAuthUrl } from '../../hooks/auth';
+import { Provider } from '../../models/OAuth';
 
 const EnhancedLogin: FC = () => {
   const history = useHistory();
@@ -10,8 +11,9 @@ const EnhancedLogin: FC = () => {
     from: { pathname: '/' },
   };
 
-  const { error, isLoading, mutate } = useLogin();
+  const { error, isLoading, mutate: login } = useLogin();
   const statusCode = error?.response?.status;
+  const { mutate: redirectOAuth } = useOAuthUrl();
 
   const [email, setEmail] = useState('');
   const [password, serPassword] = useState('');
@@ -36,7 +38,7 @@ const EnhancedLogin: FC = () => {
       if (!email || !password) {
         return;
       }
-      mutate(
+      login(
         { email, password },
         {
           onSuccess: () => {
@@ -45,7 +47,14 @@ const EnhancedLogin: FC = () => {
         }
       );
     },
-    [email, password, history, from, mutate]
+    [email, password, history, from, login]
+  );
+
+  const handleSocialLoginRequest = useCallback(
+    (provider: Provider) => {
+      redirectOAuth(provider);
+    },
+    [redirectOAuth]
   );
 
   return (
@@ -57,6 +66,7 @@ const EnhancedLogin: FC = () => {
       statusCode={statusCode}
       isLoading={isLoading}
       handleLogin={handleLogin}
+      handleSocialLoginRequest={handleSocialLoginRequest}
     />
   );
 };

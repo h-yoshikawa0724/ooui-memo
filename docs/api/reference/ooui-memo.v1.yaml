@@ -216,6 +216,45 @@ paths:
       tags:
         - Auth
         - Users
+  '/api/login/{provider}':
+    parameters:
+      - $ref: '#/components/parameters/provider'
+    get:
+      summary: GET OAuth URL
+      tags:
+        - Auth
+        - Users
+      responses:
+        '200':
+          $ref: '#/components/responses/OAuthRedirect'
+        '419':
+          $ref: '#/components/responses/UnknownStatusError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      operationId: get-social-login
+      description: OAuth認可URL取得API
+      parameters:
+        - $ref: '#/components/parameters/XSRF-TOKEN'
+  '/api/login/{provider}/callback':
+    parameters:
+      - $ref: '#/components/parameters/provider'
+    post:
+      summary: Social Login
+      operationId: social-login
+      responses:
+        '200':
+          $ref: '#/components/responses/User'
+        '201':
+          $ref: '#/components/responses/User'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      description: |-
+        ソーシャルログインAPI（アカウントがあればログイン：200、なければユーザ登録 + ログイン：201）
+        既定の認証プロバイダー以外を指定されると404を返す
+      parameters:
+        - $ref: '#/components/parameters/XSRF-TOKEN'
 components:
   schemas:
     Memo:
@@ -366,6 +405,19 @@ components:
             419（CSRFトークン不一致）:
               value:
                 message: CSRF token mismatch.
+    OAuthRedirect:
+      description: OAuth認証リクエスト情報レスポンス
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              redirect_url:
+                type: string
+                description: OAuth認証画面URL
+                format: uri
+            required:
+              - redirect_url
   parameters:
     memo_id:
       name: memo_id
@@ -396,6 +448,15 @@ components:
       schema:
         type: string
       description: 検索文字
+    provider:
+      name: provider
+      in: path
+      required: true
+      schema:
+        type: string
+        enum:
+          - github
+      description: 認証プロバイダー
   securitySchemes: {}
 tags:
   - name: Memos

@@ -34,6 +34,9 @@ const UserDeleteDialog: FC<Props> = ({
         アカウントを削除すると、メモデータも全て削除されます。
         <br />
         削除したデータを後から戻すことは出来ません。
+        <br />
+        <br />
+        ※ソーシャルログインの場合...当サービス内のソーシャルログイン情報は削除されますが、連携サービス側の認可解除はご自身で行ってください。
       </DialogContentText>
     </DialogContent>
     <DialogActions>

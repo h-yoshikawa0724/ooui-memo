@@ -8,11 +8,20 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
-import useTheme from '@material-ui/core/styles/useTheme';
+import { useTheme, makeStyles } from '@material-ui/core/styles';
 import Header from '../../containers/organisms/Header';
 import LoginAlert from '../molecules/LoginAlert';
 import LegalLink from '../molecules/LegalLink';
 import Footer from '../organisms/Footer';
+import GitHubLoginButton from '../atoms/GitHubLoginButton';
+import { Provider } from '../../models/OAuth';
+
+const useStyles = makeStyles(() => ({
+  decorationLine: {
+    borderImage: 'linear-gradient(0.25turn, transparent, #888, transparent)',
+    borderImageSlice: 1,
+  },
+}));
 
 type Props = {
   email: string;
@@ -22,6 +31,7 @@ type Props = {
   statusCode?: number;
   isLoading: boolean;
   handleLogin: (ev: React.FormEvent<HTMLFormElement>) => void;
+  handleSocialLoginRequest: (provider: Provider) => void;
 };
 
 const Login: FC<Props> = ({
@@ -32,8 +42,10 @@ const Login: FC<Props> = ({
   statusCode,
   isLoading,
   handleLogin,
+  handleSocialLoginRequest,
 }) => {
   const theme = useTheme();
+  const classes = useStyles();
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh">
       <Header />
@@ -42,6 +54,11 @@ const Login: FC<Props> = ({
           <Card style={{ margin: `${theme.spacing(6)}px 0` }}>
             <CardHeader title="login" style={{ textAlign: 'center' }} />
             <CardContent>
+              <Box p={2} borderBottom={1} className={classes.decorationLine}>
+                <GitHubLoginButton
+                  handleSocialLoginRequest={handleSocialLoginRequest}
+                />
+              </Box>
               <form onSubmit={handleLogin}>
                 <Box
                   p={2}

@@ -21,6 +21,9 @@
     <env name="DB_DATABASE" value="laravel_test" force="true"/>
     <env name="DB_USERNAME" value="phper" force="true"/>
     <env name="DB_PASSWORD" value="secret" force="true"/>
+    <env name="GITHUB_CLIENT_ID" value="000000000aaaaaaaaaaa" force="true"/>
+    <env name="GITHUB_CLIENT_SECRET" value="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" force="true"/>
+    <env name="GITHUB_CALLBACK_URL" value="http://localhost/login/github/callback" force="true"/>
     <env name="BCRYPT_ROUNDS" value="4"/>
     <env name="CACHE_DRIVER" value="array"/>
     <env name="MAIL_DRIVER" value="array"/>
