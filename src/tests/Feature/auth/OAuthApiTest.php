@@ -86,7 +86,7 @@ class OAuthApiTest extends TestCase
 
         $response
             ->assertStatus(201)
-            ->assertJson(['name' => $this->user->getName()]);
+            ->assertJson(['name' => $this->user->getName(), 'auth_type' => AuthType::SOCIAL]);
 
 
         $user = User::with('identityProviders')->first();

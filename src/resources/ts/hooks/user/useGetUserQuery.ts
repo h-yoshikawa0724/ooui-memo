@@ -1,10 +1,11 @@
 import { UseQueryResult, useQuery, UseQueryOptions } from 'react-query';
 import axios, { AxiosError } from 'axios';
+import camelcaseKeys from 'camelcase-keys';
 import { User } from '../../models/User';
 
 const getLoginUser = async (): Promise<User> => {
   const { data } = await axios.get('/api/users/me');
-  return data;
+  return camelcaseKeys(data);
 };
 
 const useGetUserQuery = <TData = User>(
