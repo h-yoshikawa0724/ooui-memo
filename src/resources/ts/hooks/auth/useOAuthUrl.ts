@@ -1,11 +1,10 @@
 import { UseMutationResult, useMutation } from 'react-query';
 import axios, { AxiosError } from 'axios';
-import camelcaseKeys from 'camelcase-keys';
 import { Provider, OAuthRedirect } from '../../models/OAuth';
 
 const getOAuthUrl = async (provider: Provider): Promise<OAuthRedirect> => {
   const { data } = await axios.get(`/api/login/${provider}`);
-  return camelcaseKeys(data);
+  return data;
 };
 
 const useOAuthUrl = (): UseMutationResult<

@@ -1,11 +1,10 @@
 import { UseQueryResult, useQuery, UseQueryOptions } from 'react-query';
 import axios, { AxiosError } from 'axios';
-import camelcaseKeys from 'camelcase-keys';
 import { Memo } from '../../models/Memo';
 
 const getMemo = async (memoId: string): Promise<Memo> => {
   const { data } = await axios.get(`/api/memos/${memoId}`);
-  return camelcaseKeys(data);
+  return data;
 };
 
 const useGetMemoQuery = <TData = Memo>(
