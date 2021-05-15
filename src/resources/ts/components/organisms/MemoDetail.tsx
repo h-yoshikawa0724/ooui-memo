@@ -3,6 +3,7 @@ import Box from '@material-ui/core/Box';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import Typography from '@material-ui/core/Typography';
 import { useTheme } from '@material-ui/core/styles';
 import Skeleton from '@material-ui/lab/Skeleton';
 import GeneralAlert from '../atoms/GeneralAlert';
@@ -54,7 +55,29 @@ const MemoDetail: FC<Props> = ({
     setIsDeleteDialogOpen(false);
   }, []);
 
-  if (isIdle || isLoading) {
+  // メモが1つもない用の簡単な案内表示
+  if (isIdle) {
+    return (
+      <>
+        <Box height={48} px={2} />
+        <Box
+          height={1}
+          py={2}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Typography paragraph>
+            OOUI-MEMOへようこそ！
+            <br />
+            +ボタンから新しいメモが作成できます
+          </Typography>
+        </Box>
+      </>
+    );
+  }
+
+  if (isLoading) {
     return (
       <>
         <Box height={48} px={2} />
