@@ -11,10 +11,15 @@ const EnhancedLogin: FC = () => {
     from: { pathname: '/' },
   };
 
-  const { error, isLoading, mutate: login } = useLogin();
+  const { error, isLoading: loginIsLoading, mutate: login } = useLogin();
   const statusCode = error?.response?.status;
-  const { error: socialLoginError, mutate: redirectOAuth } = useOAuthUrl();
+  const {
+    error: socialLoginError,
+    isLoading: socialLoginIsLoading,
+    mutate: redirectOAuth,
+  } = useOAuthUrl();
   const socialLoginStatusCode = socialLoginError?.response?.status;
+  const isLoading = loginIsLoading || socialLoginIsLoading;
 
   const [email, setEmail] = useState('');
   const [password, serPassword] = useState('');
