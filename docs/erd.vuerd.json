@@ -245,7 +245,7 @@
           },
           {
             "name": "auth_type",
-            "comment": "認証タイプ【Social Mail,Both】",
+            "comment": "認証タイプ【SOCIAL MAIL,BOTH】",
             "dataType": "ENUM",
             "default": "",
             "option": {
@@ -409,7 +409,7 @@
           "active": false,
           "left": 56.79999999999999,
           "top": 78.39999999999999,
-          "zIndex": 8,
+          "zIndex": 7,
           "widthName": 60,
           "widthComment": 60
         },
@@ -623,7 +623,7 @@
           "active": false,
           "left": 74.5111111111111,
           "top": 524.5777777777774,
-          "zIndex": 13,
+          "zIndex": 4,
           "widthName": 116,
           "widthComment": 106
         },
@@ -652,12 +652,12 @@
   "memo": {
     "memos": [
       {
-        "value": "users テーブルの認証タイプ：Both は現状未使用",
+        "value": "users テーブルの認証タイプ：BOTH は現状未使用",
         "ui": {
-          "active": false,
+          "active": true,
           "left": 102.00000000000001,
           "top": 342.66666666666646,
-          "zIndex": 22,
+          "zIndex": 9,
           "width": 127,
           "height": 100
         },
