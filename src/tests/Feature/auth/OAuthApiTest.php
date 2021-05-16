@@ -34,7 +34,7 @@ class OAuthApiTest extends TestCase
             ->andReturn('ooui-memo user');
 
         $this->provider = Mockery::mock('Laravel\Socialite\Contracts\Provider');
-        $this->provider->shouldReceive('user')->andReturn($this->user);
+        $this->provider->shouldReceive('user')->byDefault()->andReturn($this->user);
     }
 
     public static function tearDownAfterClass(): void
@@ -126,12 +126,32 @@ class OAuthApiTest extends TestCase
 
     /**
      * @test
+     * ソーシャルログインAPIで、認証プロバイダーからユーザ情報取得時にエラーになった時は500になるか
+     */
+    public function testLoginOAuthToProviderError()
+    {
+        $this->provider->shouldReceive('user')->andThrow(new \Exception('test', 500, null));
+        Socialite::shouldReceive('driver')->with($this->providerName)->andReturn($this->provider);
+
+        $response = $this->json('POST', route('oauth.callback', ['provider' => $this->providerName]));
+
+        $response
+            ->assertStatus(500)
+            ->assertJson(['message' => 'test']);
+
+        $this->assertGuest();
+    }
+
+    /**
+     * @test
      * ソーシャルログインAPIで、パスパラメータの認証プロバイダーの値が制約外の場合は404が返るか
      */
-    public function testLoginOAuthToGitHubNotFound()
+    public function testLoginOAuthToProviderNotFound()
     {
         $response = $this->json('POST', route('oauth.callback', ['provider' => 'test']));
 
         $response->assertStatus(404);
+
+        $this->assertGuest();
     }
 }
