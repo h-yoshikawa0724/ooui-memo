@@ -31,7 +31,10 @@ class OAuthApiTest extends TestCase
             ->shouldReceive('getId')
             ->andReturn(uniqid())
             ->shouldReceive('getName')
-            ->andReturn('ooui-memo user');
+            ->byDefault()
+            ->andReturn('ooui-memo user')
+            ->shouldReceive('getNickname')
+            ->andReturn('@ooui-memo_user');
 
         $this->provider = Mockery::mock('Laravel\Socialite\Contracts\Provider');
         $this->provider->shouldReceive('user')->byDefault()->andReturn($this->user);
@@ -76,7 +79,7 @@ class OAuthApiTest extends TestCase
 
      /**
      * @test
-     * 認証プロバイダー（GitHub）のアカウントでユーザ登録 + ログインできるか
+     * 認証プロバイダー（GitHub）のアカウントでユーザ登録 + ログインできるか（nameがある）
      */
     public function testRegisterAndLoginOAuthToGitHub()
     {
@@ -91,6 +94,32 @@ class OAuthApiTest extends TestCase
 
         $user = User::with('identityProviders')->first();
         $this->assertEquals($this->user->getName(), $user->name);
+        $this->assertEquals(AuthType::SOCIAL, $user->auth_type);
+        $this->assertEquals($this->user->getId(), $user->identityProviders[0]->provider_user_id);
+        $this->assertEquals($this->providerName, $user->identityProviders[0]->provider_name);
+
+        $this->assertAuthenticatedAs($user);
+    }
+
+     /**
+     * @test
+     * 認証プロバイダー（GitHub）のアカウントでユーザ登録 + ログインできるか（nameがない）
+     */
+    public function testRegisterAndLoginOAuthToGitHubNotName()
+    {
+        $this->user->shouldReceive('getName')->andReturn('');
+        Socialite::shouldReceive('driver')->with($this->providerName)->andReturn($this->provider);
+
+        $response = $this->json('POST', route('oauth.callback', ['provider' => $this->providerName]));
+
+        // nameがない時はnicknameで登録できているか確認
+        $response
+            ->assertStatus(201)
+            ->assertJson(['name' => $this->user->getNickname(), 'auth_type' => AuthType::SOCIAL]);
+
+
+        $user = User::with('identityProviders')->first();
+        $this->assertEquals($this->user->getNickname(), $user->name);
         $this->assertEquals(AuthType::SOCIAL, $user->auth_type);
         $this->assertEquals($this->user->getId(), $user->identityProviders[0]->provider_user_id);
         $this->assertEquals($this->providerName, $user->identityProviders[0]->provider_name);

@@ -77,8 +77,10 @@ class User extends Authenticatable
         } else {
             // アカウントがない場合は、ユーザ情報 + 認証プロバイダー情報を登録
             $user = DB::transaction(function () use ($providerUser, $provider) {
+                // nameがない時もあるので、その時はnicknameを使う
+                $providerUserName = $providerUser->getName() ? $providerUser->getName() : $providerUser->getNickname();
                 $user = User::create([
-                    'name'  => $providerUser->getName(),
+                    'name'  => $providerUserName,
                     'auth_type' => AuthType::SOCIAL
                 ]);
                 $user->IdentityProviders()->create([
