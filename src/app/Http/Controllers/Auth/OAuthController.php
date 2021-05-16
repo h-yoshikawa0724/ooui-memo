@@ -10,6 +10,16 @@ use Socialite;
 class OAuthController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
+
+    /**
      * （各認証プロバイダーの）OAuth認可画面URL取得API
      * @param string $provider 認証プロバイダーとなるサービス名
      * @return \Illuminate\Http\JsonResponse
