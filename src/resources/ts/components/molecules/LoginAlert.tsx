@@ -24,7 +24,7 @@ const LoginAlert: FC<Props> = ({ statusCode }) => (
       <GeneralAlert
         type="error"
         title="サーバエラー"
-        content="予期しないエラーが発生しました。恐れ入りますが時間をおいて再度お試しください。"
+        content={`予期しないエラーが発生し、ログインに失敗しました。\n恐れ入りますが時間をおいて再度お試しください。`}
       />
     )}
   </>

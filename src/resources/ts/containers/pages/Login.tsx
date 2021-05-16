@@ -13,7 +13,8 @@ const EnhancedLogin: FC = () => {
 
   const { error, isLoading, mutate: login } = useLogin();
   const statusCode = error?.response?.status;
-  const { mutate: redirectOAuth } = useOAuthUrl();
+  const { error: socialLoginError, mutate: redirectOAuth } = useOAuthUrl();
+  const socialLoginStatusCode = socialLoginError?.response?.status;
 
   const [email, setEmail] = useState('');
   const [password, serPassword] = useState('');
@@ -64,6 +65,7 @@ const EnhancedLogin: FC = () => {
       handleChangeEmail={handleChangeEmail}
       handleChangePassword={handleChangePassword}
       statusCode={statusCode}
+      socialLoginStatusCode={socialLoginStatusCode}
       isLoading={isLoading}
       handleLogin={handleLogin}
       handleSocialLoginRequest={handleSocialLoginRequest}

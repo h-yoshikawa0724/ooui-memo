@@ -12,6 +12,7 @@ import { useTheme, makeStyles } from '@material-ui/core/styles';
 import Header from '../../containers/organisms/Header';
 import LoginAlert from '../molecules/LoginAlert';
 import LegalLink from '../molecules/LegalLink';
+import SocialLoginAlert from '../molecules/SocialLoginAlert';
 import Footer from '../organisms/Footer';
 import GitHubLoginButton from '../atoms/GitHubLoginButton';
 import { Provider } from '../../models/OAuth';
@@ -29,6 +30,7 @@ type Props = {
   handleChangeEmail: (ev: React.ChangeEvent<HTMLInputElement>) => void;
   handleChangePassword: (ev: React.ChangeEvent<HTMLInputElement>) => void;
   statusCode?: number;
+  socialLoginStatusCode?: number;
   isLoading: boolean;
   handleLogin: (ev: React.FormEvent<HTMLFormElement>) => void;
   handleSocialLoginRequest: (provider: Provider) => void;
@@ -40,6 +42,7 @@ const Login: FC<Props> = ({
   handleChangeEmail,
   handleChangePassword,
   statusCode,
+  socialLoginStatusCode,
   isLoading,
   handleLogin,
   handleSocialLoginRequest,
@@ -55,9 +58,14 @@ const Login: FC<Props> = ({
             <CardHeader title="login" style={{ textAlign: 'center' }} />
             <CardContent>
               <Box p={2} borderBottom={1} className={classes.decorationLine}>
-                <GitHubLoginButton
-                  handleSocialLoginRequest={handleSocialLoginRequest}
-                />
+                {socialLoginStatusCode && (
+                  <SocialLoginAlert statusCode={socialLoginStatusCode} />
+                )}
+                <Box mt={2}>
+                  <GitHubLoginButton
+                    handleSocialLoginRequest={handleSocialLoginRequest}
+                  />
+                </Box>
               </Box>
               <form onSubmit={handleLogin}>
                 <Box
