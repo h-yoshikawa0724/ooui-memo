@@ -1,11 +1,11 @@
 {
   "canvas": {
-    "version": "2.0.10",
+    "version": "2.0.13",
     "width": 2000,
     "height": 2000,
-    "scrollTop": -0.8,
-    "scrollLeft": -0.8,
-    "zoomLevel": 1,
+    "scrollTop": -101.3333333333333,
+    "scrollLeft": -100,
+    "zoomLevel": 0.9,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -24,6 +24,7 @@
     "tableCase": "pascalCase",
     "columnCase": "camelCase",
     "highlightTheme": "VS2015",
+    "bracketType": "none",
     "setting": {
       "relationshipDataTypeSync": true,
       "columnOrder": [
@@ -244,7 +245,7 @@
           },
           {
             "name": "auth_type",
-            "comment": "認証タイプ【Social Mail】",
+            "comment": "認証タイプ【Social Mail,Both】",
             "dataType": "ENUM",
             "default": "",
             "option": {
@@ -304,7 +305,7 @@
               "pk": false,
               "fk": false,
               "pfk": false,
-              "widthName": 112,
+              "widthName": 111,
               "widthComment": 120,
               "widthDataType": 68,
               "widthDefault": 60
@@ -350,7 +351,7 @@
               "pk": false,
               "fk": false,
               "pfk": false,
-              "widthName": 112,
+              "widthName": 111,
               "widthComment": 119,
               "widthDataType": 100,
               "widthDefault": 60
@@ -408,7 +409,7 @@
           "active": false,
           "left": 56.79999999999999,
           "top": 78.39999999999999,
-          "zIndex": 4,
+          "zIndex": 8,
           "widthName": 60,
           "widthComment": 60
         },
@@ -493,7 +494,7 @@
           "left": 710.7555555793974,
           "top": 346.8666666666667,
           "zIndex": 1,
-          "widthName": 108,
+          "widthName": 109,
           "widthComment": 119
         },
         "id": "671df3ac-8b48-4d86-78b2-489a13a4694e"
@@ -620,9 +621,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 52.51111111111118,
-          "top": 417.2444444444444,
-          "zIndex": 3,
+          "left": 74.5111111111111,
+          "top": 524.5777777777774,
+          "zIndex": 13,
           "widthName": 116,
           "widthComment": 106
         },
@@ -649,7 +650,20 @@
     ]
   },
   "memo": {
-    "memos": []
+    "memos": [
+      {
+        "value": "users テーブルの認証タイプ：Both は現状未使用",
+        "ui": {
+          "active": false,
+          "left": 102.00000000000001,
+          "top": 342.66666666666646,
+          "zIndex": 22,
+          "width": 127,
+          "height": 100
+        },
+        "id": "32004113-c035-4755-a3e3-b0156c38aede"
+      }
+    ]
   },
   "relationship": {
     "relationships": [
@@ -662,7 +676,7 @@
           "columnIds": [
             "80dcdb6c-153d-980d-bec4-92666358e701"
           ],
-          "x": 582.8,
+          "x": 581.8,
           "y": 205.14999999999998,
           "direction": "right"
         },
@@ -686,7 +700,7 @@
           "columnIds": [
             "80dcdb6c-153d-980d-bec4-92666358e701"
           ],
-          "x": 319.8,
+          "x": 319.3,
           "y": 331.9,
           "direction": "bottom"
         },
@@ -695,8 +709,8 @@
           "columnIds": [
             "8cb73c00-c751-497c-9241-745efc2c6b1f"
           ],
-          "x": 298.0111111111112,
-          "y": 417.2444444444444,
+          "x": 320.0111111111111,
+          "y": 524.5777777777774,
           "direction": "top"
         },
         "id": "6ffc4dcc-4bf0-4b74-a090-595e2feb788e"

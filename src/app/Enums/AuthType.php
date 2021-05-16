@@ -8,4 +8,5 @@ final class AuthType extends Enum
 {
     public const SOCIAL = 'Social';
     public const MAIL   = 'Mail';
+    public const BOTH   = 'Both';
 }
