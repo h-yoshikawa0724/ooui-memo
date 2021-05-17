@@ -35,7 +35,7 @@ class OAuthController extends Controller
     /**
      * ソーシャルログインAPI（各認証プロバイダーからのコールバック後）
      * @param string $provider 認証プロバイダーとなるサービス名
-     * @return \Illuminate\Database\Eloquent\Model\User|App\User
+     * @return App\User
      */
     public function handleProviderCallback(string $provider)
     {

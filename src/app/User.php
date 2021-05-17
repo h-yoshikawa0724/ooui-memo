@@ -63,7 +63,7 @@ class User extends Authenticatable
      * ソーシャルログイン処理
      * @param $providerUser プロバイダーユーザ情報
      * @param $provider プロバイダー名
-     * @return \Illuminate\Database\Eloquent\Model\User|App\User
+     * @return App\User
      */
     public static function socialFindOrCreate($providerUser, $provider)
     {

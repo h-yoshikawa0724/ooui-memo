@@ -135,7 +135,12 @@ class OAuthApiTest extends TestCase
     {
         Socialite::shouldReceive('driver')->with($this->providerName)->andReturn($this->provider);
 
-        $user = factory(User::class)->create(['name' => $this->user->getName(), 'auth_type' => AuthType::SOCIAL]);
+        $user = factory(User::class)->create([
+            'name' => $this->user->getName(),
+            'auth_type' => AuthType::SOCIAL,
+            'email' => null,
+            'password' => null
+        ]);
         factory(IdentityProvider::class)->create([
             'user_id' => $user->user_id,
             'provider_user_id' => $this->user->getId(),
