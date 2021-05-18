@@ -26,7 +26,7 @@ class OAuthController extends Controller
      */
     public function getProviderOAuthURL(string $provider)
     {
-        $redirectUrl = Socialite::driver($provider)->setScopes([])->redirect()->getTargetUrl();
+        $redirectUrl = Socialite::driver($provider)->redirect()->getTargetUrl();
         return response()->json([
             'redirect_url' => $redirectUrl,
         ]);

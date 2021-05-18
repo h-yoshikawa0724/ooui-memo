@@ -3,9 +3,9 @@
     "version": "2.0.13",
     "width": 2000,
     "height": 2000,
-    "scrollTop": -101.3333333333333,
-    "scrollLeft": -100,
-    "zoomLevel": 0.9,
+    "scrollTop": -0.6666666666666666,
+    "scrollLeft": -2,
+    "zoomLevel": 1,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -275,7 +275,7 @@
               "autoIncrement": false,
               "primaryKey": false,
               "unique": true,
-              "notNull": false
+              "notNull": true
             },
             "ui": {
               "active": false,
@@ -409,7 +409,7 @@
           "active": false,
           "left": 56.79999999999999,
           "top": 78.39999999999999,
-          "zIndex": 7,
+          "zIndex": 6,
           "widthName": 60,
           "widthComment": 60
         },
@@ -623,7 +623,7 @@
           "active": false,
           "left": 74.5111111111111,
           "top": 524.5777777777774,
-          "zIndex": 4,
+          "zIndex": 3,
           "widthName": 116,
           "widthComment": 106
         },
@@ -650,20 +650,7 @@
     ]
   },
   "memo": {
-    "memos": [
-      {
-        "value": "users テーブルの認証タイプ：BOTH は現状未使用",
-        "ui": {
-          "active": true,
-          "left": 102.00000000000001,
-          "top": 342.66666666666646,
-          "zIndex": 9,
-          "width": 127,
-          "height": 100
-        },
-        "id": "32004113-c035-4755-a3e3-b0156c38aede"
-      }
-    ]
+    "memos": []
   },
   "relationship": {
     "relationships": [
