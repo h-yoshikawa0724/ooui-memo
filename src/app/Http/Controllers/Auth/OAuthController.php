@@ -48,7 +48,8 @@ class OAuthController extends Controller
         $authUser = User::socialFindOrCreate($providerUser, $provider);
         Auth::login($authUser, true);
 
-        // ユーザ登録 + ログイン：201、ログインのみ：200
+        // ログインのみ or 既存ユーザに紐づけ + ログイン：200
+        // 紐づけしたうえでユーザ新規登録 + ログイン：201
         return $authUser;
     }
 }
