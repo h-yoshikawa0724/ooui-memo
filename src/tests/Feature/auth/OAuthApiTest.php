@@ -34,7 +34,9 @@ class OAuthApiTest extends TestCase
             ->byDefault()
             ->andReturn('ooui-memo user')
             ->shouldReceive('getNickname')
-            ->andReturn('@ooui-memo_user');
+            ->andReturn('@ooui-memo_user')
+            ->shouldReceive('getEmail')
+            ->andReturn('dummy@email.com');
 
         $this->provider = Mockery::mock('Laravel\Socialite\Contracts\Provider');
         $this->provider->shouldReceive('user')->byDefault()->andReturn($this->user);
@@ -77,59 +79,11 @@ class OAuthApiTest extends TestCase
         $response->assertStatus(404);
     }
 
-     /**
-     * @test
-     * 認証プロバイダー（GitHub）のアカウントでユーザ登録 + ログインできるか（nameがある）
-     */
-    public function testRegisterAndLoginOAuthToGitHub()
-    {
-        Socialite::shouldReceive('driver')->with($this->providerName)->andReturn($this->provider);
-
-        $response = $this->json('POST', route('oauth.callback', ['provider' => $this->providerName]));
-
-        $response
-            ->assertStatus(201)
-            ->assertJson(['name' => $this->user->getName(), 'auth_type' => AuthType::SOCIAL]);
-
-
-        $user = User::with('identityProviders')->first();
-        $this->assertEquals($this->user->getName(), $user->name);
-        $this->assertEquals(AuthType::SOCIAL, $user->auth_type);
-        $this->assertEquals($this->user->getId(), $user->identityProviders[0]->provider_user_id);
-        $this->assertEquals($this->providerName, $user->identityProviders[0]->provider_name);
-
-        $this->assertAuthenticatedAs($user);
-    }
-
-     /**
-     * @test
-     * 認証プロバイダー（GitHub）のアカウントでユーザ登録 + ログインできるか（nameがない）
-     */
-    public function testRegisterAndLoginOAuthToGitHubNotName()
-    {
-        $this->user->shouldReceive('getName')->andReturn('');
-        Socialite::shouldReceive('driver')->with($this->providerName)->andReturn($this->provider);
-
-        $response = $this->json('POST', route('oauth.callback', ['provider' => $this->providerName]));
-
-        // nameがない時はnicknameで登録できているか確認
-        $response
-            ->assertStatus(201)
-            ->assertJson(['name' => $this->user->getNickname(), 'auth_type' => AuthType::SOCIAL]);
-
-
-        $user = User::with('identityProviders')->first();
-        $this->assertEquals($this->user->getNickname(), $user->name);
-        $this->assertEquals(AuthType::SOCIAL, $user->auth_type);
-        $this->assertEquals($this->user->getId(), $user->identityProviders[0]->provider_user_id);
-        $this->assertEquals($this->providerName, $user->identityProviders[0]->provider_name);
-
-        $this->assertAuthenticatedAs($user);
-    }
-
     /**
      * @test
+     * ソーシャルログインAPIで
      * 認証プロバイダー（GitHub）のアカウントに紐づくユーザでログインできるか
+     * （認証プロバイダー：登録あり、ユーザ：登録あり）
      */
     public function testLoginOAuthToGitHub()
     {
@@ -138,7 +92,7 @@ class OAuthApiTest extends TestCase
         $user = factory(User::class)->create([
             'name' => $this->user->getName(),
             'auth_type' => AuthType::SOCIAL,
-            'email' => null,
+            'email' => $this->user->getEmail(),
             'password' => null
         ]);
         factory(IdentityProvider::class)->create([
@@ -153,7 +107,99 @@ class OAuthApiTest extends TestCase
             ->assertStatus(200)
             ->assertJson(['name' => $user->name, 'auth_type' => AuthType::SOCIAL]);
 
+        // ユーザが新しく作られていないか確認
         $this->assertCount(1, User::all());
+
+        $this->assertAuthenticatedAs($user);
+    }
+
+    /**
+     * @test
+     * ソーシャルログインAPIで
+     * 認証プロバイダー（GitHub）のアカウントと同一メールアドレスユーザと紐づけ + ログインできるか
+     * （認証プロバイダー：登録なし、ユーザ：登録あり・MAIL）
+     */
+    public function testRegisterAndLoginUserExistOAuthToGitHub()
+    {
+        Socialite::shouldReceive('driver')->with($this->providerName)->andReturn($this->provider);
+
+        $existingUser = factory(User::class)->create([
+            'auth_type' => AuthType::MAIL,
+            'email' => $this->user->getEmail(),
+        ]);
+
+        $response = $this->json('POST', route('oauth.callback', ['provider' => $this->providerName]));
+
+        $user = User::with('identityProviders')->first();
+        $this->assertEquals($existingUser->name, $user->name);
+        $this->assertEquals(AuthType::BOTH, $user->auth_type);
+        $this->assertEquals($existingUser->email, $user->email);
+        $this->assertEquals($existingUser->password, $user->password);
+        $this->assertEquals($this->user->getId(), $user->identityProviders[0]->provider_user_id);
+        $this->assertEquals($this->providerName, $user->identityProviders[0]->provider_name);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson(['name' => $existingUser->name, 'auth_type' => AuthType::BOTH]);
+
+        // ユーザが新しく作られていないか確認
+        $this->assertCount(1, User::all());
+
+        $this->assertAuthenticatedAs($user);
+    }
+
+    /**
+     * @test
+     * ソーシャルログインAPIで
+     * 認証プロバイダー（GitHub）のアカウントでユーザ登録 + ログインできるか（nameがある）
+     * （認証プロバイダー：登録なし、ユーザ：登録なし）
+     */
+    public function testRegisterAndLoginOAuthToGitHub()
+    {
+        Socialite::shouldReceive('driver')->with($this->providerName)->andReturn($this->provider);
+
+        $response = $this->json('POST', route('oauth.callback', ['provider' => $this->providerName]));
+
+        $user = User::with('identityProviders')->first();
+        $this->assertEquals($this->user->getName(), $user->name);
+        $this->assertEquals(AuthType::SOCIAL, $user->auth_type);
+        $this->assertEquals($this->user->getEmail(), $user->email);
+        $this->assertNull($user->password);
+        $this->assertEquals($this->user->getId(), $user->identityProviders[0]->provider_user_id);
+        $this->assertEquals($this->providerName, $user->identityProviders[0]->provider_name);
+
+        $response
+            ->assertStatus(201)
+            ->assertJson(['name' => $this->user->getName(), 'auth_type' => AuthType::SOCIAL]);
+
+        $this->assertAuthenticatedAs($user);
+    }
+
+     /**
+     * @test
+     * ソーシャルログインAPIで
+     * 認証プロバイダー（GitHub）のアカウントでユーザ登録 + ログインできるか（nameがない）
+     * （認証プロバイダー：登録なし、ユーザ：登録なし）
+     */
+    public function testRegisterAndLoginOAuthToGitHubNotName()
+    {
+        $this->user->shouldReceive('getName')->andReturn('');
+        Socialite::shouldReceive('driver')->with($this->providerName)->andReturn($this->provider);
+
+        $response = $this->json('POST', route('oauth.callback', ['provider' => $this->providerName]));
+
+        $user = User::with('identityProviders')->first();
+        $this->assertEquals($this->user->getNickname(), $user->name);
+        $this->assertEquals(AuthType::SOCIAL, $user->auth_type);
+        $this->assertEquals($this->user->getEmail(), $user->email);
+        $this->assertNull($user->password);
+        $this->assertEquals($this->user->getId(), $user->identityProviders[0]->provider_user_id);
+        $this->assertEquals($this->providerName, $user->identityProviders[0]->provider_name);
+
+        // nameがない時はnicknameで登録できているか確認
+        $response
+            ->assertStatus(201)
+            ->assertJson(['name' => $this->user->getNickname(), 'auth_type' => AuthType::SOCIAL]);
 
         $this->assertAuthenticatedAs($user);
     }
