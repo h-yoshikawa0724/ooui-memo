@@ -24,6 +24,17 @@ window.axios = require('axios');
 // Ajaxリクエストであることを示すヘッダーを付与
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+import camelcaseKeys from 'camelcase-keys';
+
+window.axios.interceptors.response.use(
+  (response) => {
+    return camelcaseKeys(response, { deep: true });
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

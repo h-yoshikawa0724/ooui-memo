@@ -63,7 +63,7 @@ class User extends Authenticatable
      * ソーシャルログイン処理
      * @param $providerUser プロバイダーユーザ情報
      * @param $provider プロバイダー名
-     * @return \Illuminate\Database\Eloquent\Model\User|App\User
+     * @return App\User
      */
     public static function socialFindOrCreate($providerUser, $provider)
     {
@@ -71,15 +71,33 @@ class User extends Authenticatable
                     ->whereProviderUserId($providerUser->getId())
                     ->first();
 
+        // すでにアカウントがある場合は、そのユーザを返す
         if ($account) {
-            // すでにアカウントがある場合は、そのユーザを返す
             return $account->user;
+        }
+
+        $existingUser = User::whereEmail($providerUser->getEmail())->first();
+
+        if ($existingUser) {
+            // メールアドレスはユニークの関係上、同一メールアドレスユーザがいる場合は、そのユーザと紐づけて認証プロバイダー情報登録
+            $user = DB::transaction(function () use ($existingUser, $providerUser, $provider) {
+                $existingUser->update(['auth_type' => AuthType::BOTH]);
+                $existingUser->IdentityProviders()->create([
+                    'provider_user_id'   => $providerUser->getId(),
+                    'provider_name' => $provider,
+                ]);
+
+                return $existingUser;
+            });
         } else {
             // アカウントがない場合は、ユーザ情報 + 認証プロバイダー情報を登録
             $user = DB::transaction(function () use ($providerUser, $provider) {
+                // nameがない時もあるので、その時はnicknameを使う
+                $providerUserName = $providerUser->getName() ? $providerUser->getName() : $providerUser->getNickname();
                 $user = User::create([
-                    'name'  => $providerUser->getName(),
-                    'auth_type' => AuthType::SOCIAL
+                    'name'  => $providerUserName,
+                    'auth_type' => AuthType::SOCIAL,
+                    'email' => $providerUser->getEmail(),
                 ]);
                 $user->IdentityProviders()->create([
                     'provider_user_id'   => $providerUser->getId(),
@@ -88,8 +106,8 @@ class User extends Authenticatable
 
                 return $user;
             });
-
-            return $user;
         }
+
+        return $user;
     }
 }

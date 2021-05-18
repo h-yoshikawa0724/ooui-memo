@@ -10,13 +10,23 @@ use Socialite;
 class OAuthController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
+
+    /**
      * （各認証プロバイダーの）OAuth認可画面URL取得API
      * @param string $provider 認証プロバイダーとなるサービス名
      * @return \Illuminate\Http\JsonResponse
      */
     public function getProviderOAuthURL(string $provider)
     {
-        $redirectUrl = Socialite::driver($provider)->setScopes([])->redirect()->getTargetUrl();
+        $redirectUrl = Socialite::driver($provider)->redirect()->getTargetUrl();
         return response()->json([
             'redirect_url' => $redirectUrl,
         ]);
@@ -25,15 +35,21 @@ class OAuthController extends Controller
     /**
      * ソーシャルログインAPI（各認証プロバイダーからのコールバック後）
      * @param string $provider 認証プロバイダーとなるサービス名
-     * @return \Illuminate\Database\Eloquent\Model\User|App\User
+     * @return App\User
      */
     public function handleProviderCallback(string $provider)
     {
-        $providerUser = Socialite::driver($provider)->user();
+        try {
+            $providerUser = Socialite::driver($provider)->user();
+        } catch (\Exception $e) {
+            // TODO ログ出力など
+            abort(500, $e->getMessage());
+        }
         $authUser = User::socialFindOrCreate($providerUser, $provider);
         Auth::login($authUser, true);
 
-        // ユーザ登録 + ログイン：201、ログインのみ：200
+        // ログインのみ or 既存ユーザに紐づけ + ログイン：200
+        // 紐づけしたうえでユーザ新規登録 + ログイン：201
         return $authUser;
     }
 }

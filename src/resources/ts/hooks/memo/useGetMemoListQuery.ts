@@ -4,7 +4,6 @@ import {
   useInfiniteQuery,
 } from 'react-query';
 import axios, { AxiosError } from 'axios';
-import camelcaseKeys from 'camelcase-keys';
 import { Memos } from '../../models/Memos';
 
 const getMemoList = async ({
@@ -21,7 +20,7 @@ const getMemoList = async ({
     const { data } = await axios.get(`/api/memos?page=${pageParam}`);
     memoData = data;
   }
-  return camelcaseKeys(memoData, { deep: true });
+  return memoData;
 };
 
 const useGetMemoListQuery = <TData = Memos>(

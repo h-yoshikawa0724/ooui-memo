@@ -21,8 +21,7 @@ class ChangeSocialLoginUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            // ソーシャルログインではメールアドレスとパスワードが入らないことがあるので、null許容にする
-            $table->string('email')->nullable()->comment('メールアドレス')->change();
+            // ソーシャルログインではパスワードを使わないのでnull許容にする
             $table->string('password')->nullable()->comment('パスワード')->change();
 
             $table->enum('auth_type', AuthType::getValues())->after('name')->comment('認証タイプ【' . implode(', ', AuthType::getValues()) . '】');
@@ -37,7 +36,6 @@ class ChangeSocialLoginUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('email')->nullable(false)->comment('メールアドレス')->change();
             $table->string('password')->nullable(false)->comment('パスワード')->change();
 
             $table->dropColumn('auth_type');

@@ -251,10 +251,15 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
       description: |-
-        ソーシャルログインAPI（アカウントがあればログイン：200、なければユーザ登録 + ログイン：201）
+        ソーシャルログインAPI（アカウントがあればログイン：200、ユーザだけあれば、紐づけ + ログイン：200、なければユーザ登録 + ログイン：201）
         既定の認証プロバイダー以外を指定されると404を返す
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthParams'
 components:
   schemas:
     Memo:
@@ -265,6 +270,8 @@ components:
       $ref: ./models/user.v1.json
     UserLogin:
       $ref: ./models/user-login.v1.json
+    AuthParams:
+      $ref: ./models/oauth-params.json
   responses:
     Memos:
       description: メモ一覧情報レスポンス

@@ -6,6 +6,7 @@ use BenSampo\Enum\Enum;
 
 final class AuthType extends Enum
 {
-    public const SOCIAL = 'Social';
-    public const MAIL   = 'Mail';
+    public const SOCIAL = 'SOCIAL';
+    public const MAIL   = 'MAIL';
+    public const BOTH   = 'BOTH';
 }
