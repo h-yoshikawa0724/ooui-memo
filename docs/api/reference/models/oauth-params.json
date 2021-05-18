@@ -1,0 +1,21 @@
+{
+  "title": "oauth-params",
+  "type": "object",
+  "description": "OAuthパラメータモデル（認証プロバイダーからのコールバック時に渡されるパラメータ）",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "認証プロバイダーから返却される一時コード"
+    },
+    "state": {
+      "type": "string",
+      "description": "推測不能な文字列",
+      "minLength": 40,
+      "maxLength": 40
+    }
+  },
+  "required": [
+    "code",
+    "state"
+  ]
+}
