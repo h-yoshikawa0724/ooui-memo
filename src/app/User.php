@@ -3,12 +3,13 @@
 namespace App;
 
 use App\Enums\AuthType;
+use App\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use GoldSpecDigital\LaravelEloquentUUID\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -57,6 +58,15 @@ class User extends Authenticatable
     public function identityProviders()
     {
         return $this->hasMany('App\IdentityProvider', 'user_id');
+    }
+
+    /**
+     * メール確認通知送信（API用）
+     * @return void
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmail());
     }
 
     /**
