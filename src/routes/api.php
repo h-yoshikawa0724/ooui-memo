@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::post('/register', 'Auth\RegisterController@register')->name('register');
+Route::get('/email/verify/{user_id}', 'Auth\VerificationController@verify')->name('verification.verify');
 Route::post('/login', 'Auth\LoginController@login')->name('login');
 Route::get('/login/{provider}', 'Auth\OAuthController@getProviderOAuthURL')
             ->where('provider', 'github')->name('oauth.request');
