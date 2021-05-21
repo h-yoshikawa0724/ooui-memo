@@ -44,7 +44,7 @@ class VerificationController extends Controller
     }
 
      /**
-     * 認証されたユーザのメールアドレスを確認済みに更新（API用）
+     * メール認証API
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
@@ -53,7 +53,7 @@ class VerificationController extends Controller
      */
     public function verify(Request $request)
     {
-        $user = User::find($request->route('user_id'));
+        $user = User::findOrFail($request->route('user_id'));
         if (! hash_equals((string) $request->route('user_id'), (string) $user->getKey())) {
             throw new AuthorizationException();
         }
@@ -65,8 +65,8 @@ class VerificationController extends Controller
         if (!$user->hasVerifiedEmail()) {
             $user->markEmailAsVerified();
             event(new Verified($request->user()));
-            return response('Email Verified');
+            return response('メール認証を確認しました');
         }
-        return response('Email Verify Failed');
+        return response('すでにメール認証確認済みです', 202);
     }
 }
