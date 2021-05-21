@@ -8,10 +8,8 @@ use App\User;
 use App\IdentityProvider;
 use App\Enums\AuthType;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
-use function PHPUnit\Framework\assertEquals;
+use Illuminate\Support\Str;
 
 class OAuthApiTest extends TestCase
 {
@@ -24,6 +22,10 @@ class OAuthApiTest extends TestCase
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
 
         $this->providerName = 'github';
+        $this->params = [
+            'code' => Str::random(20),
+            'state' => Str::random(40)
+        ];
 
         // モックを作成
         $this->user = Mockery::mock('Laravel\Socialite\Two\User');
@@ -101,7 +103,7 @@ class OAuthApiTest extends TestCase
             'provider_name' => $this->providerName
         ]);
 
-        $response = $this->json('POST', route('oauth.callback', ['provider' => $this->providerName]));
+        $response = $this->json('POST', route('oauth.callback', ['provider' => $this->providerName], $this->params));
 
         $response
             ->assertStatus(200)
@@ -128,7 +130,7 @@ class OAuthApiTest extends TestCase
             'email' => $this->user->getEmail(),
         ]);
 
-        $response = $this->json('POST', route('oauth.callback', ['provider' => $this->providerName]));
+        $response = $this->json('POST', route('oauth.callback', ['provider' => $this->providerName], $this->params));
 
         $user = User::with('identityProviders')->first();
         $this->assertEquals($existingUser->name, $user->name);
@@ -158,7 +160,7 @@ class OAuthApiTest extends TestCase
     {
         Socialite::shouldReceive('driver')->with($this->providerName)->andReturn($this->provider);
 
-        $response = $this->json('POST', route('oauth.callback', ['provider' => $this->providerName]));
+        $response = $this->json('POST', route('oauth.callback', ['provider' => $this->providerName], $this->params));
 
         $user = User::with('identityProviders')->first();
         $this->assertEquals($this->user->getName(), $user->name);
@@ -186,7 +188,7 @@ class OAuthApiTest extends TestCase
         $this->user->shouldReceive('getName')->andReturn('');
         Socialite::shouldReceive('driver')->with($this->providerName)->andReturn($this->provider);
 
-        $response = $this->json('POST', route('oauth.callback', ['provider' => $this->providerName]));
+        $response = $this->json('POST', route('oauth.callback', ['provider' => $this->providerName], $this->params));
 
         $user = User::with('identityProviders')->first();
         $this->assertEquals($this->user->getNickname(), $user->name);
@@ -213,7 +215,7 @@ class OAuthApiTest extends TestCase
         $this->provider->shouldReceive('user')->andThrow(new \Exception('test', 500, null));
         Socialite::shouldReceive('driver')->with($this->providerName)->andReturn($this->provider);
 
-        $response = $this->json('POST', route('oauth.callback', ['provider' => $this->providerName]));
+        $response = $this->json('POST', route('oauth.callback', ['provider' => $this->providerName], $this->params));
 
         $response
             ->assertStatus(500)
@@ -228,7 +230,7 @@ class OAuthApiTest extends TestCase
      */
     public function testLoginOAuthToProviderNotFound()
     {
-        $response = $this->json('POST', route('oauth.callback', ['provider' => 'test']));
+        $response = $this->json('POST', route('oauth.callback', ['provider' => 'test'], $this->params));
 
         $response->assertStatus(404);
 
