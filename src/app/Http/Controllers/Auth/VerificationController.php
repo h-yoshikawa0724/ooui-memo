@@ -88,6 +88,6 @@ class VerificationController extends Controller
 
         $user->sendEmailVerificationNotification();
 
-        return response('認証用メールを再送信しました', 204);
+        return response('認証用メールを再送信しました');
     }
 }

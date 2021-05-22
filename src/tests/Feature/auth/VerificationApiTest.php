@@ -212,7 +212,7 @@ class VerificationApiTest extends TestCase
             VerifyEmail::class
         );
 
-        $response->assertStatus(204)
+        $response->assertStatus(200)
                  ->assertSee('認証用メールを再送信しました');
     }
 
