@@ -260,6 +260,34 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/AuthParams'
+      tags:
+        - Auth
+  '/api/email/verify/{user_id}':
+    parameters:
+      - $ref: '#/components/parameters/user_id'
+    get:
+      summary: Verify EMail
+      tags:
+        - Auth
+        - Users
+      responses:
+        '200':
+          $ref: '#/components/responses/VerifyEmail'
+        '202':
+          $ref: '#/components/responses/VerifyEmail'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      operationId: verify-email
+      description: メール認証API（必要なクエリパラメータの値は、認証用メールに記載）
+      parameters:
+        - $ref: '#/components/parameters/XSRF-TOKEN'
+        - $ref: '#/components/parameters/expires'
+        - $ref: '#/components/parameters/hash'
+        - $ref: '#/components/parameters/signature'
 components:
   schemas:
     Memo:
@@ -425,6 +453,30 @@ components:
                 format: uri
             required:
               - redirect_url
+    VerifyEmail:
+      description: メール認証リクエスト情報レスポンス
+      content:
+        application/json:
+          schema:
+            type: string
+            description: 成功メッセージ
+          examples:
+            200（メール認証成功）:
+              value: メール認証を確認しました
+            202（すでにメール認証済み）:
+              value: すでにメール認証確認済みです
+    ForbiddenError:
+      description: |-
+        FORBIDDEN：403
+        認可エラー
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            '403':
+              value:
+                message: Invalid signature.
   parameters:
     memo_id:
       name: memo_id
@@ -464,6 +516,41 @@ components:
         enum:
           - github
       description: 認証プロバイダー
+    hash:
+      name: hash
+      in: query
+      required: true
+      schema:
+        type: string
+        minLength: 40
+        maxLength: 40
+      description: メールアドレスからSHA1で生成したハッシュ値
+    signature:
+      name: signature
+      in: query
+      required: true
+      schema:
+        type: string
+        minLength: 64
+        maxLength: 64
+      description: クエリ含むルートパスから、HMAC方式 + SHA256で生成したハッシュ値
+    expires:
+      name: expires
+      in: query
+      required: true
+      schema:
+        type: string
+        minLength: 10
+        maxLength: 10
+      description: UNIX TIMESTAMP形式の有効期限
+    user_id:
+      name: user_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: ユーザID
   securitySchemes: {}
 tags:
   - name: Memos
