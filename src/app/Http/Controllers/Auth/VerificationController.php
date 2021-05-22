@@ -9,6 +9,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VerificationController extends Controller
 {
@@ -68,5 +69,25 @@ class VerificationController extends Controller
             return response('メール認証を確認しました');
         }
         return response('すでにメール認証確認済みです', 202);
+    }
+
+    /**
+     * 認証メール再送信API
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function resend(Request $request)
+    {
+        /** @var App\User $user */
+        $user = Auth::User();
+
+        if ($user->hasVerifiedEmail()) {
+            return response('すでにメール認証確認済みです', 202);
+        }
+
+        $user->sendEmailVerificationNotification();
+
+        return response('認証用メールを再送信しました', 204);
     }
 }

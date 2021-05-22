@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\InteractsWithTime;
 use DateTimeInterface;
@@ -34,12 +35,9 @@ class VerificationApiTest extends TestCase
         // テストユーザー作成
         $this->user = factory(User::class)->create(
             [
-                'user_id' => '77193747-9a6b-4b35-a4eb-648fa9c0d1c2',
-                'email' => 'sample4@mail.com',
                 'email_verified_at' => null
             ]
         );
-        $this->verifyEmail = new VerifyEmail();
     }
 
     /**
@@ -185,5 +183,74 @@ class VerificationApiTest extends TestCase
         ));
 
         $response->assertStatus(404);
+    }
+
+    /**
+     * @test
+     * メール再送信APIでメールが再送信されるか
+     */
+    public function testVerifyMailResend()
+    {
+        // 実際にはメールを送らないように設定
+        Notification::fake();
+
+        // メールが送られていないことを確認
+        Notification::assertNothingSent();
+
+        $otherUser = factory(User::class)->create();
+
+        $response = $this->actingAs($this->user)->json('POST', route(
+            'verification.resend',
+        ));
+
+        // メッセージが指定したユーザーに届いたことを確認
+        Notification::assertSentTo($this->user, VerifyEmail::class);
+
+        // 他のユーザに届いてないか確認
+        Notification::assertNotSentTo(
+            [$otherUser],
+            VerifyEmail::class
+        );
+
+        $response->assertStatus(204)
+                 ->assertSee('認証用メールを再送信しました');
+    }
+
+    /**
+     * @test
+     * メール再送信APIですでにメール認証済みの場合は202になるか
+     */
+    public function testVerifyMailResendVerified()
+    {
+        $this->user->markEmailAsVerified();
+        Notification::fake();
+        Notification::assertNothingSent();
+
+        $response = $this->actingAs($this->user)->json('POST', route(
+            'verification.resend',
+        ));
+
+        Notification::assertNothingSent();
+
+        $response->assertStatus(202)
+                 ->assertSee('すでにメール認証確認済みです');
+    }
+
+    /**
+     * @test
+     * メール再送信APIで非ログインの場合は401になるか
+     */
+    public function testVerifyMailResendNotLogin()
+    {
+        Notification::fake();
+        Notification::assertNothingSent();
+
+        $response = $this->json('POST', route(
+            'verification.resend',
+        ));
+
+        Notification::assertNothingSent();
+
+        $response->assertStatus(401);
     }
 }
