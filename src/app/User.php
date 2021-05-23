@@ -30,7 +30,16 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $visible = [
-        'name', 'auth_type'
+        'name', 'auth_type', 'email_verified',
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'email_verified',
     ];
 
     /**
@@ -58,6 +67,23 @@ class User extends Authenticatable implements MustVerifyEmail
     public function identityProviders()
     {
         return $this->hasMany('App\IdentityProvider', 'user_id');
+    }
+
+    /**
+     * ユーザーのメール認証有無を取得（ソーシャルログインでもメール認証済みとする）
+     *
+     * @return bool
+     */
+    public function getEmailVerifiedAttribute()
+    {
+        if (
+            $this->attributes['auth_type'] === AuthType::BOTH
+            || $this->attributes['auth_type'] === AuthType::SOCIAL
+        ) {
+            return true;
+        }
+
+        return isset($this->attributes['email_verified_at']);
     }
 
     /**

@@ -33,6 +33,6 @@ class RegisterApiTest extends TestCase
 
         $response
             ->assertStatus(201)
-            ->assertJson(['name' => $user->name]);
+            ->assertJson(['name' => $user->name, 'auth_type' => AuthType::MAIL, 'email_verified' => false]);
     }
 }

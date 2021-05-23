@@ -72,6 +72,7 @@ class VerificationApiTest extends TestCase
 
         $user = User::find($this->user->user_id);
         $this->assertNotNull($user->email_verified_at);
+        $this->assertTrue($user->email_verified);
 
         $response->assertStatus(200)
                 ->assertSee('メール認証を確認しました');

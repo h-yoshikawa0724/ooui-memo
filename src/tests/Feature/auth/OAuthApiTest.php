@@ -95,6 +95,7 @@ class OAuthApiTest extends TestCase
             'name' => $this->user->getName(),
             'auth_type' => AuthType::SOCIAL,
             'email' => $this->user->getEmail(),
+            'email_verified_at' => null,
             'password' => null
         ]);
         factory(IdentityProvider::class)->create([
@@ -107,7 +108,7 @@ class OAuthApiTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertJson(['name' => $user->name, 'auth_type' => AuthType::SOCIAL]);
+            ->assertJson(['name' => $user->name, 'auth_type' => AuthType::SOCIAL, 'email_verified' => true]);
 
         // ユーザが新しく作られていないか確認
         $this->assertCount(1, User::all());
@@ -119,7 +120,7 @@ class OAuthApiTest extends TestCase
      * @test
      * ソーシャルログインAPIで
      * 認証プロバイダー（GitHub）のアカウントと同一メールアドレスユーザと紐づけ + ログインできるか
-     * （認証プロバイダー：登録なし、ユーザ：登録あり・MAIL）
+     * （認証プロバイダー：登録なし、ユーザ：登録あり・MAIL・メール認証済み）
      */
     public function testRegisterAndLoginUserExistOAuthToGitHub()
     {
@@ -128,6 +129,43 @@ class OAuthApiTest extends TestCase
         $existingUser = factory(User::class)->create([
             'auth_type' => AuthType::MAIL,
             'email' => $this->user->getEmail(),
+        ]);
+        $existingUser->markEmailAsVerified();
+
+        $response = $this->json('POST', route('oauth.callback', ['provider' => $this->providerName], $this->params));
+
+        $user = User::with('identityProviders')->first();
+        $this->assertEquals($existingUser->name, $user->name);
+        $this->assertEquals(AuthType::BOTH, $user->auth_type);
+        $this->assertEquals($existingUser->email, $user->email);
+        $this->assertEquals($existingUser->password, $user->password);
+        $this->assertEquals($this->user->getId(), $user->identityProviders[0]->provider_user_id);
+        $this->assertEquals($this->providerName, $user->identityProviders[0]->provider_name);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson(['name' => $existingUser->name, 'auth_type' => AuthType::BOTH, 'email_verified' => true]);
+
+        // ユーザが新しく作られていないか確認
+        $this->assertCount(1, User::all());
+
+        $this->assertAuthenticatedAs($user);
+    }
+
+    /**
+     * @test
+     * ソーシャルログインAPIで
+     * 認証プロバイダー（GitHub）のアカウントと同一メールアドレスユーザと紐づけ + ログインできるか
+     * （認証プロバイダー：登録なし、ユーザ：登録あり・MAIL・非メール認証）
+     */
+    public function testRegisterAndLoginUserExistNotVerifiedOAuthToGitHub()
+    {
+        Socialite::shouldReceive('driver')->with($this->providerName)->andReturn($this->provider);
+
+        $existingUser = factory(User::class)->create([
+            'auth_type' => AuthType::MAIL,
+            'email' => $this->user->getEmail(),
+            'email_verified_at' => null
         ]);
 
         $response = $this->json('POST', route('oauth.callback', ['provider' => $this->providerName], $this->params));
@@ -142,7 +180,7 @@ class OAuthApiTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertJson(['name' => $existingUser->name, 'auth_type' => AuthType::BOTH]);
+            ->assertJson(['name' => $existingUser->name, 'auth_type' => AuthType::BOTH, 'email_verified' => true]);
 
         // ユーザが新しく作られていないか確認
         $this->assertCount(1, User::all());
@@ -172,12 +210,18 @@ class OAuthApiTest extends TestCase
 
         $response
             ->assertStatus(201)
-            ->assertJson(['name' => $this->user->getName(), 'auth_type' => AuthType::SOCIAL]);
+            ->assertJson(
+                [
+                    'name' => $this->user->getName(),
+                    'auth_type' => AuthType::SOCIAL,
+                    'email_verified' => true
+                ]
+            );
 
         $this->assertAuthenticatedAs($user);
     }
 
-     /**
+    /**
      * @test
      * ソーシャルログインAPIで
      * 認証プロバイダー（GitHub）のアカウントでユーザ登録 + ログインできるか（nameがない）
@@ -201,7 +245,13 @@ class OAuthApiTest extends TestCase
         // nameがない時はnicknameで登録できているか確認
         $response
             ->assertStatus(201)
-            ->assertJson(['name' => $this->user->getNickname(), 'auth_type' => AuthType::SOCIAL]);
+            ->assertJson(
+                [
+                    'name' => $this->user->getNickname(),
+                    'auth_type' => AuthType::SOCIAL,
+                    'email_verified' => true
+                ]
+            );
 
         $this->assertAuthenticatedAs($user);
     }

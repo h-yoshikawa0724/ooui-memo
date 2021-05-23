@@ -10,13 +10,18 @@
     },
     "auth_type": {
       "type": "string",
-      "description": "認証タイプ【Social, Mail】",
+      "description": "認証タイプ【BOTH, SOCIAL, MAIL】",
       "readOnly": true
     },
     "email": {
       "type": "string",
       "description": "メールアドレス",
       "writeOnly": true
+    },
+    "email_verified": {
+      "type": "boolean",
+      "description": "メール認証有無（ソーシャルログインでもメール認証済みとする）",
+      "readOnly": true
     },
     "password": {
       "type": "string",
@@ -28,6 +33,7 @@
     "name",
     "auth_type",
     "email",
+    "email_verified",
     "password"
   ]
 }
