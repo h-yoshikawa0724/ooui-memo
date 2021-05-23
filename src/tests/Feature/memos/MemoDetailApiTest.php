@@ -19,9 +19,11 @@ class MemoDetailApiTest extends TestCase
         parent::setUp();
 
         // ログインユーザ
-        $this->auth_user = factory(User::class)->create();
+        $this->authUser = factory(User::class)->create();
+        $this->authUser->markEmailAsVerified();
         // 他のユーザ
         $this->user = factory(User::class)->create();
+        $this->user->markEmailAsVerified();
     }
 
     /**
@@ -30,11 +32,11 @@ class MemoDetailApiTest extends TestCase
      */
     public function testGetMemoDetail()
     {
-        $memo_id = factory(Memo::class)->create(['user_id' => $this->auth_user->user_id])->memo_id;
+        $memo_id = factory(Memo::class)->create(['user_id' => $this->authUser->user_id])->memo_id;
 
-        $response = $this->actingAs($this->auth_user)->json('GET', route('memo.show', ['memo_id' => $memo_id]));
+        $response = $this->actingAs($this->authUser)->json('GET', route('memo.show', ['memo_id' => $memo_id]));
 
-        $memo = Memo::find($memo_id)->where('user_id', $this->auth_user->user_id)->first();
+        $memo = Memo::find($memo_id)->where('user_id', $this->authUser->user_id)->first();
 
         $response->assertStatus(200)
             ->assertJson([
@@ -54,7 +56,7 @@ class MemoDetailApiTest extends TestCase
     {
         $memo_id = factory(Memo::class)->create(['user_id' => $this->user->user_id])->memo_id;
 
-        $response = $this->actingAs($this->auth_user)->json('GET', route('memo.show', ['memo_id' => $memo_id]));
+        $response = $this->actingAs($this->authUser)->json('GET', route('memo.show', ['memo_id' => $memo_id]));
 
         $response->assertStatus(404);
     }
@@ -67,9 +69,23 @@ class MemoDetailApiTest extends TestCase
     {
         $memo_id = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
 
-        $response = $this->actingAs($this->auth_user)->json('GET', route('memo.show', ['memo_id' => $memo_id]));
+        $response = $this->actingAs($this->authUser)->json('GET', route('memo.show', ['memo_id' => $memo_id]));
 
         $response->assertStatus(404);
+    }
+
+    /**
+     * @test
+     * ログインしているが、非メール認証時は403を返すか
+     */
+    public function testGetMemoDetailNotVerified()
+    {
+        $this->authUser->email_verified_at = null;
+        $memo_id = factory(Memo::class)->create(['user_id' => $this->authUser->user_id])->memo_id;
+
+        $response = $this->actingAs($this->authUser)->json('GET', route('memo.show', ['memo_id' => $memo_id]));
+
+        $response->assertStatus(403);
     }
 
     /**
@@ -78,7 +94,7 @@ class MemoDetailApiTest extends TestCase
      */
     public function testGetMemoDetailNotLogined()
     {
-        $memo_id = factory(Memo::class)->create(['user_id' => $this->auth_user->user_id])->memo_id;
+        $memo_id = factory(Memo::class)->create(['user_id' => $this->authUser->user_id])->memo_id;
 
         $response = $this->json('GET', route('memo.show', ['memo_id' => $memo_id]));
 

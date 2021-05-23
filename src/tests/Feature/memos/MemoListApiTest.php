@@ -33,9 +33,11 @@ class MemoListApiTest extends TestCase
         parent::setUp();
 
         // ログインユーザ
-        $this->auth_user = factory(User::class)->create();
+        $this->authUser = factory(User::class)->create();
+        $this->authUser->markEmailAsVerified();
         // 他のユーザ
         $this->user = factory(User::class)->create();
+        $this->user->markEmailAsVerified();
     }
 
     /**
@@ -44,12 +46,12 @@ class MemoListApiTest extends TestCase
      */
     public function testGetMemoList()
     {
-        factory(Memo::class, 6)->create(['user_id' => $this->auth_user->user_id]);
+        factory(Memo::class, 6)->create(['user_id' => $this->authUser->user_id]);
         factory(Memo::class, 4)->create(['user_id' => $this->user->user_id]);
 
-        $response = $this->actingAs($this->auth_user)->json('GET', route('memo.index'));
+        $response = $this->actingAs($this->authUser)->json('GET', route('memo.index'));
 
-        $memos = Memo::where('user_id', $this->auth_user->user_id)->orderBy('updated_at', 'desc')->get();
+        $memos = Memo::where('user_id', $this->authUser->user_id)->orderBy('updated_at', 'desc')->get();
 
         // data項目の期待値
         $expected_data = $this->setExpectedData($memos);
@@ -69,12 +71,12 @@ class MemoListApiTest extends TestCase
      */
     public function testGetMemoListPages()
     {
-        factory(Memo::class, 32)->create(['user_id' => $this->auth_user->user_id]);
+        factory(Memo::class, 32)->create(['user_id' => $this->authUser->user_id]);
 
         // 1ページ目
-        $response = $this->actingAs($this->auth_user)->json('GET', route('memo.index'));
+        $response = $this->actingAs($this->authUser)->json('GET', route('memo.index'));
 
-        $memos = Memo::where('user_id', $this->auth_user->user_id)->orderBy('updated_at', 'desc')->limit(30)->get();
+        $memos = Memo::where('user_id', $this->authUser->user_id)->orderBy('updated_at', 'desc')->limit(30)->get();
 
         $expected_data_first = $this->setExpectedData($memos);
 
@@ -85,9 +87,9 @@ class MemoListApiTest extends TestCase
             ]);
 
         // 2ページ目
-        $response = $this->actingAs($this->auth_user)->json('GET', route('memo.index', ['page' => 2]));
+        $response = $this->actingAs($this->authUser)->json('GET', route('memo.index', ['page' => 2]));
 
-        $memos = Memo::where('user_id', $this->auth_user->user_id)
+        $memos = Memo::where('user_id', $this->authUser->user_id)
             ->orderBy('updated_at', 'desc')
             ->offset(30)
             ->limit(30)
@@ -109,15 +111,15 @@ class MemoListApiTest extends TestCase
     public function testGetMemoListBySearchWord()
     {
         $searchWord = 'OOUI-MEMO%_\\';
-        factory(Memo::class, 3)->create(['user_id' => $this->auth_user->user_id]);
-        factory(Memo::class)->create(['user_id' => $this->auth_user->user_id, 'title' => $searchWord]);
-        factory(Memo::class)->create(['user_id' => $this->auth_user->user_id, 'title' => 'a' . $searchWord]);
-        factory(Memo::class)->create(['user_id' => $this->auth_user->user_id, 'title' => $searchWord . 'b']);
-        factory(Memo::class)->create(['user_id' => $this->auth_user->user_id, 'title' => 'c' . $searchWord . 'd']);
-        factory(Memo::class)->create(['user_id' => $this->auth_user->user_id, 'content' => $searchWord]);
-        factory(Memo::class)->create(['user_id' => $this->auth_user->user_id, 'content' => 'e' . $searchWord]);
-        factory(Memo::class)->create(['user_id' => $this->auth_user->user_id, 'content' => $searchWord . 'f']);
-        factory(Memo::class)->create(['user_id' => $this->auth_user->user_id, 'content' => 'g' . $searchWord . 'h']);
+        factory(Memo::class, 3)->create(['user_id' => $this->authUser->user_id]);
+        factory(Memo::class)->create(['user_id' => $this->authUser->user_id, 'title' => $searchWord]);
+        factory(Memo::class)->create(['user_id' => $this->authUser->user_id, 'title' => 'a' . $searchWord]);
+        factory(Memo::class)->create(['user_id' => $this->authUser->user_id, 'title' => $searchWord . 'b']);
+        factory(Memo::class)->create(['user_id' => $this->authUser->user_id, 'title' => 'c' . $searchWord . 'd']);
+        factory(Memo::class)->create(['user_id' => $this->authUser->user_id, 'content' => $searchWord]);
+        factory(Memo::class)->create(['user_id' => $this->authUser->user_id, 'content' => 'e' . $searchWord]);
+        factory(Memo::class)->create(['user_id' => $this->authUser->user_id, 'content' => $searchWord . 'f']);
+        factory(Memo::class)->create(['user_id' => $this->authUser->user_id, 'content' => 'g' . $searchWord . 'h']);
         factory(Memo::class, 4)->create(['user_id' => $this->user->user_id]);
         factory(Memo::class)->create(['user_id' => $this->user->user_id, 'title' => $searchWord]);
         factory(Memo::class)->create(['user_id' => $this->user->user_id, 'title' => 'i' . $searchWord]);
@@ -128,9 +130,9 @@ class MemoListApiTest extends TestCase
         factory(Memo::class)->create(['user_id' => $this->user->user_id, 'content' => $searchWord . 'n']);
         factory(Memo::class)->create(['user_id' => $this->user->user_id, 'content' => 'o' . $searchWord . 'p']);
 
-        $response = $this->actingAs($this->auth_user)->json('GET', route('memo.index', ['searchWord' => $searchWord]));
+        $response = $this->actingAs($this->authUser)->json('GET', route('memo.index', ['searchWord' => $searchWord]));
 
-        $memos = Memo::where('user_id', $this->auth_user->user_id)
+        $memos = Memo::where('user_id', $this->authUser->user_id)
                         ->whereLikes($searchWord)
                         ->orderBy('updated_at', 'desc')
                         ->get();
@@ -154,15 +156,15 @@ class MemoListApiTest extends TestCase
     public function testGetMemoListPagesBySearchWord()
     {
         $searchWord = 'OOUI-MEMO';
-        factory(Memo::class, 32)->create(['user_id' => $this->auth_user->user_id]);
-        factory(Memo::class, 18)->create(['user_id' => $this->auth_user->user_id, 'title' => 'a' . $searchWord . 'b']);
+        factory(Memo::class, 32)->create(['user_id' => $this->authUser->user_id]);
+        factory(Memo::class, 18)->create(['user_id' => $this->authUser->user_id, 'title' => 'a' . $searchWord . 'b']);
         factory(Memo::class, 20)
-            ->create(['user_id' => $this->auth_user->user_id, 'content' => 'a' . $searchWord . 'b']);
+            ->create(['user_id' => $this->authUser->user_id, 'content' => 'a' . $searchWord . 'b']);
 
         // 1ページ目
-        $response = $this->actingAs($this->auth_user)->json('GET', route('memo.index', ['searchWord' => $searchWord]));
+        $response = $this->actingAs($this->authUser)->json('GET', route('memo.index', ['searchWord' => $searchWord]));
 
-        $memos = Memo::where('user_id', $this->auth_user->user_id)
+        $memos = Memo::where('user_id', $this->authUser->user_id)
                         ->whereLikes($searchWord)
                         ->orderBy('updated_at', 'desc')
                         ->limit(30)
@@ -177,10 +179,10 @@ class MemoListApiTest extends TestCase
             ]);
 
         // 2ページ目
-        $response = $this->actingAs($this->auth_user)
+        $response = $this->actingAs($this->authUser)
                          ->json('GET', route('memo.index', ['searchWord' => $searchWord, 'page' => 2]));
 
-        $memos = Memo::where('user_id', $this->auth_user->user_id)
+        $memos = Memo::where('user_id', $this->authUser->user_id)
             ->whereLikes($searchWord)
             ->orderBy('updated_at', 'desc')
             ->offset(30)
@@ -194,6 +196,19 @@ class MemoListApiTest extends TestCase
             ->assertJsonFragment([
                 "data" => $expected_data_second,
             ]);
+    }
+
+    /**
+     * @test
+     * ログインしているが、非メール認証時は403を返すか
+     */
+    public function testGetMemoListNotVerified()
+    {
+        $this->authUser->email_verified_at = null;
+
+        $response = $this->actingAs($this->authUser)->json('GET', route('memo.index'));
+
+        $response->assertStatus(403);
     }
 
     /**

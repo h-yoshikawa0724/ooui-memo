@@ -31,4 +31,16 @@ class LogoutApiTest extends TestCase
         $response->assertStatus(204);
         $this->assertGuest();
     }
+
+    /**
+     * @test
+     * ログインしていないときは401になるか
+     */
+    public function testLogoutNotLogin()
+    {
+        $response = $this->json('POST', route('logout'));
+
+        $response->assertStatus(401);
+        $this->assertGuest();
+    }
 }

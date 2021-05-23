@@ -18,6 +18,7 @@ class MemoCreateApiTest extends TestCase
         parent::setUp();
 
         $this->user = factory(User::class)->create();
+        $this->user->markEmailAsVerified();
     }
 
     /**
@@ -93,6 +94,23 @@ class MemoCreateApiTest extends TestCase
         $response = $this->actingAs($this->user)->json('POST', route('memo.create'), $data);
 
         $response->assertStatus(422);
+    }
+
+    /**
+     * @test
+     * ログインしているが、非メール認証時は403を返すか
+     */
+    public function testPostMemoNotVerified()
+    {
+        $this->user->email_verified_at = null;
+        $data = [
+            'title' => 'テスト メモタイトル',
+            'content' => 'テスト メモ内容'
+        ];
+
+        $response = $this->actingAs($this->user)->json('POST', route('memo.create'), $data);
+
+        $response->assertStatus(403);
     }
 
     /**

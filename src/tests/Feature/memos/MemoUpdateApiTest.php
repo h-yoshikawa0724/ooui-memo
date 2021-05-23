@@ -18,9 +18,11 @@ class MemoUpdateApiTest extends TestCase
         parent::setUp();
 
         // ログインユーザ
-        $this->auth_user = factory(User::class)->create();
+        $this->authUser = factory(User::class)->create();
+        $this->authUser->markEmailAsVerified();
         // 他のユーザ
         $this->user = factory(User::class)->create();
+        $this->user->markEmailAsVerified();
     }
 
     /**
@@ -29,18 +31,18 @@ class MemoUpdateApiTest extends TestCase
      */
     public function testPatchMemo()
     {
-        $memo_id = factory(Memo::class)->create(['user_id' => $this->auth_user->user_id])->memo_id;
+        $memo_id = factory(Memo::class)->create(['user_id' => $this->authUser->user_id])->memo_id;
 
         $data = [
             'title' => 'テスト メモタイトル更新',
             'content' => 'テスト メモ内容更新'
         ];
 
-        $response = $this->actingAs($this->auth_user)
+        $response = $this->actingAs($this->authUser)
             ->json('PATCH', route('memo.update', ['memo_id' => $memo_id]), $data);
 
         $memo = Memo::find($memo_id);
-        $this->assertEquals($this->auth_user->user_id, $memo->user_id);
+        $this->assertEquals($this->authUser->user_id, $memo->user_id);
         $this->assertEquals($data['title'], $memo->title);
         $this->assertEquals($data['content'], $memo->content);
 
@@ -63,18 +65,18 @@ class MemoUpdateApiTest extends TestCase
      */
     public function testPatchMemoNullData()
     {
-        $memo_id = factory(Memo::class)->create(['user_id' => $this->auth_user->user_id])->memo_id;
+        $memo_id = factory(Memo::class)->create(['user_id' => $this->authUser->user_id])->memo_id;
 
         $data = [
             'title' => '',
             'content' => ''
         ];
 
-        $response = $this->actingAs($this->auth_user)
+        $response = $this->actingAs($this->authUser)
             ->json('PATCH', route('memo.update', ['memo_id' => $memo_id]), $data);
 
         $memo = Memo::find($memo_id);
-        $this->assertEquals($this->auth_user->user_id, $memo->user_id);
+        $this->assertEquals($this->authUser->user_id, $memo->user_id);
         $this->assertEquals($data['title'], $memo->title);
         $this->assertEquals($data['content'], $memo->content);
 
@@ -101,7 +103,7 @@ class MemoUpdateApiTest extends TestCase
             'content' => 'テスト メモ内容更新'
         ];
 
-        $response = $this->actingAs($this->auth_user)
+        $response = $this->actingAs($this->authUser)
             ->json('PATCH', route('memo.update', ['memo_id' => $memo_id]), $data);
 
         $response->assertStatus(404);
@@ -120,7 +122,7 @@ class MemoUpdateApiTest extends TestCase
             'content' => 'テスト メモ内容更新'
         ];
 
-        $response = $this->actingAs($this->auth_user)
+        $response = $this->actingAs($this->authUser)
             ->json('PATCH', route('memo.update', ['memo_id' => $memo_id]), $data);
 
         $response->assertStatus(404);
@@ -132,17 +134,37 @@ class MemoUpdateApiTest extends TestCase
      */
     public function testPatchMemoValidate()
     {
-        $memo_id = factory(Memo::class)->create(['user_id' => $this->auth_user->user_id])->memo_id;
+        $memo_id = factory(Memo::class)->create(['user_id' => $this->authUser->user_id])->memo_id;
 
         $data = [
             'title' => str_repeat('a', 101),
             'content' => str_repeat('a', 65536)
         ];
 
-        $response = $this->actingAs($this->auth_user)
+        $response = $this->actingAs($this->authUser)
             ->json('PATCH', route('memo.update', ['memo_id' => $memo_id]), $data);
 
         $response->assertStatus(422);
+    }
+
+    /**
+     * @test
+     * ログインしているが、非メール認証時は403を返すか
+     */
+    public function testPatchMemoNotVerified()
+    {
+        $this->authUser->email_verified_at = null;
+        $memo_id = factory(Memo::class)->create(['user_id' => $this->authUser->user_id])->memo_id;
+
+        $data = [
+            'title' => 'テスト メモタイトル更新',
+            'content' => 'テスト メモ内容更新'
+        ];
+
+        $response = $this->actingAs($this->authUser)
+                         ->json('PATCH', route('memo.update', ['memo_id' => $memo_id]), $data);
+
+        $response->assertStatus(403);
     }
 
     /**
@@ -151,7 +173,7 @@ class MemoUpdateApiTest extends TestCase
      */
     public function testPatchMemoNotLogined()
     {
-        $memo_id = factory(Memo::class)->create(['user_id' => $this->auth_user->user_id])->memo_id;
+        $memo_id = factory(Memo::class)->create(['user_id' => $this->authUser->user_id])->memo_id;
 
         $data = [
             'title' => 'テスト メモタイトル更新',
