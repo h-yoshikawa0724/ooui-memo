@@ -18,6 +18,10 @@ paths:
           $ref: '#/components/responses/Memos'
         '401':
           $ref: '#/components/responses/UnAuthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '419':
+          $ref: '#/components/responses/UnknownStatusError'
         '500':
           $ref: '#/components/responses/ServerError'
       operationId: get-memos
@@ -27,6 +31,7 @@ paths:
         - $ref: '#/components/parameters/page'
       description: |
         （ログインユーザの）メモ一覧取得API（1ページつき30件）
+      x-internal: true
     post:
       summary: POST Memo
       operationId: post-memos
@@ -35,6 +40,8 @@ paths:
           $ref: '#/components/responses/Memo'
         '401':
           $ref: '#/components/responses/UnAuthorizedError'
+        '403':
+          description: Forbidden
         '419':
           $ref: '#/components/responses/UnknownStatusError'
         '422':
@@ -52,6 +59,7 @@ paths:
         - Memos
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
+      x-internal: true
   '/api/memos/{memo_id}':
     parameters:
       - $ref: '#/components/parameters/memo_id'
@@ -64,14 +72,19 @@ paths:
           $ref: '#/components/responses/Memo'
         '401':
           $ref: '#/components/responses/UnAuthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
         '404':
           $ref: '#/components/responses/NotFoundError'
+        '419':
+          $ref: '#/components/responses/UnknownStatusError'
         '500':
           $ref: '#/components/responses/ServerError'
       operationId: get-memo
       description: （ログインユーザの）メモ詳細取得API
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
+      x-internal: true
     delete:
       summary: DELETE Memo
       operationId: delete-memo
@@ -80,6 +93,8 @@ paths:
           description: No Content
         '401':
           $ref: '#/components/responses/UnAuthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
         '404':
           $ref: '#/components/responses/NotFoundError'
         '419':
@@ -99,6 +114,8 @@ paths:
           $ref: '#/components/responses/Memo'
         '401':
           $ref: '#/components/responses/UnAuthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
         '404':
           $ref: '#/components/responses/NotFoundError'
         '419':
@@ -117,6 +134,7 @@ paths:
               $ref: '#/components/schemas/Memo'
       tags:
         - Memos
+      x-internal: true
   /api/login:
     post:
       summary: Login
@@ -145,6 +163,7 @@ paths:
       description: ログインAPI
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
+      x-internal: true
   /api/logout:
     post:
       summary: Logout
@@ -152,6 +171,8 @@ paths:
       responses:
         '204':
           description: No Content
+        '401':
+          $ref: '#/components/responses/UnAuthorizedError'
         '419':
           $ref: '#/components/responses/UnknownStatusError'
         '500':
@@ -161,6 +182,7 @@ paths:
       description: ログアウトAPI
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
+      x-internal: true
   /api/user/me:
     get:
       summary: GET User
@@ -171,12 +193,15 @@ paths:
           $ref: '#/components/responses/User'
         '401':
           $ref: '#/components/responses/UnAuthorizedError'
+        '419':
+          $ref: '#/components/responses/UnknownStatusError'
         '500':
           $ref: '#/components/responses/ServerError'
       operationId: get-user
       description: ログインユーザ取得API
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
+      x-internal: true
     delete:
       summary: DELETE User
       operationId: delete-user
@@ -185,6 +210,10 @@ paths:
           description: No Content
         '401':
           $ref: '#/components/responses/UnAuthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '419':
+          $ref: '#/components/responses/UnknownStatusError'
         '500':
           $ref: '#/components/responses/ServerError'
       description: ログインユーザ削除API（ユーザに紐づく子データも削除）
@@ -192,6 +221,7 @@ paths:
         - $ref: '#/components/parameters/XSRF-TOKEN'
       tags:
         - Users
+      x-internal: true
   /api/register:
     post:
       summary: POST User
@@ -216,6 +246,7 @@ paths:
       tags:
         - Auth
         - Users
+      x-internal: true
   '/api/login/{provider}':
     parameters:
       - $ref: '#/components/parameters/provider'
@@ -235,6 +266,7 @@ paths:
       description: OAuth認可URL取得API
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
+      x-internal: true
   '/api/login/{provider}/callback':
     parameters:
       - $ref: '#/components/parameters/provider'
@@ -262,6 +294,7 @@ paths:
               $ref: '#/components/schemas/AuthParams'
       tags:
         - Auth
+      x-internal: true
   '/api/email/verify/{user_id}':
     parameters:
       - $ref: '#/components/parameters/user_id'
@@ -279,6 +312,8 @@ paths:
           $ref: '#/components/responses/ForbiddenError'
         '404':
           $ref: '#/components/responses/NotFoundError'
+        '419':
+          $ref: '#/components/responses/UnknownStatusError'
         '500':
           $ref: '#/components/responses/ServerError'
       operationId: verify-email
@@ -288,6 +323,7 @@ paths:
         - $ref: '#/components/parameters/expires'
         - $ref: '#/components/parameters/hash'
         - $ref: '#/components/parameters/signature'
+      x-internal: true
   /api/email/resend:
     post:
       summary: Resend Verification EMail
@@ -299,6 +335,8 @@ paths:
           $ref: '#/components/responses/ResendVerificationEMail'
         '401':
           $ref: '#/components/responses/UnAuthorizedError'
+        '419':
+          $ref: '#/components/responses/UnknownStatusError'
         '500':
           $ref: '#/components/responses/ServerError'
       tags:
@@ -306,6 +344,7 @@ paths:
       description: 認証メール再送信API
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
+      x-internal: true
 components:
   schemas:
     Memo:
@@ -492,9 +531,12 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
           examples:
-            '403':
+            403（メール認証API・signature不一致）:
               value:
                 message: Invalid signature.
+            403（非メール認証）:
+              value:
+                message: Your email address is not verified.
     ResendVerificationEMail:
       description: 認証メール再送信リクエスト情報レスポンス
       content:
