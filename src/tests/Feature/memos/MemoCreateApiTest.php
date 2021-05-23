@@ -98,23 +98,6 @@ class MemoCreateApiTest extends TestCase
 
     /**
      * @test
-     * ログインしているが、非メール認証時は403を返すか
-     */
-    public function testPostMemoNotVerified()
-    {
-        $this->user->email_verified_at = null;
-        $data = [
-            'title' => 'テスト メモタイトル',
-            'content' => 'テスト メモ内容'
-        ];
-
-        $response = $this->actingAs($this->user)->json('POST', route('memo.create'), $data);
-
-        $response->assertStatus(403);
-    }
-
-    /**
-     * @test
      * ログインしていない時は401を返すか
      */
     public function testPostMemoNotLogined()

@@ -76,20 +76,6 @@ class MemoDetailApiTest extends TestCase
 
     /**
      * @test
-     * ログインしているが、非メール認証時は403を返すか
-     */
-    public function testGetMemoDetailNotVerified()
-    {
-        $this->authUser->email_verified_at = null;
-        $memo_id = factory(Memo::class)->create(['user_id' => $this->authUser->user_id])->memo_id;
-
-        $response = $this->actingAs($this->authUser)->json('GET', route('memo.show', ['memo_id' => $memo_id]));
-
-        $response->assertStatus(403);
-    }
-
-    /**
-     * @test
      * ログインしていない時は401を返すか
      */
     public function testGetMemoDetailNotLogined()

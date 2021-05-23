@@ -149,26 +149,6 @@ class MemoUpdateApiTest extends TestCase
 
     /**
      * @test
-     * ログインしているが、非メール認証時は403を返すか
-     */
-    public function testPatchMemoNotVerified()
-    {
-        $this->authUser->email_verified_at = null;
-        $memo_id = factory(Memo::class)->create(['user_id' => $this->authUser->user_id])->memo_id;
-
-        $data = [
-            'title' => 'テスト メモタイトル更新',
-            'content' => 'テスト メモ内容更新'
-        ];
-
-        $response = $this->actingAs($this->authUser)
-                         ->json('PATCH', route('memo.update', ['memo_id' => $memo_id]), $data);
-
-        $response->assertStatus(403);
-    }
-
-    /**
-     * @test
      * ログインしていない時は401を返すか
      */
     public function testPatchMemoNotLogined()

@@ -49,19 +49,6 @@ class UserDeleteApiTest extends TestCase
 
     /**
      * @test
-     * ログインしているが、非メール認証時は403を返すか
-     */
-    public function testDeleteAuthUserNotVerified()
-    {
-        $this->authUser->email_verified_at = null;
-
-        $response = $this->actingAs($this->authUser)->json('DELETE', route('user.delete'));
-
-        $response->assertStatus(403);
-    }
-
-    /**
-     * @test
      * ログインしていない時は401を返すか
      */
     public function testDeleteAuthUserNotLogined()

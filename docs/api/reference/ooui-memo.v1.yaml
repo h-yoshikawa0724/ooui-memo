@@ -18,8 +18,6 @@ paths:
           $ref: '#/components/responses/Memos'
         '401':
           $ref: '#/components/responses/UnAuthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
         '419':
           $ref: '#/components/responses/UnknownStatusError'
         '500':
@@ -40,8 +38,6 @@ paths:
           $ref: '#/components/responses/Memo'
         '401':
           $ref: '#/components/responses/UnAuthorizedError'
-        '403':
-          description: Forbidden
         '419':
           $ref: '#/components/responses/UnknownStatusError'
         '422':
@@ -72,8 +68,6 @@ paths:
           $ref: '#/components/responses/Memo'
         '401':
           $ref: '#/components/responses/UnAuthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
         '404':
           $ref: '#/components/responses/NotFoundError'
         '419':
@@ -93,8 +87,6 @@ paths:
           description: No Content
         '401':
           $ref: '#/components/responses/UnAuthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
         '404':
           $ref: '#/components/responses/NotFoundError'
         '419':
@@ -114,8 +106,6 @@ paths:
           $ref: '#/components/responses/Memo'
         '401':
           $ref: '#/components/responses/UnAuthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
         '404':
           $ref: '#/components/responses/NotFoundError'
         '419':
@@ -210,8 +200,6 @@ paths:
           description: No Content
         '401':
           $ref: '#/components/responses/UnAuthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
         '419':
           $ref: '#/components/responses/UnknownStatusError'
         '500':
@@ -534,9 +522,6 @@ components:
             403（メール認証API・signature不一致）:
               value:
                 message: Invalid signature.
-            403（非メール認証）:
-              value:
-                message: Your email address is not verified.
     ResendVerificationEMail:
       description: 認証メール再送信リクエスト情報レスポンス
       content:
