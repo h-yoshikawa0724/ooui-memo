@@ -1,11 +1,13 @@
 import React, { FC, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
+import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import useTheme from '@material-ui/core/styles/useTheme';
 import AccountButton from '../atoms/AccountButton';
 import AccountMenu from '../molecules/AccountMenu';
+import HeaderNavItem from '../molecules/HeaderNavItem';
 
 type Props = {
   userName?: string;
@@ -41,12 +43,7 @@ const Header: FC<Props> = ({ userName, handleLogout }) => {
         }}
       >
         <Toolbar>
-          <Typography
-            component="h1"
-            variant="h6"
-            style={{ flexGrow: 1 }}
-            align="center"
-          >
+          <Typography component="h1" variant="h6" style={{ flexGrow: 1 }}>
             <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
               OOUI-MEMO
             </Link>
@@ -66,6 +63,12 @@ const Header: FC<Props> = ({ userName, handleLogout }) => {
                 handleLogout={handleLogout}
               />
             </>
+          )}
+          {!userName && (
+            <Box component="nav">
+              <HeaderNavItem title="ログイン" linkUrl="/login" />
+              <HeaderNavItem title="新規登録" linkUrl="/register" />
+            </Box>
           )}
         </Toolbar>
       </AppBar>

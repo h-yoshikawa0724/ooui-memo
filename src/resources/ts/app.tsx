@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider, useQueryClient } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
+import Register from './containers/pages/Register';
 import Login from './containers/pages/Login';
 import Memo from './containers/pages/Memo';
 import Account from './containers/pages/Account';
@@ -115,6 +116,9 @@ const App: FC = () => {
       <Route exact path="/policy">
         <Policy />
       </Route>
+      <UnAuthRoute exact path="/register">
+        <Register />
+      </UnAuthRoute>
       <UnAuthRoute exact path="/login">
         <Login />
       </UnAuthRoute>
