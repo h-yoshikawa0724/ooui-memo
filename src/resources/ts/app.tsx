@@ -11,6 +11,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Register from './containers/pages/Register';
+import MailVerify from './containers/pages/MailVerify';
 import Login from './containers/pages/Login';
 import Memo from './containers/pages/Memo';
 import Account from './containers/pages/Account';
@@ -66,6 +67,7 @@ const UnAuthRoute: FC<Props> = ({ exact = false, path, children }) => {
 
 const AuthRoute: FC<Props> = ({ exact = false, path, children }) => {
   const user = useCurrentUser();
+  // TODO メール認証確認の分岐に改修
   return (
     <Route
       exact={exact}
@@ -125,6 +127,9 @@ const App: FC = () => {
       <UnAuthRoute exact path="/login/:provider/callback">
         <SocialLoginProgress />
       </UnAuthRoute>
+      <AuthRoute exact path="/mail/verify">
+        <MailVerify />
+      </AuthRoute>
       <AuthRoute exact path="/settings/account">
         <Account />
         <MutationErrorAlertBar
