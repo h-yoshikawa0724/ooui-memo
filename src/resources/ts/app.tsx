@@ -12,6 +12,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Register from './containers/pages/Register';
 import MailVerify from './containers/pages/MailVerify';
+import MailVerifyProgress from './containers/pages/MailVerifyProgress';
 import Login from './containers/pages/Login';
 import Memo from './containers/pages/Memo';
 import Account from './containers/pages/Account';
@@ -130,6 +131,9 @@ const App: FC = () => {
       <AuthRoute exact path="/mail/verify">
         <MailVerify />
       </AuthRoute>
+      <Route exact path="/mail/verify/callback">
+        <MailVerifyProgress />
+      </Route>
       <AuthRoute exact path="/settings/account">
         <Account />
         <MutationErrorAlertBar
