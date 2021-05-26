@@ -21,8 +21,9 @@ import Loding from './components/pages/Loding';
 import Policy from './components/pages/Policy';
 import Terms from './components/pages/Terms';
 import MutationErrorAlertBar from './components/molecules/MutationErrorAlertBar';
+import MutationSuccessAlertBar from './components/molecules/MutationSuccessAlertBar';
 import { useGetUserQuery, useCurrentUser } from './hooks/user';
-import { useMutationErrorQuery } from './hooks/util';
+import { useMutationErrorQuery, useMutationSuccessQuery } from './hooks/util';
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -114,6 +115,7 @@ const App: FC = () => {
   });
 
   const { data: error } = useMutationErrorQuery();
+  const { data: successMessage } = useMutationSuccessQuery();
 
   const handleErrorBarClose = useCallback(
     (event?: React.SyntheticEvent, reason?: string) => {
@@ -122,6 +124,17 @@ const App: FC = () => {
       }
 
       queryClient.resetQueries('error');
+    },
+    [queryClient]
+  );
+
+  const handleSuccessBarClose = useCallback(
+    (event?: React.SyntheticEvent, reason?: string) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+
+      queryClient.resetQueries('success');
     },
     [queryClient]
   );
@@ -149,6 +162,14 @@ const App: FC = () => {
       </UnAuthRoute>
       <AuthRoute exact path="/email/verify">
         <MailVerify />
+        <MutationSuccessAlertBar
+          successMessage={successMessage}
+          handleSuccessBarClose={handleSuccessBarClose}
+        />
+        <MutationErrorAlertBar
+          error={error}
+          handleErrorBarClose={handleErrorBarClose}
+        />
       </AuthRoute>
       <Route exact path="/email/verify/callback">
         <MailVerifyProgress />

@@ -11,10 +11,11 @@ import Header from '../../containers/organisms/Header';
 
 type Props = {
   mailSend: boolean;
+  isLoading: boolean;
   handleMailResend: VoidFunction;
 };
 
-const MailVerify: FC<Props> = ({ mailSend, handleMailResend }) => {
+const MailVerify: FC<Props> = ({ mailSend, isLoading, handleMailResend }) => {
   const theme = useTheme();
   return (
     <>
@@ -44,6 +45,7 @@ const MailVerify: FC<Props> = ({ mailSend, handleMailResend }) => {
                 <Button
                   color="primary"
                   variant="outlined"
+                  disabled={isLoading}
                   onClick={handleMailResend}
                 >
                   認証メールの再送信
