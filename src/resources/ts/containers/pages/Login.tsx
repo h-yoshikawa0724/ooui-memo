@@ -1,4 +1,6 @@
 import React, { FC, useState, useCallback } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Location } from 'history';
 import { useHistory, useLocation } from 'react-router-dom';
 import Login from '../../components/pages/Login';
 import { useLogin, useOAuthUrl } from '../../hooks/auth';
@@ -7,7 +9,7 @@ import { Provider } from '../../models/OAuth';
 const EnhancedLogin: FC = () => {
   const history = useHistory();
   const location = useLocation();
-  const { from } = (location.state as { from: string }) || {
+  const { from } = (location.state as { from: Location }) || {
     from: { pathname: '/' },
   };
 

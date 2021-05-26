@@ -98,7 +98,7 @@ const Login: FC<Props> = ({
                     onChange={handleChangePassword}
                   />
                   <Box my={2}>
-                    <LegalLink />
+                    <LegalLink type="login" />
                   </Box>
                   <Box my={2}>
                     <Button type="submit" color="primary" variant="contained">

@@ -84,6 +84,25 @@ const AuthRoute: FC<Props> = ({ exact = false, path, children }) => {
   );
 };
 
+const AuthVerifyRoute: FC<Props> = ({ exact = false, path, children }) => {
+  const user = useCurrentUser();
+  const redirectUrl = user ? '/mail/verify' : '/login';
+
+  return (
+    <Route
+      exact={exact}
+      path={path}
+      render={({ location }) =>
+        user?.emailVerified ? (
+          children
+        ) : (
+          <Redirect to={{ pathname: redirectUrl, state: { from: location } }} />
+        )
+      }
+    />
+  );
+};
+
 const App: FC = () => {
   const queryClient = useQueryClient();
   const { isLoading } = useGetUserQuery({
@@ -134,20 +153,20 @@ const App: FC = () => {
       <Route exact path="/mail/verify/callback">
         <MailVerifyProgress />
       </Route>
-      <AuthRoute exact path="/settings/account">
+      <AuthVerifyRoute exact path="/settings/account">
         <Account />
         <MutationErrorAlertBar
           error={error}
           handleErrorBarClose={handleErrorBarClose}
         />
-      </AuthRoute>
-      <AuthRoute path="/:memoId?">
+      </AuthVerifyRoute>
+      <AuthVerifyRoute path="/:memoId?">
         <Memo />
         <MutationErrorAlertBar
           error={error}
           handleErrorBarClose={handleErrorBarClose}
         />
-      </AuthRoute>
+      </AuthVerifyRoute>
     </Switch>
   );
 };
