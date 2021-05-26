@@ -55,7 +55,7 @@ const EnhancedRegister: FC = () => {
         { name: values.name, email: values.email, password: values.password },
         {
           onSuccess: () => {
-            history.push('/mail/verify', { mailSend: true });
+            history.push('/email/verify', { mailSend: true });
           },
         }
       );

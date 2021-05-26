@@ -86,7 +86,7 @@ const AuthRoute: FC<Props> = ({ exact = false, path, children }) => {
 
 const AuthVerifyRoute: FC<Props> = ({ exact = false, path, children }) => {
   const user = useCurrentUser();
-  const redirectUrl = user ? '/mail/verify' : '/login';
+  const redirectUrl = user ? '/email/verify' : '/login';
 
   return (
     <Route
@@ -147,10 +147,10 @@ const App: FC = () => {
       <UnAuthRoute exact path="/login/:provider/callback">
         <SocialLoginProgress />
       </UnAuthRoute>
-      <AuthRoute exact path="/mail/verify">
+      <AuthRoute exact path="/email/verify">
         <MailVerify />
       </AuthRoute>
-      <Route exact path="/mail/verify/callback">
+      <Route exact path="/email/verify/callback">
         <MailVerifyProgress />
       </Route>
       <AuthVerifyRoute exact path="/settings/account">
