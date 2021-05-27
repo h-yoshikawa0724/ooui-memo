@@ -1,17 +1,17 @@
 import React, { FC, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import MailVerify from '../../components/pages/MailVerify';
-import { useVerifyMailResend } from '../../hooks/auth';
+import { useAuthMailResend } from '../../hooks/auth';
 
 const EnhancedMailVerify: FC = () => {
   const location = useLocation();
   const { mailSend } = (location.state as { mailSend: boolean }) || false;
 
-  const { isLoading, mutate: verityMailResend } = useVerifyMailResend();
+  const { isLoading, mutate: authMailResend } = useAuthMailResend();
 
   const handleMailResend = useCallback(() => {
-    verityMailResend();
-  }, [verityMailResend]);
+    authMailResend();
+  }, [authMailResend]);
 
   return (
     <MailVerify

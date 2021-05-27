@@ -2,12 +2,12 @@ import { useQueryClient, UseMutationResult, useMutation } from 'react-query';
 import axios, { AxiosError } from 'axios';
 import { MutationError } from '../../models/MutationError';
 
-const verifyMailResend = async (): Promise<string> => {
+const authMailResend = async (): Promise<string> => {
   const { data } = await axios.post('/api/mail/resend');
   return data;
 };
 
-const useVerifyMailResend = (): UseMutationResult<
+const useAuthMailResend = (): UseMutationResult<
   string,
   AxiosError,
   void,
@@ -15,7 +15,7 @@ const useVerifyMailResend = (): UseMutationResult<
 > => {
   const queryClient = useQueryClient();
 
-  return useMutation(verifyMailResend, {
+  return useMutation(authMailResend, {
     onSuccess: (data) => {
       queryClient.setQueryData('success', data);
     },
@@ -29,4 +29,4 @@ const useVerifyMailResend = (): UseMutationResult<
   });
 };
 
-export default useVerifyMailResend;
+export default useAuthMailResend;
