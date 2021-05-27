@@ -3,7 +3,7 @@ import axios, { AxiosError } from 'axios';
 import { MutationError } from '../../models/MutationError';
 
 const verifyMailResend = async (): Promise<string> => {
-  const { data } = await axios.post('/api/email/resend');
+  const { data } = await axios.post('/api/mail/resend');
   return data;
 };
 

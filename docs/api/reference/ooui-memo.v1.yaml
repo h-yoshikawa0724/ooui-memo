@@ -283,11 +283,11 @@ paths:
       tags:
         - Auth
       x-internal: true
-  '/api/email/verify/{user_id}':
+  '/api/mail/verify/{user_id}':
     parameters:
       - $ref: '#/components/parameters/user_id'
     get:
-      summary: Verify EMail
+      summary: Verify Mail
       tags:
         - Auth
         - Users
@@ -312,9 +312,9 @@ paths:
         - $ref: '#/components/parameters/hash'
         - $ref: '#/components/parameters/signature'
       x-internal: true
-  /api/email/resend:
+  /api/mail/resend:
     post:
-      summary: Resend Verification EMail
+      summary: Resend Verification Mail
       operationId: resend-verification-email
       responses:
         '200':
@@ -333,6 +333,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/XSRF-TOKEN'
       x-internal: true
+    parameters: []
 components:
   schemas:
     Memo:
